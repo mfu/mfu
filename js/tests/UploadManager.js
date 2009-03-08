@@ -33,17 +33,91 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 			dojo.mixin(fakeQueue, {
 				onImageUploadRequest: function(uploadRequest){
 						 t.assertTrue(uploadRequest == fakeUploadRequest);
-						 this.onImageUploadRequestTriggered = true;
+						 this._onImageUploadRequestTriggered = true;
 					},
 					verify : function() {
-						t.assertTrue(this.onImageUploadRequestTriggered);
+						t.assertTrue(this._onImageUploadRequestTriggered);
 					}	
 			});
 
 			var uploadManager = new multiplefileuploader.tests.LoggingUploadManager({_uploadQueue: fakeQueue });		
 			uploadManager.addToUploadQueue(fakeUploadRequest);
 			fakeQueue.verify();			
+		},
+		
+		function shouldProcessNextUploadWhenNothingIsUploading(t) {
+			
+			var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
+			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
+
+			dojo.mixin(fakeQueue, {
+					isUploading: function() {
+						 this._isUploadingWasCalled = true;
+						  return false;
+					},				
+					getNextUploadRequest : function() {
+						return fakeUploadRequest;
+					},
+					verify : function() {
+						t.assertTrue(this._isUploadingWasCalled); 
+					}	
+			});
+
+			var uploadManager = new multiplefileuploader.tests.LoggingUploadManager({_uploadQueue: fakeQueue });		
+			dojo.mixin(uploadManager, {
+					_upload : function(uploadRequest) {
+
+						 t.assertTrue(uploadRequest == fakeUploadRequest);						
+						this._processNextUploadTriggered = true;				
+					},
+					verify : function() {
+						t.assertTrue(this._processNextUploadTriggered);
+					}			
+			});
+			uploadManager.addToUploadQueue(fakeUploadRequest);		
+			uploadManager.verify();	
+			fakeQueue.verify();
+		},
+		
+		function addToUploadQueueShouldNotProcessNextUploadWhenUploading(t) {
+			var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
+			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
+
+			dojo.mixin(fakeQueue, {
+					isUploading: function() {
+						  this._isUploadingWasCalled = true;
+						  return true;
+					},				
+					getNextUploadRequest : function() {
+						return fakeUploadRequest;
+					},
+					verify : function() {
+						t.assertTrue(this._isUploadingWasCalled); 
+					}	
+			});
+
+			var uploadManager = new multiplefileuploader.tests.LoggingUploadManager({_uploadQueue: fakeQueue });		
+			dojo.mixin(uploadManager, {
+					_upload : function(uploadRequest) {
+						 t.assertTrue(uploadRequest == fakeUploadRequest);						
+						 this._processNextUploadTriggered = true;				
+					},
+					verify : function() {
+						t.assertFalse(this._processNextUploadTriggered);
+					}			
+			});
+			uploadManager.addToUploadQueue(fakeUploadRequest);		
+			uploadManager.verify();	
+			fakeQueue.verify();			
+			
+		},
+		
+		function addToUploadQueueShouldCallOnFinishedUploadsWhenQueueIsEmpty(t) {
+			
+			
+			
 		}
+		
 	]
 	);
 	

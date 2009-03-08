@@ -9,7 +9,9 @@ dojo.declare("multiplefileuploader.tests.FakeUploadRequest", null, {
 	getUploadingFilename : function() {		
 		return this.currentFilename;
 	},
-	
+	onUploadRequestEnqueued : function() {
+		
+	},
 	_doOnBeforeUploadStart : function() {
 
 	},	

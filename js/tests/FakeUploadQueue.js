@@ -3,6 +3,7 @@ dojo.provide("multiplefileuploader.tests.FakeUploadQueue");
 dojo.declare("multiplefileuploader.tests.FakeUploadQueue", null, {
 	 constructor: function() {						
 
+		
 	}, 
 	onImageUploadRequest : function(uploadRequest) {
 
@@ -30,7 +31,7 @@ dojo.declare("multiplefileuploader.tests.FakeUploadQueue", null, {
 	
 	},	
 	isUploading : function () {
-
+		
 	},	
 	getNextUploadRequest : function() {	
 
