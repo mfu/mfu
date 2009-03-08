@@ -1,0 +1,27 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<script type="text/javascript" src="dojo-release-dev-1.2.3/dojo/dojo.js" djConfig="parseOnLoad: true, isDebug:true"></script>
+	</head>
+	<body>
+		<div id="uploadContainer"></div>
+	</body>
+	
+	
+<script type="text/javascript">
+	dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
+
+	dojo.addOnLoad( function(){
+        dojo.require("multiplefileuploader.widget.UploadContainer");				
+			dojo.addOnLoad( function(){
+				var upload = new multiplefileuploader.widget.UploadContainer({}, dojo.byId("uploadContainer"));
+			});	
+    });
+	
+</script>
+	
+</html>
+
+
+
