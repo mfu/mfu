@@ -34,8 +34,8 @@ dojo.declare("multiplefileuploader.widget.AbstractUploadManager", null, {
 			}
 	},
 	_upload : function(uploadRequest) {
+
 		var uploadLifeCycle = new multiplefileuploader.widget._UploadLifeCycle(this, uploadRequest);		
-		this._OnUploadQueueReadyToProcessNextUpload = false;
 		this._uploadQueue.onBeforeUploadStart(uploadRequest);
 		uploadRequest.onBeforeUploadStart();		
 		this.fireProgress();	
