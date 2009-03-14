@@ -150,53 +150,47 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 			
 		},
 		
-		
-		
-		function	onBeforeUploadStartShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
-			
-		var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
-		var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
-
-			dojo.mixin(fakeQueue, {		
-					getNextUploadRequest : function() {					
-						  return fakeUploadRequest;
-					},
-				onBeforeUploadStart: function(uploadRequest){
-						 t.assertTrue(uploadRequest == fakeUploadRequest);
-						 this._onBeforeUploadStartTriggered = true;
-					},
-				verify : function() {
-					t.assertTrue(this._onBeforeUploadStartTriggered);
-				}					
-			});
-
-			dojo.mixin(fakeUploadRequest, {		
-				onBeforeUploadStart: function(){
-						 this._onBeforeUploadStartTriggered = true;
-					},
-				verify : function() {
-					t.assertTrue(this._onBeforeUploadStartTriggered);
-				}					
-			});
-			
-			
-				var onProgress = {
-					onProgress: function(queueStatus){ },
-				};
-				var doUpload = {
-					_doUpload : function(uploadLifeCycle, uploadRequest) {}
-				};
-
-			var uploadManager = new multiplefileuploader.widget.AbstractUploadManager({_uploadQueue: fakeQueue, 
-				onProgress:  onProgress,
-				_doUpload : doUpload
-				});	
+		function onBeforeUploadStartShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
+	        var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
+			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
+	
+				dojo.mixin(fakeQueue, {		
+						getNextUploadRequest : function() {					
+							  return fakeUploadRequest;
+						},
+					onBeforeUploadStart: function(uploadRequest){
+							 t.assertTrue(uploadRequest == fakeUploadRequest);
+							 this._onBeforeUploadStartTriggered = true;
+						},
+					verify : function() {
+						t.assertTrue(this._onBeforeUploadStartTriggered);
+					}					
+				});
+	
+				dojo.mixin(fakeUploadRequest, {		
+					onBeforeUploadStart: function(){
+							 this._onBeforeUploadStartTriggered = true;
+						},
+					verify : function() {
+						t.assertTrue(this._onBeforeUploadStartTriggered);
+					}					
+				});
 				
-			uploadManager._processNextUpload();
-			fakeUploadRequest.verify();
-			fakeQueue.verify();				
-			
+				var mockOnProgress = function(queueStatus) { };
+				var mockDoUpload = function(uploadLifeCycle, uploadRequest){ };
+	
+				var uploadManager = new multiplefileuploader.widget.AbstractUploadManager({
+					_uploadQueue: fakeQueue, 
+					onProgress:  mockOnProgress,
+					_doUpload : mockDoUpload
+					});	
+					
+				uploadManager._processNextUpload();
+				fakeUploadRequest.verify();
+				fakeQueue.verify();				
 		}
+		
+		
 		
 		
 	]
