@@ -151,7 +151,8 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 		},
 		
 		function onBeforeUploadStartShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
-	        var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
+	      
+		    var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
 			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
 	
 				dojo.mixin(fakeQueue, {		
@@ -188,9 +189,76 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				uploadManager._processNextUpload();
 				fakeUploadRequest.verify();
 				fakeQueue.verify();				
-		}
+		},
 		
+	 function fireProgressShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
+			
+			var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
+			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
+	
+				dojo.mixin(fakeQueue, {		
+						getNextUploadRequest : function() {					
+							  return fakeUploadRequest;
+						}		
+				});
+	
+				dojo.mixin(fakeUploadRequest, {		
+					onBeforeUploadStart: function(){ }			
+				});
+				
+				var mockDoUpload = function(uploadLifeCycle, uploadRequest){ };
+				var uploadManager = new multiplefileuploader.widget.AbstractUploadManager({
+					_uploadQueue: fakeQueue, 
+					_doUpload : mockDoUpload
+					});	
+				
+				dojo.mixin(uploadManager, {		
+					fireProgress : function() {					
+						this._fireProgress= true;
+					},
+					verify : function() {
+						t.assertTrue(this._fireProgress);
+					}			
+				});	
+								
+				uploadManager._processNextUpload();
+				uploadManager.verify();	
+		},
 		
+	 function doUploadShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
+			
+			var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
+			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
+	
+				dojo.mixin(fakeQueue, {		
+						getNextUploadRequest : function() {					
+							  return fakeUploadRequest;
+						}		
+				});
+	
+				dojo.mixin(fakeUploadRequest, {		
+					onBeforeUploadStart: function(){ }			
+				});
+
+				var mockOnProgress = function(queueStatus) { };
+				var uploadManager = new multiplefileuploader.widget.AbstractUploadManager({
+					_uploadQueue: fakeQueue,
+					onProgress:  mockOnProgress
+					});	
+				
+				dojo.mixin(uploadManager, {		
+					_doUpload :  function(uploadLifeCycle, uploadRequest) {					
+						t.assertTrue(uploadRequest == fakeUploadRequest);
+						this._doUpload= true;
+					},
+					verify : function() {
+						t.assertTrue(this._doUpload);
+					}			
+				});	
+								
+				uploadManager._processNextUpload();
+				uploadManager.verify();	
+		}		
 		
 		
 	]
