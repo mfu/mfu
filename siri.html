@@ -4,7 +4,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="dojo-release-dev-1.2.3/dijit/themes/nihilo/nihilo.css"/>		
 		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="dojo-release-dev-1.2.3/dojo/resources/dojo.css"/>
-		<script type="text/javascript" src="dojo-release-dev-1.2.3/dojo/dojo.js" djConfig="parseOnLoad: true, isDebug:true"></script>
+		<script type="text/javascript" src="dojo-release-dev-1.2.3/dojo/dojo.js" <!-- djConfig="parseOnLoad: true, isDebug:true" -->></script> 
 	</head>
 	<body class="nihilo">
 		<div id="uploadContainer"></div>
@@ -17,7 +17,7 @@
 	dojo.addOnLoad( function(){
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
 			dojo.addOnLoad( function(){			 		
-				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/uploader.php" }, dojo.byId("uploadContainer") ); 	
+				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadToHDD.php" }, dojo.byId("uploadContainer") ); 	
 			});	
     });
 	
