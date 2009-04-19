@@ -2,9 +2,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="dojo-release-dev-1.2.3/dijit/themes/nihilo/nihilo.css"/>		
+		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="dojo-release-dev-1.2.3/dojo/resources/dojo.css"/>
 		<script type="text/javascript" src="dojo-release-dev-1.2.3/dojo/dojo.js" djConfig="parseOnLoad: true, isDebug:true"></script>
 	</head>
-	<body>
+	<body class="nihilo">
 		<div id="uploadContainer"></div>
 	</body>
 	
@@ -13,9 +15,9 @@
 	dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 
 	dojo.addOnLoad( function(){
-        dojo.require("multiplefileuploader.widget.UploadContainer");				
-			dojo.addOnLoad( function(){
-				var upload = new multiplefileuploader.widget.UploadContainer({}, dojo.byId("uploadContainer"));
+       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
+			dojo.addOnLoad( function(){			 		
+				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/uploader.php" }, dojo.byId("uploadContainer") ); 	
 			});	
     });
 	
