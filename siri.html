@@ -16,12 +16,25 @@
 <script type="text/javascript">
 	dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 
+	var supportedFormats = ["jpg", "bmp", "gif", "eps", "im","msp", "palm","pdf","png","ppm", "tiff", "xbm"];
+	var imageServerURL = "http://localhost:8000";
+	var derivedImagesPath = "/derived/"
+	var convertToSize = "800x600";
+	var link ="";
+	
 	dojo.addOnLoad( function(){
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
 			dojo.addOnLoad( function(){			 		
+				
 				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadToImageServer.php" }, dojo.byId("uploadContainer") ); 	
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  	
-						dojo.byId("result").innerHTML = "<a href=http://localhost:8000/derived/"+uploadedFileInformation.getID()+"-800x600.jpeg>Download "+uploadedFileInformation.getName()+"  [800*600]</a>";
+						
+						dojo.forEach(supportedFormats , function(format) {							
+							 link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize+"."+format+">Download "+uploadedFileInformation.getName()+"  Converted to "+format+" ["+convertToSize+"]</a><br />";						
+						});
+
+						
+						dojo.byId("result").innerHTML = link;
 			});
 			});
 			
