@@ -15,7 +15,7 @@ dojo.declare("multiplefileuploader.widget.IframeUploadManager", multiplefileuplo
 		
 		
 		_doUpload : function (uploadLifeCycle, uploadRequest) {					
-                    
+
 				this._prepareForm(uploadRequest);
 					
 					  var params = {
@@ -25,8 +25,8 @@ dojo.declare("multiplefileuploader.widget.IframeUploadManager", multiplefileuplo
 							handleAs: "text",
 							form: this._temporaryUploadForm,
 							load: dojo.hitch(this, function(response) {
-								dojox.data.dom.removeChildren(this._temporaryUploadForm); 
-								uploadLifeCycle._onUploadComplete(response,  this._uploadValuePrefix);
+									dojox.data.dom.removeChildren(this._temporaryUploadForm); 
+								    uploadLifeCycle._onUploadComplete(response,  this._uploadValuePrefix);
 							}),	
 							error: dojo.hitch(this, function(response) {
 								dojox.data.dom.removeChildren(this._temporaryUploadForm); 

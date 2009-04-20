@@ -42,9 +42,10 @@ dojo.declare("multiplefileuploader.widget.AbstractUploadManager", null, {
 		this._doUpload(uploadLifeCycle, uploadRequest);		
 	}, 
 	
-	/* protected */ _stopProcessingUploads : function(uploadRequest) {
-		this._offline = true;
-		this._uploadQueue.onUploadFailure(uploadRequest);	
+	/* protected */ _stopProcessingUploads : function(uploadRequest, errorType) {
+		if(errorType == "ERROR_TYPE_RECOVERABLE")
+			this._offline = true;
+		this._uploadQueue.onUploadFailure(uploadRequest, errorType);	
 	},	
 	
 	/* protected */ _continueProcessingUploads : function() {
@@ -75,21 +76,35 @@ dojo.declare("multiplefileuploader.widget._UploadLifeCycle", null, {
 		this._uploadManager = uploadManager;
 		this._uploadRequest = uploadRequest;	
 	}, 
-	_onUploadComplete : function(response, uploadValuePrefix) {
-		var uploadedFileInformation = new multiplefileuploader.widget._UploadedImageInformation(dojo.fromJson(response));
-		if(uploadedFileInformation.getStatus() == "KO") {
-			this.onUploadFailure(response,  uploadedFileInformation);
+	_onUploadComplete : function(response, uploadValuePrefix) {	
+		try {
+			var jsonResponse = dojo.fromJson(response);
+			var uploadedFileInformation = new multiplefileuploader.widget._UploadedImageInformation(jsonResponse);
+			if(uploadedFileInformation.getStatus() == "KO") {
+				this.onUploadFailure(response,  uploadedFileInformation);
+			}
+			else {
+				this._uploadRequest.onUploadSuccess(uploadedFileInformation, uploadValuePrefix);
+				this._uploadManager.onFinishedUpload(uploadedFileInformation);
+			}
+			this._uploadManager._continueProcessingUploads();			
 		}
-		else {
-			this._uploadRequest.onUploadSuccess(uploadedFileInformation, uploadValuePrefix);
+		catch (ex){ // add switch and throw to only throw MALFORMED JSON
+			this._onResponseError(response);
 		}
-		this._uploadManager._continueProcessingUploads();		
+		
 	},
 	_onUploadError : function(response) {
+		console.debug("on upload error");
 		this._uploadRequest.onUploadFailure(response, 'NETWORK_ERROR');
-		this._uploadManager._stopProcessingUploads(this._uploadRequest);			
+		this._uploadManager._stopProcessingUploads(this._uploadRequest, "ERROR_TYPE_RECOVERABLE");		
 	},
-	onUploadFailure : function(response, uploadedFileInformation) {
+	_onResponseError : function(response) {
+		console.debug("on _onResponseError");
+		this._uploadRequest.onUploadFailure(response, 'MALFORMED_JSON_EXCEPTION');	
+		this._uploadManager._stopProcessingUploads(this._uploadRequest, "ERROR_TYPE_NON_RECOVERABLE");	
+	},
+	onUploadFailure : function(response, uploadedFileInformation) {					
 		this._uploadRequest.onUploadFailure(response, uploadedFileInformation.getErrorCode());
 	},	
 	_onAfterUploadStart : function() {
@@ -122,7 +137,6 @@ dojo.declare("multiplefileuploader.widget.FileUploadRequestMixin", null, {
 		this._doOnRetry();	
 	},
 	onUploadRequestEnqueued : function() {
-		console.debug("onUploadRequestEnqueued in FileUploadRequestMixin");
 		this._doOnUploadRequestEnqueued();		
 	},
 	getFileInput : function () {
@@ -180,9 +194,10 @@ dojo.declare("multiplefileuploader.widget._UploadQueue", null, {
 		this.uploadManager._processNextUpload();				
 	},
 	
-	onUploadFailure  : function(uploadRequest) {
+	onUploadFailure  : function(uploadRequest, errorType) {
 		this._uploading = false;
-		this._enqueueAtBegining(uploadRequest);
+		if(errorType == "ERROR_TYPE_RECOVERABLE")
+			this._enqueueAtBegining(uploadRequest);
 	},
 	getTotalNumberOfUploadRequests : function () {
 		return this._totalNumberOfUploadRequests;

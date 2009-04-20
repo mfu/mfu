@@ -35,7 +35,12 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 					onProgress: dojo.hitch(this, function(queueStatus){
 						this._onProgress(queueStatus)
 					}),
-					onFinishedUploads: dojo.hitch(this, this._onFinishedUploads)				
+					onFinishedUploads: dojo.hitch(this, function() {
+						this._onFinishedUploads();
+					})	,
+					onFinishedUpload: dojo.hitch(this, function(uploadedFileInformation) {
+						this._onFinishedUpload(uploadedFileInformation);
+					})	,								
 			};
 			
 			if (this.fakeMode) {
@@ -61,20 +66,20 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 _onProgress : function(queueStatus) {
 	 	this.onProgress( queueStatus);
 	 },
+	 _onFinishedUpload : function(uploadedFileInformation) {
+		this.onFinishedUpload(uploadedFileInformation);
+	 },	 
 	 _onFinishedUploads : function() {
 		this.onFinishedUploads();
-	 },
-	 onError : function() {
-
 	 }, 
-	 onProgress : function(queueStatus) {
-	 	
-	 },
-	 
+	 onError : function() {
+	 }, 
+	 onProgress : function(queueStatus) {	 	
+	 },	 
 	 onFinishedUploads : function() {
-
-	 },
-	 
+	 },	 
+	 onFinishedUpload : function(uploadedFileInformation) { 	
+	 },	 
 	 fireProgress : function() {
 		this._uploadManager.fireProgress();
 	 }

@@ -8,6 +8,8 @@
 	</head>
 	<body class="nihilo">
 		<div id="uploadContainer"></div>
+		<br />
+		<div id="result"></div>
 	</body>
 	
 	
@@ -17,9 +19,15 @@
 	dojo.addOnLoad( function(){
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
 			dojo.addOnLoad( function(){			 		
-				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadToHDD.php" }, dojo.byId("uploadContainer") ); 	
-			});	
+				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadToImageServer.php" }, dojo.byId("uploadContainer") ); 	
+					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  	
+						dojo.byId("result").innerHTML = "<a href=http://localhost:8000/derived/"+uploadedFileInformation.getID()+"-800x600.jpeg>Download "+uploadedFileInformation.getName()+"  [800*600]</a>";
+			});
+			});
+			
     });
+	
+	
 	
 </script>
 	
