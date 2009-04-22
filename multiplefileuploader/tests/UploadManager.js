@@ -1,7 +1,7 @@
 dojo.provide("multiplefileuploader.tests.UploadManager");
 dojo.require("multiplefileuploader.tests.FakeUploadRequest");
 dojo.require("multiplefileuploader.tests.FakeUploadQueue");
-dojo.require("multiplefileuploader.widget.AbstractUploadManager");
+dojo.require("multiplefileuploader.widget.UploadManager");
 dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 
 	tests.register("multiplefileuploader.tests.UploadManager", [
@@ -154,7 +154,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 	      
 		    var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
 			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
-	
+
 				dojo.mixin(fakeQueue, {		
 						getNextUploadRequest : function() {					
 							  return fakeUploadRequest;
@@ -177,13 +177,32 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					}					
 				});
 				
+	
 				var mockOnProgress = function(queueStatus) { };
 				var mockDoUpload = function(uploadLifeCycle, uploadRequest){ };
-	
-				var uploadManager = new multiplefileuploader.widget.AbstractUploadManager({
+				var mockPrepareForm = function(uploadRequest) { };
+				
+				var fakeLifeCycle = {
+				   _onAfterUploadStart: function() {
+					 this._onAfterUploadStartTriggered = true;
+				   },
+					verify : function() {
+						t.assertTrue(this._onAfterUploadStartTriggered);
+					}					   
+				};
+
+				var fakeLifeCycleFactory =  {
+					createLifeCycle : function() {
+						return fakeLifeCycle;
+					}
+				};
+				
+				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
-					onProgress:  mockOnProgress,
-					_doUpload : mockDoUpload
+					onProgress :  mockOnProgress,
+					upload : mockDoUpload,
+					_prepareForm : mockPrepareForm,
+					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 					
 				uploadManager._processNextUpload();
@@ -207,9 +226,28 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				});
 				
 				var mockDoUpload = function(uploadLifeCycle, uploadRequest){ };
-				var uploadManager = new multiplefileuploader.widget.AbstractUploadManager({
+				var mockPrepareForm = function(uploadRequest) { };
+				
+				var fakeLifeCycle = {
+				   _onAfterUploadStart: function() {
+					 this._onAfterUploadStartTriggered = true;
+				   },
+					verify : function() {
+						t.assertTrue(this._onAfterUploadStartTriggered);
+					}					   
+				};
+
+				var fakeLifeCycleFactory =  {
+					createLifeCycle : function() {
+						return fakeLifeCycle;
+					}
+				};
+				
+				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
-					_doUpload : mockDoUpload
+					upload : mockDoUpload,
+					_prepareForm : mockPrepareForm,
+					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 				
 				dojo.mixin(uploadManager, {		
@@ -225,7 +263,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				uploadManager.verify();	
 		},
 		
-	 function doUploadShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
+	 function UploadShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
 			
 			var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
 			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
@@ -241,18 +279,35 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				});
 
 				var mockOnProgress = function(queueStatus) { };
-				var uploadManager = new multiplefileuploader.widget.AbstractUploadManager({
+				var mockPrepareForm = function(uploadRequest) { };
+				
+				var fakeLifeCycle = {
+				   _onAfterUploadStart: function() {
+					 this._onAfterUploadStartTriggered = true;
+				   },
+					verify : function() {
+						t.assertTrue(this._onAfterUploadStartTriggered);
+					}					   
+				};
+				var fakeLifeCycleFactory =  {
+					createLifeCycle : function() {
+						return fakeLifeCycle;
+					}
+				};
+				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue,
-					onProgress:  mockOnProgress
+					onProgress:  mockOnProgress,
+					_prepareForm : mockPrepareForm,
+					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 				
 				dojo.mixin(uploadManager, {		
-					_doUpload :  function(uploadLifeCycle, uploadRequest) {					
+					upload :  function(uploadLifeCycle, uploadRequest) {					
 						t.assertTrue(uploadRequest == fakeUploadRequest);
-						this._doUpload= true;
+						this.upload= true;
 					},
 					verify : function() {
-						t.assertTrue(this._doUpload);
+						t.assertTrue(this.upload);
 					}			
 				});	
 								

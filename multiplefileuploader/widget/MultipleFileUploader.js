@@ -1,5 +1,5 @@
 dojo.provide("multiplefileuploader.widget.MultipleFileUploader");
-dojo.require("multiplefileuploader.widget.IframeUploadManager");
+dojo.require("multiplefileuploader.widget.UploadManager");
 //dojo.require("multiplefileuploader.widget.FakeUploadManager");
 dojo.require("multiplefileuploader.widget.UploadUnit");
 dojo.require("multiplefileuploader.widget.UploadUnitContainer");
@@ -47,7 +47,7 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 				this._uploadManager = new multiplefileuploader.widget.FakeUploadManager(params);
 			}
 			else {
-				this._uploadManager = new multiplefileuploader.widget.IframeUploadManager( params, 
+				this._uploadManager = new multiplefileuploader.widget.UploadManager( params, 
 					this.ajaxUploadUrl, this.timeout, this.uploadParameterName, this.uploadValuePrefix);
 			}
 			

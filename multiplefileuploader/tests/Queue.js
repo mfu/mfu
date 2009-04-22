@@ -1,6 +1,6 @@
 dojo.provide("multiplefileuploader.tests.Queue");
 dojo.require("multiplefileuploader.tests.DoNothingFakeUploadManager");
-dojo.require("multiplefileuploader.widget.AbstractUploadManager");
+dojo.require("multiplefileuploader.widget.UploadManager");
 dojo.require("multiplefileuploader.tests.FakeUploadRequest");
 
 	tests.register("multiplefileuploader.tests.Queue", [
