@@ -33,7 +33,7 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			var params = {
 					onError: dojo.hitch(this, this._onError),
 					onProgress: dojo.hitch(this, function(queueStatus){
-						this._onProgress(queueStatus)
+						this._onProgress(queueStatus);
 					}),
 					onFinishedUploads: dojo.hitch(this, function() {
 						this._onFinishedUploads();

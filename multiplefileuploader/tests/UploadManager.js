@@ -1,6 +1,7 @@
 dojo.provide("multiplefileuploader.tests.UploadManager");
 dojo.require("multiplefileuploader.tests.FakeUploadRequest");
 dojo.require("multiplefileuploader.tests.FakeUploadQueue");
+dojo.require("multiplefileuploader.tests.FakeIframeUploadStrategy");
 dojo.require("multiplefileuploader.widget.UploadManager");
 dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 
@@ -180,7 +181,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 	
 				var mockOnProgress = function(queueStatus) { };
 				var mockDoUpload = function(uploadLifeCycle, uploadRequest){ };
-				var mockPrepareForm = function(uploadRequest) { };
+
 				
 				var fakeLifeCycle = {
 				   _onAfterUploadStart: function() {
@@ -197,12 +198,14 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					}
 				};
 				
+				var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
+				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					onProgress :  mockOnProgress,
 					upload : mockDoUpload,
-					_prepareForm : mockPrepareForm,
-					_lifeCycleFactory : fakeLifeCycleFactory
+					_lifeCycleFactory : fakeLifeCycleFactory,
+					_uploadStrategy : fakeIframeUploadStrategy
 					});	
 					
 				uploadManager._processNextUpload();
@@ -226,7 +229,6 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				});
 				
 				var mockDoUpload = function(uploadLifeCycle, uploadRequest){ };
-				var mockPrepareForm = function(uploadRequest) { };
 				
 				var fakeLifeCycle = {
 				   _onAfterUploadStart: function() {
@@ -242,11 +244,13 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 						return fakeLifeCycle;
 					}
 				};
+			
+		    	var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					upload : mockDoUpload,
-					_prepareForm : mockPrepareForm,
+					_uploadStrategy : fakeIframeUploadStrategy,
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 				
@@ -294,10 +298,12 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 						return fakeLifeCycle;
 					}
 				};
+		    	var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
+				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue,
 					onProgress:  mockOnProgress,
-					_prepareForm : mockPrepareForm,
+					_uploadStrategy : fakeIframeUploadStrategy,					
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 				
