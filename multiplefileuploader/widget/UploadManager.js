@@ -3,6 +3,19 @@ dojo.require("multiplefileuploader.widget.IframeUploadStrategy");
 dojo.require("dojox.collections.Queue");
 dojo.require("dojox.collections.ArrayList");
 
+multiplefileuploader.widget.errorType = {
+	"ERROR_TYPE_RECOVERABLE" : true,
+	"ERROR_TYPE_NON_RECOVERABLE" : false
+};
+
+multiplefileuploader.widget.errorCode = {
+	"NETWORK_ERROR" :  multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE,
+	"MALFORMED_JSON_EXCEPTION" : multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE,
+	"SIZE_EXCEEDED" : multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE,
+	"SIZE_UPLOAD_ERR_NO_FILE" : multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE,
+	"UNSUPPORTED_FORMAT" : multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE
+};
+
 dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	constructor: function(params, targetPost, timeout,  uploadParameterName, uploadValuePrefix){
 		this._offline = false;
@@ -21,7 +34,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	},
 	retryAllUploads : function() {
 		this._offline = false;
-		console.debug(this._uploadQueue); // error on retry !!
+		console.debug(this._uploadQueue);
 		var uploadRequest = this._uploadQueue.getNextUploadRequest();		
 		uploadRequest.onRetry();
 		this._processNextUpload();
@@ -30,6 +43,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 
 	/* protected */	_processNextUpload: function() {		
 			var uploadRequest = this._uploadQueue.getNextUploadRequest();		
+			console.debug(uploadRequest);
 			if(uploadRequest !== null && this._offline == false) {						
 				this._upload(uploadRequest);	
 			}
@@ -39,6 +53,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	},
 	_upload : function(uploadRequest) {
 
+	console.debug("in _UPLOAD");
 		var lifeCycle = this._lifeCycleFactory.createLifeCycle(this, uploadRequest);		
 		this._uploadQueue.onBeforeUploadStart(uploadRequest);
 		uploadRequest.onBeforeUploadStart();		
@@ -123,32 +138,28 @@ dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 	},
 	_onNonRecoverableError : function(response, errorCode) {
 		this._uploadRequest.onUploadFailure(response, errorCode);	
-		this._uploadManager._stopProcessingUploads(this._uploadRequest, "ERROR_TYPE_NON_RECOVERABLE");	
+		this._uploadManager._continueProcessingUploads();
+		//this._uploadManager._stopProcessingUploads(this._uploadRequest, "ERROR_TYPE_NON_RECOVERABLE");	
 	},
 	_onAfterUploadStart : function() {
 		this._uploadRequest.onAfterUploadStart();	
 	},
 	
 	_dispatchError : function(response, uploadedFileInformation) {
-		switch(uploadedFileInformation.getErrorCode()) {			
-			case "NETWORK_ERROR" :
-				this._onRecoverableError(response, "NETWORK_ERROR");
-			break;
 
-			case "SIZE_EXCEEDED" :
-				this._onNonRecoverableError(response, "SIZE_EXCEEDED");
-			break;
-
-			case "SIZE_UPLOAD_ERR_NO_FILE" :
-				this._onNonRecoverableError(response, "SIZE_UPLOAD_ERR_NO_FILE");
-			break;						
-
-			case "UNSUPPORTED_FORMAT" :
-				this._onNonRecoverableError(response,"UNSUPPORTED_FORMAT");
-			break;		
-			
-		}
+		switch(multiplefileuploader.widget.errorCode[uploadedFileInformation.getErrorCode()]) {
+				case multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE :
+				this._onRecoverableError(response, uploadedFileInformation.getErrorCode());
+				break;
+				
+				case multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE :
+				this._onNonRecoverableError(response, uploadedFileInformation.getErrorCode());
+				break;
 		
+				default: 
+				throw "UNKNOWN EXCEPTION";
+				break;
+		}
 	}
 });	
 
