@@ -22,10 +22,12 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 					handleAs: "text",
 					form: this._temporaryUploadForm,
 					load:  dojo.hitch(this, function(response){ 
+						console.debug("in load");
 						dojox.data.dom.removeChildren(this._temporaryUploadForm); 
 						callbacks.onSuccess(response, this._uploadValuePrefix );
 					 }),
 					 error:  dojo.hitch(this, function(response){
+							console.debug("in error");
 						dojox.data.dom.removeChildren(this._temporaryUploadForm);   
 						callbacks.onError(response);
 					})

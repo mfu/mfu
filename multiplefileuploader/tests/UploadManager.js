@@ -180,16 +180,10 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				
 	
 				var mockOnProgress = function(queueStatus) { };
-				var mockDoUpload = function(uploadLifeCycle, uploadRequest){ };
-
-				
+	
 				var fakeLifeCycle = {
-				   _onAfterUploadStart: function() {
-					 this._onAfterUploadStartTriggered = true;
-				   },
-					verify : function() {
-						t.assertTrue(this._onAfterUploadStartTriggered);
-					}					   
+				   _onAfterUploadStart: function() { },
+				   _onUploadComplete : function() { }				   
 				};
 
 				var fakeLifeCycleFactory =  {
@@ -197,13 +191,12 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 						return fakeLifeCycle;
 					}
 				};
-				
+
 				var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					onProgress :  mockOnProgress,
-					upload : mockDoUpload,
 					_lifeCycleFactory : fakeLifeCycleFactory,
 					_uploadStrategy : fakeIframeUploadStrategy
 					});	
@@ -227,16 +220,10 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				dojo.mixin(fakeUploadRequest, {		
 					onBeforeUploadStart: function(){ }			
 				});
-				
-				var mockDoUpload = function(uploadLifeCycle, uploadRequest){ };
-				
+
 				var fakeLifeCycle = {
-				   _onAfterUploadStart: function() {
-					 this._onAfterUploadStartTriggered = true;
-				   },
-					verify : function() {
-						t.assertTrue(this._onAfterUploadStartTriggered);
-					}					   
+				   _onAfterUploadStart: function() { },
+				   _onUploadComplete : function() { }				   
 				};
 
 				var fakeLifeCycleFactory =  {
@@ -249,7 +236,6 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
-					upload : mockDoUpload,
 					_uploadStrategy : fakeIframeUploadStrategy,
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
@@ -267,7 +253,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				uploadManager.verify();	
 		},
 		
-	 function UploadShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
+	 function uploadShouldBeTriggeredWhenProcessNextUploadIsCalled(t) {
 			
 			var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );		
 			var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
@@ -283,21 +269,23 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 				});
 
 				var mockOnProgress = function(queueStatus) { };
-				var mockPrepareForm = function(uploadRequest) { };
 				
 				var fakeLifeCycle = {
-				   _onAfterUploadStart: function() {
-					 this._onAfterUploadStartTriggered = true;
-				   },
-					verify : function() {
-						t.assertTrue(this._onAfterUploadStartTriggered);
-					}					   
+				   _onAfterUploadStart: function() { },
+				   _onUploadComplete : function() { }				   
 				};
+				
 				var fakeLifeCycleFactory =  {
 					createLifeCycle : function() {
 						return fakeLifeCycle;
 					}
 				};
+				
+				var callbacks = {
+					onSuccess : function(response, uploadValuePrefix) { },
+					onError : function(response) { }
+				}; 				
+				
 		    	var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
@@ -308,7 +296,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					});	
 				
 				dojo.mixin(uploadManager, {		
-					upload :  function(uploadLifeCycle, uploadRequest) {					
+					upload :  function(uploadRequest) {					
 						t.assertTrue(uploadRequest == fakeUploadRequest);
 						this.upload= true;
 					},

@@ -12,9 +12,9 @@
 	$randomID = rand()%50000;
 	
 
-      if ($_FILES['nom_du_fichier']['error']) {
+      if ($_FILES[$filename]['error']) {
   
-                switch ($_FILES['nom_du_fichier']['error']){
+                switch ($_FILES[$filename]['error']){
                          case 1:
                          	$errorcode = "SIZE_EXCEEDED"; // UPLOAD_ERR_INI_SIZE
                          break;
@@ -55,6 +55,21 @@
 	$http_client->host = '127.0.0.1';
 	$http_client->port = '8000';	
 	$http_client->multipart_post( '/original/'.$randomID, $fields, $files , false);
+
+
+	switch($http_client->_response->get_status()) {
+		
+		case "500" :  
+		$errorcode = "UNSUPPORTED_FORMAT";
+		$status = "KO";
+		break;
+		
+	}
+	
+	if( !empty($http_client->errstr) ) {
+		$status = "KO";
+		$errorcode = "NETWORK_ERROR";
+	}
 
  	$jsonReturn = "<textarea> { \"id\" : \"$randomID\", \"name\" : \"$filename\",  \"status\" : \"$status\", \"mimetype\" : \"$mimetype\", \"size\" : \"$size\" , \"errorcode\" : \"$errorcode\"}</textarea>";    
 	echo  $jsonReturn; //return JSON result in a textarea for UI rendering	

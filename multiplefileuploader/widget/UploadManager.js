@@ -21,6 +21,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	},
 	retryAllUploads : function() {
 		this._offline = false;
+		console.debug(this._uploadQueue); // error on retry !!
 		var uploadRequest = this._uploadQueue.getNextUploadRequest();		
 		uploadRequest.onRetry();
 		this._processNextUpload();
@@ -45,10 +46,10 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 
 		var callbacks = {
 			onSuccess : function(response, uploadValuePrefix) {
-				lifeCycle._onUploadComplete(response,  uploadValuePrefix);		
+				lifeCycle._onUploadComplete(response,  uploadValuePrefix);	
 			},
 			onError : function(response) {
-				lifeCycle._onUploadError(response);	
+				lifeCycle._onRecoverableError (response, "NETWORK_ERROR");	
 			}
 		}; 
 			
@@ -59,8 +60,9 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 
 	
 	/* protected */ _stopProcessingUploads : function(uploadRequest, errorType) {
-		if(errorType == "ERROR_TYPE_RECOVERABLE")
+		if (errorType == "ERROR_TYPE_RECOVERABLE") {
 			this._offline = true;
+		}
 		this._uploadQueue.onUploadFailure(uploadRequest, errorType);	
 	},	
 	
@@ -96,37 +98,57 @@ dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 		this._uploadRequest =  uploadRequest;
 	}, 	
 	_onUploadComplete : function(response, uploadValuePrefix) {	
+		var jsonResponse= null;
 		try {
 			var jsonResponse = dojo.fromJson(response);
-			var uploadedFileInformation = new multiplefileuploader.widget._UploadedImageInformation(jsonResponse);
-			if(uploadedFileInformation.getStatus() == "KO") {
-				this.onUploadFailure(response,  uploadedFileInformation);
+		}
+		catch(e) {
+			this._onNonRecoverableError(response, "MALFORMED_JSON_EXCEPTION");
+			return;
+		}
+		
+		  var uploadedFileInformation = new multiplefileuploader.widget._UploadedFileInformation(jsonResponse);
+		  if(uploadedFileInformation.getStatus() == "KO") {
+	 		this._dispatchError(response, uploadedFileInformation);
 			}
 			else {
 				this._uploadRequest.onUploadSuccess(uploadedFileInformation, uploadValuePrefix);
 				this._uploadManager.onFinishedUpload(uploadedFileInformation);
+				this._uploadManager._continueProcessingUploads();			
 			}
-			this._uploadManager._continueProcessingUploads();			
-		}
-		catch (ex){ // add switch and throw to only throw MALFORMED JSON
-			this._onResponseError(response);
-		}	
 	},
-	_onUploadError : function(response) {
-		console.debug("on upload error");
-		this._uploadRequest.onUploadFailure(response, 'NETWORK_ERROR');
+	_onRecoverableError : function(response, errorCode) {
+		this._uploadRequest.onUploadFailure(response, errorCode);
 		this._uploadManager._stopProcessingUploads(this._uploadRequest, "ERROR_TYPE_RECOVERABLE");		
 	},
-	_onResponseError : function(response) {
-		console.debug("on _onResponseError");
-		this._uploadRequest.onUploadFailure(response, 'MALFORMED_JSON_EXCEPTION');	
+	_onNonRecoverableError : function(response, errorCode) {
+		this._uploadRequest.onUploadFailure(response, errorCode);	
 		this._uploadManager._stopProcessingUploads(this._uploadRequest, "ERROR_TYPE_NON_RECOVERABLE");	
 	},
-	onUploadFailure : function(response, uploadedFileInformation) {					
-		this._uploadRequest.onUploadFailure(response, uploadedFileInformation.getErrorCode());
-	},	
 	_onAfterUploadStart : function() {
 		this._uploadRequest.onAfterUploadStart();	
+	},
+	
+	_dispatchError : function(response, uploadedFileInformation) {
+		switch(uploadedFileInformation.getErrorCode()) {			
+			case "NETWORK_ERROR" :
+				this._onRecoverableError(response, "NETWORK_ERROR");
+			break;
+
+			case "SIZE_EXCEEDED" :
+				this._onNonRecoverableError(response, "SIZE_EXCEEDED");
+			break;
+
+			case "SIZE_UPLOAD_ERR_NO_FILE" :
+				this._onNonRecoverableError(response, "SIZE_UPLOAD_ERR_NO_FILE");
+			break;						
+
+			case "UNSUPPORTED_FORMAT" :
+				this._onNonRecoverableError(response,"UNSUPPORTED_FORMAT");
+			break;		
+			
+		}
+		
 	}
 });	
 
@@ -174,7 +196,7 @@ dojo.declare("multiplefileuploader.widget.FileUploadRequestMixin", null, {
 	}	
 });	
 
-dojo.declare("multiplefileuploader.widget._UploadedImageInformation", null, {
+dojo.declare("multiplefileuploader.widget._UploadedFileInformation", null, {
 	constructor: function(data) {
 		this._data = data;	
 	}, 

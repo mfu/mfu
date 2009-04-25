@@ -40,7 +40,7 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 					})	,
 					onFinishedUpload: dojo.hitch(this, function(uploadedFileInformation) {
 						this._onFinishedUpload(uploadedFileInformation);
-					})	,								
+					})									
 			};
 			
 			if (this.fakeMode) {

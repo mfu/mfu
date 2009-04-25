@@ -539,7 +539,7 @@
 			if ( ($this->_keep_alive && !$this->connected) || !$this->_keep_alive ) {
 				if ( !$this->_connect() ) {
 					$this->errstr = 'Could not connect to ' . $this->host;
-					return -1;
+				    return -1;
 				}
 			}
 			$boundary = uniqid('------------------');
@@ -547,7 +547,6 @@
 			$body = $this->_merge_multipart_form_data( $boundary, $form_fields, $form_files );
 			$this->_request->body =  $body . HTTP_CRLF;
 			$content_length = strlen( $body ); 
-
 
 			if ($this->_use_proxy) {
 				$this->_request->set_header( 'Host', $this->host . ':' . $this->port );
@@ -578,7 +577,7 @@
 			fwrite( $this->_socket, $this->_request->body );
 			
 			$this->_request->add_debug_info( $req_header );
-			//$this->_get_response(); // MAKE IT SLOW; DONT KNOW WHY
+			$this->_get_response(false); // MAKE IT SLOW when true; DONT KNOW WHY
 			
 			if ($this->_socket && !$this->_keep_alive) $this->disconnect();
 			if ( $this->_response->get_header( 'Connection' ) != null ) {
@@ -602,6 +601,7 @@
 			}
 
 			return $this->_response->get_status();
+			
 		} // End of function multipart_post()
 
 
