@@ -6,5 +6,7 @@
 	SIZE_EXCEEDED: "Size limit exceeded",
 	UNSUPPORTED_FORMAT: "Unsupported format exception",
 	UPLOAD_ERR_NO_FILE: "HTTP request contains no uploaded file", 
-	MALFORMED_JSON_EXCEPTION: "Malformed JSON reponse"
+	MALFORMED_JSON_EXCEPTION: "Malformed JSON response",
+	NULL_JSON_EXCEPTION : "Null JSON response", 
+	SERVER_ERROR: "Server Error"
 }

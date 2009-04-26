@@ -1,20 +1,9 @@
 dojo.provide("multiplefileuploader.widget.UploadManager");
 dojo.require("multiplefileuploader.widget.IframeUploadStrategy");
+dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 dojo.require("dojox.collections.Queue");
 dojo.require("dojox.collections.ArrayList");
 
-multiplefileuploader.widget.errorType = {
-	"ERROR_TYPE_RECOVERABLE" : true,
-	"ERROR_TYPE_NON_RECOVERABLE" : false
-};
-
-multiplefileuploader.widget.errorCode = {
-	"NETWORK_ERROR" :  multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE,
-	"MALFORMED_JSON_EXCEPTION" : multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE,
-	"SIZE_EXCEEDED" : multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE,
-	"SIZE_UPLOAD_ERR_NO_FILE" : multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE,
-	"UNSUPPORTED_FORMAT" : multiplefileuploader.widget.errorType.ERROR_TYPE_NON_RECOVERABLE
-};
 
 dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	constructor: function(params, targetPost, timeout,  uploadParameterName, uploadValuePrefix){
@@ -22,6 +11,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 		this._uploadQueue = new multiplefileuploader.widget._UploadQueue(this);	
 		this._lifeCycleFactory = new multiplefileuploader.widget._LifeCycleFactory();
 		this._uploadStrategy = new multiplefileuploader.widget.IframeUploadStrategy(targetPost, timeout, uploadParameterName ,uploadValuePrefix);		
+		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		dojo.mixin(this,params);	
 	},
 
@@ -53,7 +43,6 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	},
 	_upload : function(uploadRequest) {
 
-	console.debug("in _UPLOAD");
 		var lifeCycle = this._lifeCycleFactory.createLifeCycle(this, uploadRequest);		
 		this._uploadQueue.onBeforeUploadStart(uploadRequest);
 		uploadRequest.onBeforeUploadStart();		
@@ -74,11 +63,11 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 
 
 	
-	/* protected */ _stopProcessingUploads : function(uploadRequest, errorType) {
-		if (errorType == "ERROR_TYPE_RECOVERABLE") {
+	/* protected */ _stopProcessingUploads : function(uploadRequest, errorCode) {
+		if (this._errorCategorizer.getErrorType(errorCode) == multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE) {
 			this._offline = true;
 		}
-		this._uploadQueue.onUploadFailure(uploadRequest, errorType);	
+		this._uploadQueue.onUploadFailure(uploadRequest, errorCode);	
 	},	
 	
 	/* protected */ _continueProcessingUploads : function() {
@@ -108,13 +97,20 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 
 
 dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
-	 constructor: function(uploadManager, uploadRequest) {	
+	 constructor: function(params, uploadManager, uploadRequest) {	
 		this._uploadManager = uploadManager;
 		this._uploadRequest =  uploadRequest;
+		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
+		dojo.mixin(this, params);
 	}, 	
 	_onUploadComplete : function(response, uploadValuePrefix) {	
+		console.debug("in upload complete");
 		var jsonResponse= null;
 		try {
+			if(response == null){
+				this._onNonRecoverableError(response, "NULL_JSON_EXCEPTION");
+				return;
+			}
 			var jsonResponse = dojo.fromJson(response);
 		}
 		catch(e) {
@@ -133,13 +129,14 @@ dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 			}
 	},
 	_onRecoverableError : function(response, errorCode) {
+				console.debug("in _onRecoverableError");
 		this._uploadRequest.onUploadFailure(response, errorCode);
-		this._uploadManager._stopProcessingUploads(this._uploadRequest, "ERROR_TYPE_RECOVERABLE");		
+		this._uploadManager._stopProcessingUploads(this._uploadRequest, errorCode);		
 	},
 	_onNonRecoverableError : function(response, errorCode) {
+					console.debug("in _onNonRecoverableError");
 		this._uploadRequest.onUploadFailure(response, errorCode);	
 		this._uploadManager._continueProcessingUploads();
-		//this._uploadManager._stopProcessingUploads(this._uploadRequest, "ERROR_TYPE_NON_RECOVERABLE");	
 	},
 	_onAfterUploadStart : function() {
 		this._uploadRequest.onAfterUploadStart();	
@@ -147,7 +144,7 @@ dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 	
 	_dispatchError : function(response, uploadedFileInformation) {
 
-		switch(multiplefileuploader.widget.errorCode[uploadedFileInformation.getErrorCode()]) {
+		switch(this._errorCategorizer.getErrorType(uploadedFileInformation.getErrorCode())) {
 				case multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE :
 				this._onRecoverableError(response, uploadedFileInformation.getErrorCode());
 				break;
@@ -170,7 +167,7 @@ dojo.declare("multiplefileuploader.widget._LifeCycleFactory", null, {
 	}, 
 	
 	createLifeCycle : function(uploadManager, uploadRequest) {	
-		return new multiplefileuploader.widget._LifeCycle(uploadManager, uploadRequest );
+		return new multiplefileuploader.widget._LifeCycle({}, uploadManager, uploadRequest );
 	}
 		
 });		
@@ -193,8 +190,8 @@ dojo.declare("multiplefileuploader.widget.FileUploadRequestMixin", null, {
 	onUploadSuccess : function(uploadedFileInformation, uploadValuePrefix) {		
 		this._doOnUploadSuccess(uploadedFileInformation, uploadValuePrefix);	
 	},
-	onUploadFailure : function(error, reason) {
-		this._doOnUploadFailure(error, reason);		
+	onUploadFailure : function(response, errorCode) {
+		this._doOnUploadFailure(response, errorCode);		
 	},
 	onRetry : function() {
 		this._doOnRetry();	
@@ -240,7 +237,8 @@ dojo.declare("multiplefileuploader.widget._UploadQueue", null, {
 		this._currentUploadRequest = null;
 		this._uploadFinished = 0;
 		this._uploading = false;
-		this._totalNumberOfUploadRequests = 0;		
+		this._totalNumberOfUploadRequests = 0;	
+		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();	
 	}, 
 	onImageUploadRequest : function(uploadRequest) {
 		this._filesInQueue.enqueue(uploadRequest);
@@ -257,9 +255,9 @@ dojo.declare("multiplefileuploader.widget._UploadQueue", null, {
 		this.uploadManager._processNextUpload();				
 	},
 	
-	onUploadFailure  : function(uploadRequest, errorType) {
+	onUploadFailure  : function(uploadRequest, errorCode) {
 		this._uploading = false;
-		if(errorType == "ERROR_TYPE_RECOVERABLE")
+		if(this._errorCategorizer.getErrorType(errorCode) == multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE)
 			this._enqueueAtBegining(uploadRequest);
 	},
 	getTotalNumberOfUploadRequests : function () {

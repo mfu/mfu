@@ -32,9 +32,8 @@
 	/*
 	 * If authentification required
 	 */
-	$fields =	array( 	'user' => '',
-						'password' => '',
-						'lang' => ''
+	$fields =	array( 	'user' => 'test',
+						'password' => 'test'
 				);
 	
 	$files = array();
@@ -51,7 +50,7 @@
 	 */
 //	$http_client->use_proxy( 'ns.crs.org.ni', 3128 );
 	
-	$http_client = new http( HTTP_V11, false );
+	$http_client = new http( HTTP_V11, false , $fields);
 	$http_client->host = '127.0.0.1';
 	$http_client->port = '8000';	
 	$http_client->multipart_post( '/original/'.$randomID, $fields, $files , false);
@@ -59,7 +58,7 @@
 
 	switch($http_client->_response->get_status()) {
 		
-		case "500" :  
+		case "400" :  
 		$errorcode = "UNSUPPORTED_FORMAT";
 		$status = "KO";
 		break;
@@ -67,8 +66,14 @@
 	}
 	
 	if( !empty($http_client->errstr) ) {
-		$status = "KO";
 		$errorcode = "NETWORK_ERROR";
+		$status = "KO";
+	}
+	
+	if($http_client->_response->get_status() > 400)
+	{
+	    $errorcode = "SERVER_ERROR";
+		$status = "KO";	
 	}
 
  	$jsonReturn = "<textarea> { \"id\" : \"$randomID\", \"name\" : \"$filename\",  \"status\" : \"$status\", \"mimetype\" : \"$mimetype\", \"size\" : \"$size\" , \"errorcode\" : \"$errorcode\"}</textarea>";    

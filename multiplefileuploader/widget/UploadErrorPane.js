@@ -13,7 +13,7 @@ dojo.declare("multiplefileuploader.widget.UploadErrorPane", [dijit._Widget,dijit
 		dojo.style(this.errorPaneContainer, { display: "none"});			
 	},
 	_displayError : function() {	
-			dojo.place(document.createTextNode(dojo.eval("multiplefileuploader.widget._uploadContainerMessages."+this.reason)), this.errorText); 		
+			dojo.place(document.createTextNode(dojo.eval("multiplefileuploader.widget._uploadContainerMessages."+this.errorCode)), this.errorText); 		
 	},	
 	
 	destroy : function() {			

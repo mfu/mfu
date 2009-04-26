@@ -2,6 +2,7 @@ dojo.provide("multiplefileuploader.widget.UploadUnit");
 dojo.require("dijit.ProgressBar");
 dojo.require("dijit.form.CheckBox");
 
+dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 dojo.require("multiplefileuploader.widget.UploadInputPane");
 dojo.require("multiplefileuploader.widget.UploadProgressPane");
 dojo.require("multiplefileuploader.widget.UploadResultPane");
@@ -19,6 +20,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 		this._paneContainer = document.createElement("div");
         dojo.place(this._paneContainer, srcNodeRef); 	
 		this._uploadPaneFactory = new multiplefileuploader.widget._UploadPaneFactory(this, this._paneContainer, srcNodeRef, this.uploadManager);
+		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		this.createInputPane();	      		
     },
    
@@ -33,9 +35,9 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 		this._hideAllPanes();		
 		this._uploadResultPane = this._uploadPaneFactory.resultPane(uploadedInformation, uploadValuePrefix);
     },
-    createErrorPane : function (error, reason) {
+    createErrorPane : function (response, errorCode) {
 		this._hideAllPanes();		
-		this._uploadErrorPane =  this._uploadPaneFactory.errorPane(error, reason);
+		this._uploadErrorPane =  this._uploadPaneFactory.errorPane(response, errorCode);
     },		
 	getSelectedFilename : function() {
 		return this._uploadInputPane.getSelectedFilename();
@@ -55,9 +57,9 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 	showDeleteLink : function() {
 		return this._uploadInputPane._showDeleteLink();				
 	},	
-	notifyRecoverableFailure : function(error, reason) {
-		this.createErrorPane(error, reason);
-		if(reason == 'NETWORK_ERROR')
+	notifyRecoverableFailure : function(response, errorCode) {
+		this.createErrorPane(response, errorCode);
+		if(this._errorCategorizer.getErrorType(errorCode) == multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE)
 			this.onUnitFailureRecoverable();
 	},
 	_hideAllPanes : function() {	
@@ -123,12 +125,12 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 			return new multiplefileuploader.widget.UploadResultPane(params, srcNodeRef);				
 	}, 
 
-	errorPane : function(error, reason) {
+	errorPane : function(response, errorCode) {
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
 			var params = {
-				error: error,
-				reason: reason,
+				response: response,
+				errorCode: errorCode,
 				unit: this._unit
 			}; 
 			return new multiplefileuploader.widget.UploadErrorPane(params, srcNodeRef);	
@@ -157,8 +159,8 @@ dojo.declare("multiplefileuploader.widget._FileUploadRequest", multiplefileuploa
 	_doOnUploadSuccess : function(uploadedImageInformation, uploadValuePrefix) {				
 		this._unit.createResultPane(uploadedImageInformation, uploadValuePrefix);	
 	},
-	_doOnUploadFailure : function(error, reason) {
-		this._unit.notifyRecoverableFailure(error, reason);
+	_doOnUploadFailure : function(response, errorCode) {
+		this._unit.notifyRecoverableFailure(response,errorCode);
 	},
 	_doOnRetry : function() {
 		this._unit.createProgressPane();	

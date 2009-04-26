@@ -21,7 +21,7 @@ dojo.declare("multiplefileuploader.tests.FakeUploadRequest", null, {
 	_doOnUploadSuccess : function(uploadedFileInformation, uploadValuePrefix) {		
 		
 	},
-	_doOnUploadFailure : function(error, reason) {
+	_doOnUploadFailure : function(error, errorCode) {
 
 	},
 	_doOnRetry : function() {
