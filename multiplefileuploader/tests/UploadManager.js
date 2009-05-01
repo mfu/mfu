@@ -113,9 +113,22 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 			
 		},
 		
-		function addToUploadQueueShouldCallOnFinishedUploadsWhenQueueIsEmpty(t) {
+		function processNextUploadShouldCallOnFinishedUploadsWhenQueueIsEmpty(t) {
 			
-			//Smell : We should add a new abstraction : UploadStrategy
+
+		var uploadManager = new multiplefileuploader.tests.LoggingUploadManager();
+		
+		dojo.mixin(uploadManager, {
+				onFinishedUploads : function() {
+					 this._onFinishedUploads = true;				
+				},
+				verify : function() {
+					t.assertTrue(this._onFinishedUploads);
+				}	
+						
+		});		
+		uploadManager._processNextUpload();
+		uploadManager.verify();					
 			
 		},
 		

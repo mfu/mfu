@@ -30,6 +30,13 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	   
 	    postCreate: function(){
 
+			this._filesInQueue = new dojox.collections.Queue([]);
+			console.debug(this._filesInQueue);
+			this._filesInQueue.enqueue("ed");
+			console.debug(this._filesInQueue.toArray());
+			this._filesInQueue.dequeue("ed");
+			console.debug(this._filesInQueue.toArray());
+			
 			var params = {
 					onError: dojo.hitch(this, this._onError),
 					onProgress: dojo.hitch(this, function(queueStatus){

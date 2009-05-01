@@ -135,7 +135,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 				t.assertEqual(2, uploadQueue.getNumberUploadsInProgress());						
 			},
 			
-			function noMoreUploadInProgress(t) {
+			function thereShouldHaveNoMoreUploadInProgressWhenAllUploadsAreProcessed(t) {
 				var uploadManager = new multiplefileuploader.widget.UploadManager();
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});
@@ -165,8 +165,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 				uploadQueue.onImageUploadRequest(f1);
 				t.assertEqual(1, uploadQueue.getPendingElements().length);	
 				uploadQueue.onBeforeUploadStart();
-				t.assertEqual(0, uploadQueue.getPendingElements().length);					
-				t.assertEqual(null, uploadQueue.getPendingElements());								
+				t.assertEqual(0, uploadQueue.getPendingElements().length);													
 			},
 			
 			function onUploadSuccessShouldTriggerProcessNextUpload(t) {

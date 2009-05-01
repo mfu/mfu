@@ -33,7 +33,6 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 
 	/* protected */	_processNextUpload: function() {		
 			var uploadRequest = this._uploadQueue.getNextUploadRequest();		
-			console.debug(uploadRequest);
 			if(uploadRequest !== null && this._offline == false) {						
 				this._upload(uploadRequest);	
 			}
@@ -276,7 +275,7 @@ dojo.declare("multiplefileuploader.widget._UploadQueue", null, {
 		return this._uploading;
 	},	
 	getNextUploadRequest : function() {	
-		if(!this._uploading && this._filesInQueue.count > 0)
+		if(!this.isUploading() && this._filesInQueue.count > 0)
 			return this._filesInQueue.peek();
 		else
 			return null;
