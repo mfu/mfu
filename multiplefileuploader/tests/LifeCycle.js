@@ -18,10 +18,10 @@ function malFormedJSONShouldCallNonRecoverableError(t) {
 	
 	var lifeCycleMock = dojo.mixin(lifeCycle, {
 			_onNonRecoverableError: function(){
-					 this._onNonRecoverableError = true;
+					 this._onNonRecoverableErrorWasCalled = true;
 				},
 				verify : function() {
-					t.assertTrue(this._onNonRecoverableError);
+					t.assertTrue(this._onNonRecoverableErrorWasCalled);
 				}		
 	});
 	lifeCycle._onUploadComplete(badJsonResponse, "upload_");
@@ -40,10 +40,10 @@ function nullJsonResponseShouldCallNonRecoverableError(t) {
 	
 	var lifeCycleMock = dojo.mixin(lifeCycle, {
 			_onNonRecoverableError: function(){
-					 this._onNonRecoverableError = true;
+					 this._onNonRecoverableErrorWasCalled = true;
 				},
 				verify : function() {
-					t.assertTrue(this._onNonRecoverableError);
+					t.assertTrue(this._onNonRecoverableErrorWasCalled);
 				}		
 	});
 	lifeCycle._onUploadComplete(nullJsonResponse, "upload_");
@@ -136,10 +136,10 @@ function statusOKShouldCallOnUploadSuccess(t) {
 
 		var onUploadSuccessMock = dojo.mixin(fakeUploadRequest, {
 			  onUploadSuccess: function(uploadedFileInformation, uploadValuePrefix){
-					 this._onUploadSuccess = true;
+					 this._onUploadSuccessWasCalled = true;
 				},
 				verify : function() {
-					t.assertTrue(this._onUploadSuccess);
+					t.assertTrue(this._onUploadSuccessWasCalled);
 				}		
 		});
 
@@ -167,10 +167,10 @@ function statusOKShouldCallOnFinishedUpload(t) {
 
 		var onFinishedUploadMock = dojo.mixin(uploadManager, {
 			  onFinishedUpload: function(uploadedFileInformation){
-					 this._onFinishedUpload = true;
+					 this._onFinishedUploadWasCalled = true;
 				},
 				verify : function() {
-					t.assertTrue(this._onFinishedUpload);
+					t.assertTrue(this._onFinishedUploadWasCalled);
 				}		
 		});
 
@@ -199,10 +199,10 @@ function statusOKShouldCallContinueProcessingUploads(t) {
 
 		var continueProcessingUploadsMock = dojo.mixin(uploadManager, {
 			  _continueProcessingUploads: function(){
-					 this._continueProcessingUploads = true;
+					 this._continueProcessingUploadsWasCalled = true;
 				},
 				verify : function() {
-					t.assertTrue(this._continueProcessingUploads);
+					t.assertTrue(this._continueProcessingUploadsWasCalled);
 				}		
 		});
 
@@ -232,10 +232,10 @@ function onUploadFailureShouldBeCalledWhenOnRecoverableErrorIsTriggered(t) {
 		var onUploadFailureMock = dojo.mixin(fakeUploadRequest, {
 			  onUploadFailure: function(response, errorCode){
 			  		 t.assertEqual(response, JsonResponse );	
-					 this._onUploadFailure = true;
+					 this._onUploadFailureWasCalled = true;
 				},
 				verify : function() {
-					t.assertTrue(this._onUploadFailure);
+					t.assertTrue(this._onUploadFailureWasCalled);
 				}		
 		});
 		dojo.mixin(uploadManager, {
@@ -261,10 +261,10 @@ function stopProcessingUploadsShouldBeCalledWhenOnRecoverableErrorIsTriggered(t)
 		var stopProcessingUploadsMock = dojo.mixin(uploadManager, {
 			  _stopProcessingUploads: function(uploadRequest, errorType){
 					t.assertEqual(fakeUploadRequest, uploadRequest )
-					 this._stopProcessingUploads = true;
+					 this._stopProcessingUploadsWasCalled = true;
 				},
 				verify : function() {
-					t.assertTrue(this._stopProcessingUploads);
+					t.assertTrue(this._stopProcessingUploadsWasCalled);
 				}		
 		});
 		dojo.mixin(fakeUploadRequest, {
@@ -298,10 +298,10 @@ function onAfterUploadStartShouldBeCalledWhenProcessNextUploadIsFired(t) {
 				
 				dojo.mixin(fakeUploadRequest, {		
 					onBeforeUploadStart: function(){
-							 this._onBeforeUploadStartTriggered = true;
+							 this._onBeforeUploadStartWasCalled = true;
 						},
 					verify : function() {
-						t.assertTrue(this._onBeforeUploadStartTriggered);
+						t.assertTrue(this._onBeforeUploadStartWasCalled);
 					}					
 				});
 				
@@ -323,13 +323,13 @@ function onAfterUploadStartShouldBeCalledWhenProcessNextUploadIsFired(t) {
 					}
 				};
 
-				var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
+				var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					onProgress :  mockOnProgress,
 					_lifeCycleFactory : fakeLifeCycleFactory,
-					_uploadStrategy : fakeIframeUploadStrategy
+					_uploadStrategy : FakeUploadStrategy
 					});	
 					
 				uploadManager._processNextUpload();

@@ -1,26 +1,31 @@
 dojo.provide("multiplefileuploader.tests.UploadManager");
 dojo.require("multiplefileuploader.tests.FakeUploadRequest");
 dojo.require("multiplefileuploader.tests.FakeUploadQueue");
-dojo.require("multiplefileuploader.tests.FakeIframeUploadStrategy");
+dojo.require("multiplefileuploader.tests.FakeUploadStrategy");
 dojo.require("multiplefileuploader.widget.UploadManager");
-dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 
 	tests.register("multiplefileuploader.tests.UploadManager", [
 	        
 		
 	function onUploadRequestEnqueuedShouldBeTriggeredWhenWeAddToUploadQueue(t) {
 			
+	
+	    var fakeQueue = new multiplefileuploader.tests.FakeUploadQueue();	
 		var uploadRequestMock = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
 		dojo.mixin(uploadRequestMock, {
 			onUploadRequestEnqueued: function(){
-					 this.onUploadRequestEnqueued = true;
+					 this.onUploadRequestEnqueuedWasCalled = true;
 				},
 				verify : function() {
-					t.assertTrue(this.onUploadRequestEnqueued);
+					t.assertTrue(this.onUploadRequestEnqueuedWasCalled);
 				}	
 		});
 	
-			var uploadManager = new multiplefileuploader.tests.LoggingUploadManager();
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue});	
+			dojo.mixin(uploadManager, {
+				_processNextUpload : function() {}
+			});
+
 			uploadManager.addToUploadQueue(uploadRequestMock);
 			uploadRequestMock.verify();
 		},
@@ -41,7 +46,10 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					}	
 			});
 
-			var uploadManager = new multiplefileuploader.tests.LoggingUploadManager({_uploadQueue: fakeQueue });		
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue});	
+			dojo.mixin(uploadManager, {
+				_processNextUpload : function() {}
+			});
 			uploadManager.addToUploadQueue(fakeUploadRequest);
 			fakeQueue.verify();			
 		},
@@ -64,7 +72,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					}	
 			});
 
-			var uploadManager = new multiplefileuploader.tests.LoggingUploadManager({_uploadQueue: fakeQueue });		
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue});		
 			dojo.mixin(uploadManager, {
 					_upload : function(uploadRequest) {
 
@@ -97,7 +105,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					}	
 			});
 
-			var uploadManager = new multiplefileuploader.tests.LoggingUploadManager({_uploadQueue: fakeQueue });		
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue});		
 			dojo.mixin(uploadManager, {
 					_upload : function(uploadRequest) {
 						 t.assertTrue(uploadRequest == fakeUploadRequest);						
@@ -116,7 +124,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 		function processNextUploadShouldCallOnFinishedUploadsWhenQueueIsEmpty(t) {
 			
 
-		var uploadManager = new multiplefileuploader.tests.LoggingUploadManager();
+		var uploadManager = new multiplefileuploader.widget.UploadManager();	
 		
 		dojo.mixin(uploadManager, {
 				onFinishedUploads : function() {
@@ -148,7 +156,7 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					}	
 			});			
 		
-			var uploadManager = new multiplefileuploader.tests.LoggingUploadManager({_uploadQueue: fakeQueue });		
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue});			
 			dojo.mixin(uploadManager, {
 					_upload : function(uploadRequest) {
 						 t.assertTrue(uploadRequest == fakeUploadRequest);						
@@ -205,13 +213,13 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					}
 				};
 
-				var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
+				var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					onProgress :  mockOnProgress,
 					_lifeCycleFactory : fakeLifeCycleFactory,
-					_uploadStrategy : fakeIframeUploadStrategy
+					_uploadStrategy : FakeUploadStrategy
 					});	
 					
 				uploadManager._processNextUpload();
@@ -245,11 +253,11 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					}
 				};
 			
-		    	var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
+		    	var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
-					_uploadStrategy : fakeIframeUploadStrategy,
+					_uploadStrategy : FakeUploadStrategy,
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 				
@@ -299,12 +307,12 @@ dojo.require("multiplefileuploader.tests.LoggingUploadManager");
 					onError : function(response) { }
 				}; 				
 				
-		    	var fakeIframeUploadStrategy = new multiplefileuploader.tests.FakeIframeUploadStrategy();
+		    	var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue,
 					onProgress:  mockOnProgress,
-					_uploadStrategy : fakeIframeUploadStrategy,					
+					_uploadStrategy : FakeUploadStrategy,					
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 				

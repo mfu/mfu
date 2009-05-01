@@ -26,16 +26,8 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 		
 		fakeMode: false,
 	
-
-	   
+   
 	    postCreate: function(){
-
-			this._filesInQueue = new dojox.collections.Queue([]);
-			console.debug(this._filesInQueue);
-			this._filesInQueue.enqueue("ed");
-			console.debug(this._filesInQueue.toArray());
-			this._filesInQueue.dequeue("ed");
-			console.debug(this._filesInQueue.toArray());
 			
 			var params = {
 					onError: dojo.hitch(this, this._onError),
@@ -47,7 +39,10 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 					})	,
 					onFinishedUpload: dojo.hitch(this, function(uploadedFileInformation) {
 						this._onFinishedUpload(uploadedFileInformation);
-					})									
+					})	, 
+					onAfterUploadStart: dojo.hitch(this, function(uploadRequest) {
+						this._onAfterUploadStart(uploadRequest);
+					})	, 					
 			};
 			
 			if (this.fakeMode) {
@@ -58,13 +53,15 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 					this.ajaxUploadUrl, this.timeout, this.uploadParameterName, this.uploadValuePrefix);
 			}
 			
-			var uploadUnitContainer = new multiplefileuploader.widget.UploadUnitContainer({
-					uploadManager: this._uploadManager
-		    }, this.imageUploadContainer , this.uploadActionsContainer);
-				
+			var params = {
+				uploadManager: this._uploadManager,
+				onInputDisplay : dojo.hitch(this, function(fileInput) {
+					this.onInputDisplay(fileInput);
+				})
+			};
+			
+			var uploadUnitContainer = new multiplefileuploader.widget.UploadUnitContainer(params, this.fileUploadContainer , this.uploadActionsContainer);			
  	},
- 
-
 
 	 
 	 _onError : function() {
@@ -79,6 +76,9 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 _onFinishedUploads : function() {
 		this.onFinishedUploads();
 	 }, 
+	 _onAfterUploadStart : function(uploadRequest){
+	 	this.onAfterUploadStart(uploadRequest);
+	 },
 	 onError : function() {
 	 }, 
 	 onProgress : function(queueStatus) {	 	
@@ -86,7 +86,9 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 onFinishedUploads : function() {
 	 },	 
 	 onFinishedUpload : function(uploadedFileInformation) { 	
-	 },	 
+	 },	
+	 onAfterUploadStart : function(uploadRequest) {
+	 },
 	 fireProgress : function() {
 		this._uploadManager.fireProgress();
 	 }

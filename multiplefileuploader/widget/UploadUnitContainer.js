@@ -2,10 +2,10 @@ dojo.provide("multiplefileuploader.widget.UploadUnitContainer");
 dojo.require("multiplefileuploader.widget.UploadActions");
 dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
 
-    constructor : function(params, imageUploadContainer, uploadActionsContainer) {  
+    constructor : function(params, fileUploadContainer, uploadActionsContainer) {  
 	    dojo.mixin(this, params);
 		this._uploadUnits  = new dojox.collections.ArrayList();
-        this._containerDiv = imageUploadContainer;
+        this._containerDiv = fileUploadContainer;
 		this._uploadActionsContainer = uploadActionsContainer;
 		this.createUploadUnit();
 		this._uploadActions = this._createUploadActions();
@@ -49,6 +49,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
         dojo.place(srcNodeRef, this._containerDiv); 				
 		var uploadUnit = new multiplefileuploader.widget.UploadUnit(uploadUnitsParams, srcNodeRef);
 		this._uploadUnits.add(uploadUnit);
+		this.onInputDisplay(uploadUnit.getFileInput());
 		this._makeSureDeleteLinkIsHiddenForTheFirstInput();	
 	},
 	

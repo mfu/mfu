@@ -1,0 +1,54 @@
+<html>
+<head>
+	<style>
+		@import "../../dojo-release-1.3.0-src/util/doh/robot/robot.css";
+		@import "../../dojo-release-1.3.0-src/dijit/themes/nihilo/nihilo.css";		
+		@import "../../dojo-release-1.3.0-src/dojo/resources/dojo.css";
+	</style>
+	<script type="text/javascript" src="../../dojo-release-1.3.0-src/dojo/dojo.js" ></script> 
+<script>
+dojo.registerModulePath("multiplefileuploader","../../../multiplefileuploader");
+
+
+	dojo.require("dijit.robot");
+	doh.register("doh.robot.test",
+	{
+	        lastFileInput: "",
+			name:"dojorobot1",
+	        setUp:function(){
+	       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");			
+				var params = {
+					ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadTests.php" ,
+					onInputDisplay : dojo.hitch(this, function(fileInput) {
+						this._onInputDisplay(fileInput);
+				})
+					
+				};
+				
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 
+
+			},
+	        runTest:function(){
+				console.debug(this.lastFileInput);				
+				doh.robot.mouseMoveAt(this.lastFileInput, 500);
+				doh.robot.mouseClick({left:true},500);
+				doh.robot.typeKeys('abc', 500,300);
+				doh.robot.keyPress(dojo.keys.ENTER, 500);
+				doh.robot.keyPress(dojo.keys.TAB,500);
+		
+	        },
+			_onInputDisplay : function(fileInput) {
+				this.lastFileInput = fileInput;
+			}
+			
+	});
+	doh.run();
+
+</script>
+
+</head>
+<body class="nihilo">
+<div id="uploadContainer"></div>
+
+</body>
+</html>

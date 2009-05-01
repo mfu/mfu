@@ -58,6 +58,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 			
 		this._uploadStrategy.upload(uploadRequest, callbacks);	
 		lifeCycle._onAfterUploadStart();	
+		this.onAfterUploadStart(uploadRequest); // we could need uploadRequest , add unit test
 	}, 
 
 

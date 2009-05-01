@@ -1,5 +1,5 @@
-dojo.provide("multiplefileuploader.tests.FakeIframeUploadStrategy");
-dojo.declare("multiplefileuploader.tests.FakeIframeUploadStrategy", null, {
+dojo.provide("multiplefileuploader.tests.FakeUploadStrategy");
+dojo.declare("multiplefileuploader.tests.FakeUploadStrategy", null, {
 
     constructor: function(){
 
