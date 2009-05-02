@@ -36,13 +36,13 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 					}),
 					onFinishedUploads: dojo.hitch(this, function() {
 						this._onFinishedUploads();
-					})	,
+					}),
 					onFinishedUpload: dojo.hitch(this, function(uploadedFileInformation) {
 						this._onFinishedUpload(uploadedFileInformation);
-					})	, 
+					}), 
 					onAfterUploadStart: dojo.hitch(this, function(uploadRequest) {
 						this._onAfterUploadStart(uploadRequest);
-					})	, 					
+					})					
 			};
 			
 			if (this.fakeMode) {
@@ -79,6 +79,9 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 _onAfterUploadStart : function(uploadRequest){
 	 	this.onAfterUploadStart(uploadRequest);
 	 },
+	 _onInputDisplay : function(fileInput){
+	 	this.onInputDisplay(fileInput);
+	 },
 	 onError : function() {
 	 }, 
 	 onProgress : function(queueStatus) {	 	
@@ -88,6 +91,8 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 onFinishedUpload : function(uploadedFileInformation) { 	
 	 },	
 	 onAfterUploadStart : function(uploadRequest) {
+	 },
+	 onInputDisplay : function(fileInput) {
 	 },
 	 fireProgress : function() {
 		this._uploadManager.fireProgress();

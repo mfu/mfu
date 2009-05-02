@@ -93,7 +93,7 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 		this._unit=unit; 
         this._attachLinkContainer = attachLinkContainer;
 		this._paneContainer = paneContainer;
-		this._uploadManager = uploadManager		
+		this._uploadManager = uploadManager;	
 	},
 
 	inputPane : function() {

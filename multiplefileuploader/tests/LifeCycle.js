@@ -293,7 +293,7 @@ function onAfterUploadStartShouldBeCalledWhenProcessNextUploadIsFired(t) {
 					onBeforeUploadStart: function(uploadRequest){
 							 t.assertTrue(uploadRequest == fakeUploadRequest);
 							 this._onBeforeUploadStartTriggered = true;
-						},
+						}
 				});
 				
 				dojo.mixin(fakeUploadRequest, {		

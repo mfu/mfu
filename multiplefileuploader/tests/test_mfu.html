@@ -5,24 +5,24 @@
 		@import "../../dojo-release-1.3.0-src/dijit/themes/nihilo/nihilo.css";		
 		@import "../../dojo-release-1.3.0-src/dojo/resources/dojo.css";
 	</style>
-	<script type="text/javascript" src="../../dojo-release-1.3.0-src/dojo/dojo.js" ></script> 
+	<script type="text/javascript" src="../../dojo-release-1.3.0-src/dojo/dojo.js" djConfig="parseOnLoad: true, isDebug:true"></script> 
+	<script src="../../dojo-release-1.3.0-src/util/doh/runner.js"></script>
+	<script src="../../dojo-release-1.3.0-src/util/doh/robot.js"></script>
 <script>
-dojo.registerModulePath("multiplefileuploader","../../../multiplefileuploader");
-
-
+dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 	dojo.require("dijit.robot");
-	doh.register("doh.robot.test",
+	doh.register("doh.robot",
 	{
 	        lastFileInput: "",
 			name:"dojorobot1",
 	        setUp:function(){
 	       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");			
+
 				var params = {
-					ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadTests.php" ,
+					ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadTests.php",
 					onInputDisplay : dojo.hitch(this, function(fileInput) {
 						this._onInputDisplay(fileInput);
-				})
-					
+					})	
 				};
 				
 				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 
