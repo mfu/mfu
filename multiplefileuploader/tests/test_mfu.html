@@ -15,12 +15,13 @@ dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 	{
 	        lastFileInput: "",
 			name:"dojorobot1",
-	        timeout:6900,
+	        timeout:69000,
+			filesPath:"/home/florent/workspace/git/multiplefileuploader/multiplefileuploader/php/uploadedFiles",
 			setUp:function(){
 	       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");			
 
 				var params = {
-					ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadTests.php",
+					ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadToImageServer.php",
 					onInputDisplay : dojo.hitch(this, function(fileInput) {
 						this._onInputDisplay(fileInput);
 					})	
@@ -33,10 +34,12 @@ dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 				
 						
 				var d = new doh.Deferred();
-			    doh.robot.mouseMoveAt(this.lastFileInput,0,500)
-				doh.robot.mouseClick({left:true},1000);
+			   //node, duno, delay, offsetX, offsetY
+			    doh.robot.mouseMoveAt(this.lastFileInput,50,300,380,10);
+
+				doh.robot.mouseClick({left:true},100);
 				
-				doh.robot.typeKeys('nssckbi.dll', 500,300);
+				doh.robot.typeKeys(this.filesPath+"/aa.txt", 500,300);
 				doh.robot.keyPress(dojo.keys.ENTER, 500);
 				doh.robot.keyPress(dojo.keys.TAB,500);
 				return d;
