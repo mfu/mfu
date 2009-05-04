@@ -14,9 +14,11 @@ dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 	doh.register("doh.robot",
 	{
 	        lastFileInput: "",
+			attachAnImage:"",
+			deleteLink: "",
 			name:"dojorobot1",
 	        timeout:69000,
-			filesPath:"/home/florent/workspace/git/multiplefileuploader/multiplefileuploader/php/uploadedFiles",
+			filesPath: "C:\\Documents and Settings\\Florent.ZEBULON\\workspace\\multiplefileuploader\\multiplefileuploader\\uploaded",
 			setUp:function(){
 	       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");			
 
@@ -31,15 +33,29 @@ dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 
 			},
 	        runTest:function(){
+
+			
+				//console.debug(); 
+				 dojo.query(".inputFile").forEach(function(node, index, arr){
+    		 		 this.lastFileInput= node;				
+				});	
+				 dojo.query(".attachAnotherFileLink").forEach(function(node, index, arr){
+    		 		 this.attachAnImage= node;				
+				});					
+			
 				
-						
+				
 				var d = new doh.Deferred();
 			   //node, duno, delay, offsetX, offsetY
-			    doh.robot.mouseMoveAt(this.lastFileInput,50,300,380,10);
-
+			   //380 under ff linux
+			   //300 under ff windows ...
+			    doh.robot.mouseMoveAt(this.lastFileInput,50,300,300,10);
 				doh.robot.mouseClick({left:true},100);
-				
-				doh.robot.typeKeys(this.filesPath+"/aa.txt", 500,300);
+doh.robot.keyPress("\\", 500);
+	
+		
+
+				//doh.robot.typeKeys("robot.css", 500,300);
 				doh.robot.keyPress(dojo.keys.ENTER, 500);
 				doh.robot.keyPress(dojo.keys.TAB,500);
 				return d;
