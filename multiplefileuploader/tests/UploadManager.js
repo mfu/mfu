@@ -201,6 +201,8 @@ dojo.require("multiplefileuploader.widget.UploadManager");
 				
 	
 				var mockOnProgress = function(queueStatus) { };
+				
+				var mockOnAfterUploadStart = function(uploadRequest) {};
 	
 				var fakeLifeCycle = {
 				   _onAfterUploadStart: function() { },
@@ -218,6 +220,7 @@ dojo.require("multiplefileuploader.widget.UploadManager");
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					onProgress :  mockOnProgress,
+					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory,
 					_uploadStrategy : FakeUploadStrategy
 					});	
@@ -254,10 +257,12 @@ dojo.require("multiplefileuploader.widget.UploadManager");
 				};
 			
 		    	var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
+				var mockOnAfterUploadStart = function(uploadRequest) {};
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					_uploadStrategy : FakeUploadStrategy,
+					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 				
@@ -291,6 +296,8 @@ dojo.require("multiplefileuploader.widget.UploadManager");
 
 				var mockOnProgress = function(queueStatus) { };
 				
+				var mockOnAfterUploadStart = function(uploadRequest) {};
+				
 				var fakeLifeCycle = {
 				   _onAfterUploadStart: function() { },
 				   _onUploadComplete : function() { }				   
@@ -312,6 +319,7 @@ dojo.require("multiplefileuploader.widget.UploadManager");
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue,
 					onProgress:  mockOnProgress,
+					onAfterUploadStart : mockOnAfterUploadStart,
 					_uploadStrategy : FakeUploadStrategy,					
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	

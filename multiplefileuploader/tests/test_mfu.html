@@ -9,16 +9,15 @@
 	<script src="../../dojo-release-1.3.0-src/util/doh/runner.js"></script>
 	<script src="../../dojo-release-1.3.0-src/util/doh/robot.js"></script>
 <script>
+
 dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 	dojo.require("dijit.robot");
 	doh.register("doh.robot",
 	{
 	        lastFileInput: "",
-			attachAnImage:"",
-			deleteLink: "",
 			name:"dojorobot1",
 	        timeout:69000,
-			filesPath: "C:\\Documents and Settings\\Florent.ZEBULON\\workspace\\multiplefileuploader\\multiplefileuploader\\uploaded",
+			filesPath:"/home/florent/workspace/git/multiplefileuploader/multiplefileuploader/php/uploadedFiles",
 			setUp:function(){
 	       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");			
 
@@ -33,31 +32,35 @@ dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
 
 			},
 	        runTest:function(){
-
-			
-				//console.debug(); 
-				 dojo.query(".inputFile").forEach(function(node, index, arr){
-    		 		 this.lastFileInput= node;				
-				});	
-				 dojo.query(".attachAnotherFileLink").forEach(function(node, index, arr){
-    		 		 this.attachAnImage= node;				
-				});					
-			
 				
-				
+						
 				var d = new doh.Deferred();
 			   //node, duno, delay, offsetX, offsetY
-			   //380 under ff linux
-			   //300 under ff windows ...
-			    doh.robot.mouseMoveAt(this.lastFileInput,50,300,300,10);
-				doh.robot.mouseClick({left:true},100);
-doh.robot.keyPress("\\", 500);
-	
-		
+			    doh.robot.mouseMoveAt(this.lastFileInput,50,300,380,10);
 
-				//doh.robot.typeKeys("robot.css", 500,300);
-				doh.robot.keyPress(dojo.keys.ENTER, 500);
-				doh.robot.keyPress(dojo.keys.TAB,500);
+				doh.robot.mouseClick({left:true},100);
+				
+				//doh.robot.typeKeys(this.filesPath+"/aa.txt", 500,300);
+			
+			
+		   agg=0;
+			for(i=0; i<= this.filesPath.length; i++ ) {			
+				
+				setTimeout(
+				
+					dojo.hitch(this, function() { 
+					
+					agg=agg+1;
+						
+						doh.robot.keyPress(this.filesPath.charAt(agg), 500, null, true)
+						}), 2000*i
+				) ;
+				
+			}
+			
+			
+		//	doh.robot.keyPress('g', 500, null, true);
+			//	doh.robot.keyPress(dojo.keys.TAB,500);
 				return d;
 		
 	        },

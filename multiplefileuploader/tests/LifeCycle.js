@@ -307,6 +307,8 @@ function onAfterUploadStartShouldBeCalledWhenProcessNextUploadIsFired(t) {
 				
 	
 				var mockOnProgress = function(queueStatus) { };
+				var mockOnAfterUploadStart = function(uploadRequest) {};
+				
 				var fakeLifeCycle = {
 				  _onUploadComplete : function() { },
 				   _onAfterUploadStart: function() { 
@@ -328,6 +330,7 @@ function onAfterUploadStartShouldBeCalledWhenProcessNextUploadIsFired(t) {
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					onProgress :  mockOnProgress,
+					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory,
 					_uploadStrategy : FakeUploadStrategy
 					});	
