@@ -26,7 +26,7 @@
 	dojo.addOnLoad( function(){
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
 			dojo.addOnLoad( function(){			 					
-				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://127.0.0.1/multiplefileuploader/php/uploadToImageServer.php" }, dojo.byId("uploadContainer") ); 	
+				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php" }, dojo.byId("uploadContainer") ); 	
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
 						dojo.forEach(supportedFormats , function(format) {							
 							 link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize+"."+format+">Download "+uploadedFileInformation.getName()+"  Converted to "+format+" ["+convertToSize+"]</a><br />";						

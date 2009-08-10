@@ -18,7 +18,7 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 			dojo.io.iframe.send( {
 					url: this._targetPost,
 					method: "post",
-					timeout: this._timeout,
+					timeout: this._timeout,					
 					handleAs: "text",
 					form: this._temporaryUploadForm,
 					load:  dojo.hitch(this, function(response){ 
