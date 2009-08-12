@@ -61,6 +61,9 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 		var uploadRequest = this.uploadPaneFactory.createFileUploadRequest({unit: this.unit});
 		this.uploadManager.addToUploadQueue(uploadRequest);
     },
+	notifyLastFileInputChanged : function() {
+		this._onFileInputChange();
+	},
 	getSelectedFilename : function(){
 		return this.inputFile.value;	
 	},	

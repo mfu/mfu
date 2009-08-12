@@ -215,14 +215,14 @@ dojo.require("multiplefileuploader.widget.UploadManager");
 					}
 				};
 
-				var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
+				var fakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy('{ "id" : "34787", "name" : ".xsession-errors", "status" : "OK", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : ""}');
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					onProgress :  mockOnProgress,
 					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory,
-					_uploadStrategy : FakeUploadStrategy
+					_uploadStrategy : fakeUploadStrategy
 					});	
 					
 				uploadManager._processNextUpload();
@@ -256,12 +256,12 @@ dojo.require("multiplefileuploader.widget.UploadManager");
 					}
 				};
 			
-		    	var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
+		    	var fakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy('{ "id" : "34787", "name" : ".xsession-errors", "status" : "OK", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : ""}');
 				var mockOnAfterUploadStart = function(uploadRequest) {};
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
-					_uploadStrategy : FakeUploadStrategy,
+					_uploadStrategy : fakeUploadStrategy,
 					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
@@ -314,13 +314,13 @@ dojo.require("multiplefileuploader.widget.UploadManager");
 					onError : function(response) { }
 				}; 				
 				
-		    	var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
+		    	var fakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy('{ "id" : "34787", "name" : ".xsession-errors", "status" : "OK", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : ""}');
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue,
 					onProgress:  mockOnProgress,
 					onAfterUploadStart : mockOnAfterUploadStart,
-					_uploadStrategy : FakeUploadStrategy,					
+					_uploadStrategy : fakeUploadStrategy,					
 					_lifeCycleFactory : fakeLifeCycleFactory
 					});	
 				

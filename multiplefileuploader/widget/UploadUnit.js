@@ -51,6 +51,9 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 	requestDeletion : function(){
 		this.onUploadUnitDeletion(this);
 	},
+	notifyLastFileInputChanged : function() {
+		this._uploadInputPane.notifyLastFileInputChanged();
+	},
 	hideDeleteLink : function() {
 		return this._uploadInputPane._hideDeleteLink();	
 	},
@@ -83,7 +86,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 				widget.destroy();
 			}
 		}); 		
-	}		
+	}
 });
 
 
@@ -94,6 +97,7 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
         this._attachLinkContainer = attachLinkContainer;
 		this._paneContainer = paneContainer;
 		this._uploadManager = uploadManager;	
+
 	},
 
 	inputPane : function() {
@@ -104,8 +108,10 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 				uploadManager: this._uploadManager,
 				uploadPaneFactory: this
 			}; 
-			return new multiplefileuploader.widget.UploadInputPane(params, srcNodeRef);
+			return new multiplefileuploader.widget.UploadInputPane(params, srcNodeRef);		
 	},
+	
+
 	
 	progressPane: function(){
 			var srcNodeRef = document.createElement("div");

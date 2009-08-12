@@ -9,6 +9,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
 		this._uploadActionsContainer = uploadActionsContainer;
 		this.createUploadUnit();
 		this._uploadActions = this._createUploadActions();
+		this._lastUploadUnit = null;
     },
     _notifyUploadUnitDeleted : function(unit) {
 		this._uploadUnits.remove(unit);
@@ -19,6 +20,10 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
 	_notifyUnitFailureRecoverable : function() {
 			this._uploadActions.showRetryUploadsLink();
 	},
+	
+	notifyLastFileInputChanged : function() {
+		this._getLastElement(this._uploadUnits).notifyLastFileInputChanged();
+	},	
 	_makeSureOneUploadUnitIsVisible : function() {	
 		if (this._noFileInputVisible())					
 			this.createUploadUnit();

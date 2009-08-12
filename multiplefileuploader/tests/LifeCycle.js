@@ -325,14 +325,14 @@ function onAfterUploadStartShouldBeCalledWhenProcessNextUploadIsFired(t) {
 					}
 				};
 
-				var FakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy();
+				var fakeUploadStrategy = new multiplefileuploader.tests.FakeUploadStrategy('{ "id" : "34787", "name" : ".xsession-errors", "status" : "OK", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : ""}');
 				
 				var uploadManager = new multiplefileuploader.widget.UploadManager({
 					_uploadQueue: fakeQueue, 
 					onProgress :  mockOnProgress,
 					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory,
-					_uploadStrategy : FakeUploadStrategy
+					_uploadStrategy : fakeUploadStrategy
 					});	
 					
 				uploadManager._processNextUpload();

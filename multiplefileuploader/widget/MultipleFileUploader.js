@@ -1,6 +1,6 @@
 dojo.provide("multiplefileuploader.widget.MultipleFileUploader");
 dojo.require("multiplefileuploader.widget.UploadManager");
-//dojo.require("multiplefileuploader.widget.FakeUploadManager");
+dojo.require("multiplefileuploader.tests.FakeUploadStrategy");
 dojo.require("multiplefileuploader.widget.UploadUnit");
 dojo.require("multiplefileuploader.widget.UploadUnitContainer");
 dojo.require("multiplefileuploader.widget.UploadInputPane");
@@ -25,6 +25,8 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 		timeout : "",
 		
 		fakeMode: false,
+		
+		fakeResponse: '',
 	
    
 	    postCreate: function(){
@@ -45,13 +47,14 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 					})					
 			};
 			
-			if (this.fakeMode) {
-				this._uploadManager = new multiplefileuploader.widget.FakeUploadManager(params);
+			if (this.fakeMode) {		
+	         	  var fakeUploadStrategy = {
+						_uploadStrategy : new multiplefileuploader.tests.FakeUploadStrategy(this.fakeResponse)
+				  };
+				  dojo.mixin(params,fakeUploadStrategy);
 			}
-			else {
-				this._uploadManager = new multiplefileuploader.widget.UploadManager( params, 
+			this._uploadManager = new multiplefileuploader.widget.UploadManager( params, 
 					this.ajaxUploadUrl, this.timeout, this.uploadParameterName, this.uploadValuePrefix);
-			}
 			
 			var params = {
 				uploadManager: this._uploadManager,
@@ -60,7 +63,7 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 				})
 			};
 			
-			var uploadUnitContainer = new multiplefileuploader.widget.UploadUnitContainer(params, this.fileUploadContainer , this.uploadActionsContainer);			
+			this.uploadUnitContainer = new multiplefileuploader.widget.UploadUnitContainer(params, this.fileUploadContainer , this.uploadActionsContainer);			
  	},
 
 	 
@@ -96,6 +99,9 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 },
 	 fireProgress : function() {
 		this._uploadManager.fireProgress();
+	 },
+	 notifyLastFileInputChanged : function(uploadRequest) {
+	 	this.uploadUnitContainer.notifyLastFileInputChanged();
 	 }
 
 });

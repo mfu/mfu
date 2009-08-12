@@ -12,7 +12,8 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 		this._lifeCycleFactory = new multiplefileuploader.widget._LifeCycleFactory();
 		this._uploadStrategy = new multiplefileuploader.widget.IframeUploadStrategy(targetPost, timeout, uploadParameterName ,uploadValuePrefix);		
 		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
-		dojo.mixin(this,params);	
+		dojo.mixin(this,params);
+		console.debug(this._uploadStrategy);	
 	},
 
 	addToUploadQueue : function(uploadRequest) {	
@@ -58,7 +59,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 			
 		this._uploadStrategy.upload(uploadRequest, callbacks);	
 		lifeCycle._onAfterUploadStart();	
-		this.onAfterUploadStart(uploadRequest); // we could need uploadRequest , add unit test
+		this.onAfterUploadStart(uploadRequest);
 	}, 
 
 
