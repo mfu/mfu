@@ -153,8 +153,8 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 
 dojo.declare("multiplefileuploader.widget._FileUploadRequest", multiplefileuploader.widget.FileUploadRequestMixin, {
 	 constructor: function(params, unit) {	
-		dojo.mixin(this,params);
 		this._unit = unit;
+		dojo.mixin(this,params);
 	}, 
 	_doOnBeforeUploadStart : function() {
 	
@@ -163,6 +163,7 @@ dojo.declare("multiplefileuploader.widget._FileUploadRequest", multiplefileuploa
 		
 	},	
 	_doOnUploadSuccess : function(uploadedImageInformation, uploadValuePrefix) {				
+
 		this._unit.createResultPane(uploadedImageInformation, uploadValuePrefix);	
 	},
 	_doOnUploadFailure : function(response, errorCode) {
@@ -172,8 +173,13 @@ dojo.declare("multiplefileuploader.widget._FileUploadRequest", multiplefileuploa
 		this._unit.createProgressPane();	
 	},
 	_doOnUploadRequestEnqueued : function() {
+		console.debug("on _doOnUploadRequestEnqueued");
+		console.debug(this._unit);
 		this._unit.createProgressPane();
 	},
+	_doGetUploadingFilename : function () {
+		return this._unit.getFilename();
+	},	
 	_doGetFileInput : function () {	
 		return this._unit.getFileInput();						
 	}	

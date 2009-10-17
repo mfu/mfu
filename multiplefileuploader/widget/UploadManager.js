@@ -42,14 +42,11 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	},
 	_upload : function(uploadRequest) {
 
-		console.debug("testss");
-		console.debug(uploadRequest);
 		var lifeCycle = this._lifeCycleFactory.createLifeCycle(this, uploadRequest);		
 		this._uploadQueue.onBeforeUploadStart(uploadRequest);
 		uploadRequest.onBeforeUploadStart();	
 		
 		this.fireProgress();	
-console.debug("blah");	
 		var callbacks = {
 			onSuccess : function(response, uploadValuePrefix) {
 				lifeCycle._onUploadComplete(response,  uploadValuePrefix);	
@@ -206,6 +203,9 @@ dojo.declare("multiplefileuploader.widget.FileUploadRequestMixin", null, {
 	onUploadRequestEnqueued : function() {
 		this._doOnUploadRequestEnqueued();		
 	},
+	getUploadingFilename : function () {
+		return this._doGetUploadingFilename();	
+	},	
 	getFileInput : function () {
 		return this._doGetFileInput();			
 	}	
@@ -289,8 +289,9 @@ dojo.declare("multiplefileuploader.widget._UploadQueue", null, {
 			return null;
 	},	
 	getCurrentlyUploadingFilename : function() {		
+		console.debug("getCurrentlyUploadingFilename");
 		console.debug(this._currentUploadRequest);
-		return this._currentUploadRequest.getFileInput().value;
+		return this._currentUploadRequest.getUploadingFilename();
 	},
 	_enqueueAtBegining : function(uploadRequest) {
            var q = new dojox.collections.Queue([]);

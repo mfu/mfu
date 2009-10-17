@@ -9,6 +9,7 @@ dojo.declare("multiplefileuploader.tests.FakeUploadStrategy", null, {
 	
 	upload : function (uploadRequest, callbacks) {		
 				
+				console.debug("in upload");
 				var jsonResponse= null;
 				try {
 					if(this._fakeResponse == null){

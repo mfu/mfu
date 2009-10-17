@@ -4,9 +4,6 @@ dojo.declare("multiplefileuploader.tests.FakeUploadRequest", multiplefileuploade
 	constructor: function(params){
 		dojo.mixin(this,params);
 	},
-	getUploadingFilename : function() {		
-		return this.currentFilename;
-	},
 	_doOnBeforeUploadStart : function() {
 	
 	},	
@@ -25,6 +22,9 @@ dojo.declare("multiplefileuploader.tests.FakeUploadRequest", multiplefileuploade
 	_doOnUploadRequestEnqueued : function() {
 
 	},
+	_doGetUploadingFilename : function () {
+		return this.currentFilename;
+	},		
 	_doGetFileInput : function () {	
 				
 	}	
