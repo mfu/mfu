@@ -13,7 +13,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 		this._uploadStrategy = new multiplefileuploader.widget.IframeUploadStrategy(targetPost, timeout, uploadParameterName ,uploadValuePrefix);		
 		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		dojo.mixin(this,params);
-		console.debug(this._uploadStrategy);	
+
 	},
 
 	addToUploadQueue : function(uploadRequest) {	
@@ -25,7 +25,6 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	},
 	retryAllUploads : function() {
 		this._offline = false;
-		console.debug(this._uploadQueue);
 		var uploadRequest = this._uploadQueue.getNextUploadRequest();		
 		uploadRequest.onRetry();
 		this._processNextUpload();
@@ -43,11 +42,14 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	},
 	_upload : function(uploadRequest) {
 
+		console.debug("testss");
+		console.debug(uploadRequest);
 		var lifeCycle = this._lifeCycleFactory.createLifeCycle(this, uploadRequest);		
 		this._uploadQueue.onBeforeUploadStart(uploadRequest);
-		uploadRequest.onBeforeUploadStart();		
+		uploadRequest.onBeforeUploadStart();	
+		
 		this.fireProgress();	
-
+console.debug("blah");	
 		var callbacks = {
 			onSuccess : function(response, uploadValuePrefix) {
 				lifeCycle._onUploadComplete(response,  uploadValuePrefix);	
@@ -57,9 +59,11 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 			}
 		}; 
 			
+		
 		this._uploadStrategy.upload(uploadRequest, callbacks);	
 		lifeCycle._onAfterUploadStart();	
 		this.onAfterUploadStart(uploadRequest);
+		
 	}, 
 
 
@@ -120,6 +124,7 @@ dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 		}
 		
 		  var uploadedFileInformation = new multiplefileuploader.widget._UploadedFileInformation(jsonResponse);
+		  
 		  if(uploadedFileInformation.getStatus() == "KO") {
 	 		this._dispatchError(response, uploadedFileInformation);
 			}
@@ -174,6 +179,7 @@ dojo.declare("multiplefileuploader.widget._LifeCycleFactory", null, {
 });		
 	
 
+	
 	
 	/*
 	 * Interface between UploadManager and UploadUnit
@@ -283,7 +289,8 @@ dojo.declare("multiplefileuploader.widget._UploadQueue", null, {
 			return null;
 	},	
 	getCurrentlyUploadingFilename : function() {		
-		return this._currentUploadRequest.unit.getFilename();
+		console.debug(this._currentUploadRequest);
+		return this._currentUploadRequest.getFileInput().value;
 	},
 	_enqueueAtBegining : function(uploadRequest) {
            var q = new dojox.collections.Queue([]);

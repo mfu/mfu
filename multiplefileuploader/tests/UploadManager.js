@@ -1,8 +1,9 @@
 dojo.provide("multiplefileuploader.tests.UploadManager");
+dojo.require("multiplefileuploader.widget.UploadManager");
 dojo.require("multiplefileuploader.tests.FakeUploadRequest");
 dojo.require("multiplefileuploader.tests.FakeUploadQueue");
 dojo.require("multiplefileuploader.tests.FakeUploadStrategy");
-dojo.require("multiplefileuploader.widget.UploadManager");
+
 
 	tests.register("multiplefileuploader.tests.UploadManager", [
 	        

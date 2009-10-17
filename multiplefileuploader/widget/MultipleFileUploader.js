@@ -101,7 +101,7 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 		this._uploadManager.fireProgress();
 	 },
 	 notifyLastFileInputChanged : function(uploadRequest) {
-	 	this.uploadUnitContainer.notifyLastFileInputChanged();
+	 	this.uploadUnitContainer.notifyLastFileInputChanged(uploadRequest);
 	 }
 
 });

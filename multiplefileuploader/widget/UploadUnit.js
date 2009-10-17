@@ -51,8 +51,8 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 	requestDeletion : function(){
 		this.onUploadUnitDeletion(this);
 	},
-	notifyLastFileInputChanged : function() {
-		this._uploadInputPane.notifyLastFileInputChanged();
+	notifyLastFileInputChanged : function(uploadRequest) {
+		this._uploadInputPane.notifyLastFileInputChanged(uploadRequest);
 	},
 	hideDeleteLink : function() {
 		return this._uploadInputPane._hideDeleteLink();	

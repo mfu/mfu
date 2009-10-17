@@ -1,31 +1,33 @@
 dojo.provide("multiplefileuploader.tests.FakeUploadRequest");
-
 		
-dojo.declare("multiplefileuploader.tests.FakeUploadRequest", null, {
+dojo.declare("multiplefileuploader.tests.FakeUploadRequest", multiplefileuploader.widget.FileUploadRequestMixin , {
 	constructor: function(params){
 		dojo.mixin(this,params);
-
 	},
 	getUploadingFilename : function() {		
 		return this.currentFilename;
 	},
-	onUploadRequestEnqueued : function() {
-		
-	},
 	_doOnBeforeUploadStart : function() {
-
+	
 	},	
-	_doOnAfterUploadStart : function() {	
-			
-	},
-	_doOnUploadSuccess : function(uploadedFileInformation, uploadValuePrefix) {		
+	_doOnAfterUploadStart : function() {
 		
+	},	
+	_doOnUploadSuccess : function(uploadedImageInformation, uploadValuePrefix) {				
+
 	},
-	_doOnUploadFailure : function(error, errorCode) {
+	_doOnUploadFailure : function(response, errorCode) {
 
 	},
 	_doOnRetry : function() {
 
-	}
+	},
+	_doOnUploadRequestEnqueued : function() {
+
+	},
+	_doGetFileInput : function () {	
+				
+	}	
 
 });
+

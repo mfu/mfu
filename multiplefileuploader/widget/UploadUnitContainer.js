@@ -21,8 +21,8 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
 			this._uploadActions.showRetryUploadsLink();
 	},
 	
-	notifyLastFileInputChanged : function() {
-		this._getLastElement(this._uploadUnits).notifyLastFileInputChanged();
+	notifyLastFileInputChanged : function(uploadRequest) {
+		this._getLastElement(this._uploadUnits).notifyLastFileInputChanged(uploadRequest);
 	},	
 	_makeSureOneUploadUnitIsVisible : function() {	
 		if (this._noFileInputVisible())					

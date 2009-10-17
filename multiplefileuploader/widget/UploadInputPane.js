@@ -59,11 +59,14 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
     },
     _onFileInputChange : function() {   			
 		var uploadRequest = this.uploadPaneFactory.createFileUploadRequest({unit: this.unit});
-		this.uploadManager.addToUploadQueue(uploadRequest);
-    },
-	notifyLastFileInputChanged : function() {
-		this._onFileInputChange();
+		this.notifyLastFileInputChanged(uploadRequest);
 	},
+	notifyLastFileInputChanged : function(uploadRequest) {
+		this._addToUploadQueue(uploadRequest);
+	},
+    _addToUploadQueue : function(uploadRequest) {
+		this.uploadManager.addToUploadQueue(uploadRequest);
+	},	
 	getSelectedFilename : function(){
 		return this.inputFile.value;	
 	},	
