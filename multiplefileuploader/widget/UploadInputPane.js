@@ -65,7 +65,7 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 		this._addToUploadQueue(uploadRequest);
 	},
     _addToUploadQueue : function(uploadRequest) {
-		dojo.hitch(this, (uploadRequest.setUnit(this.unit) || function() {}))(this.unit)  //hqck, we should have a strategy here
+		dojo.hitch(uploadRequest, (uploadRequest.setUnit || function() {}))(this.unit);  //hack, we should have a filename strategy here
 		this.uploadManager.addToUploadQueue(uploadRequest);
 	},	
 	getSelectedFilename : function(){

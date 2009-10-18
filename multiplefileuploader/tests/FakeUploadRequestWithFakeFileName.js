@@ -10,6 +10,7 @@ dojo.declare("multiplefileuploader.tests.FakeUploadRequestWithFakeFileName", mul
 	_doGetFileInput : function () {			
 	},
 	setUnit : function(unit) {
+	console.debug("set unit");
 		this._unit = unit;
 	}
 

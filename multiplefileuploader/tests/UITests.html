@@ -35,8 +35,8 @@
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
 			dojo.require("multiplefileuploader.tests.FakeUploadStrategy");
 			dojo.require("multiplefileuploader.tests.FakeUploadRequestWithFakeFileName");
-			
-					 					
+
+			/************* Upload Success******************/	 					
 				var params = {
 					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-1.png",  "status" : "OK", "mimetype" : "image/png", "size" : "168562" , "errorcode" : ""}',
 					 fakeMode : true,
@@ -47,7 +47,7 @@
 				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
 				mfu.notifyLastFileInputChanged(fakeUploadRequest);
 	
-			 /*************************/
+			/****************Malformed JSON response***************/
 				var params = {
 					 fakeResponse :'{ "id" :, "45562"}',
 					 fakeMode : true,
@@ -58,7 +58,7 @@
 				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
 				mfu.notifyLastFileInputChanged(fakeUploadRequest);
 				
-			/*********************************/
+			/**************** Server Error *****************/
 			
 				var params = {
 					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "SERVER_ERROR"}',
@@ -69,7 +69,8 @@
 				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer2") ); 	
 				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
 				mfu.notifyLastFileInputChanged(fakeUploadRequest);			
-			/*******************************/
+			
+			/**************JSON IS NULL ****************/
 				var params = {
 					 fakeResponse :null,
 					 fakeMode : true,
@@ -79,7 +80,8 @@
 				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer3") ); 	
 				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
 				mfu.notifyLastFileInputChanged(fakeUploadRequest);				
-			/*******************************/
+		
+			/**************Size limit exceeded*****************/
 				var params = {
 					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "SIZE_EXCEEDED"}',
 					 fakeMode : true,
@@ -89,7 +91,8 @@
 				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer4") ); 	
 				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
 				mfu.notifyLastFileInputChanged(fakeUploadRequest);						
-			/*******************************/
+		
+			/***************Null size exception****************/
 				var params = {
 					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "SIZE_UPLOAD_ERR_NO_FILE"}',
 					 fakeMode : true,
@@ -99,7 +102,8 @@
 				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer5") ); 	
 				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
 				mfu.notifyLastFileInputChanged(fakeUploadRequest);							
-			/*******************************/
+			
+			/**************Unsupported format exception*****************/
 				var params = {
 					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "UNSUPPORTED_FORMAT"}',
 					 fakeMode : true,
@@ -109,7 +113,8 @@
 				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer6") ); 	
 				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
 				mfu.notifyLastFileInputChanged(fakeUploadRequest);			
-			/*******************************/
+		
+			/**************The server cannot be reached. Please retry*****************/
 				var params = {
 					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "NETWORK_ERROR"}',
 					 fakeMode : true,

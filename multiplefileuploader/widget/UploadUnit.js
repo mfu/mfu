@@ -173,8 +173,6 @@ dojo.declare("multiplefileuploader.widget._FileUploadRequest", multiplefileuploa
 		this._unit.createProgressPane();	
 	},
 	_doOnUploadRequestEnqueued : function() {
-		console.debug("on _doOnUploadRequestEnqueued");
-		console.debug(this._unit);
 		this._unit.createProgressPane();
 	},
 	_doGetUploadingFilename : function () {
