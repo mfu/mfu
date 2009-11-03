@@ -16,18 +16,22 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
    
 	    templatePath: dojo.moduleUrl("multiplefileuploader.widget","MultipleFileUploader.html"),	
 		
-	   	ajaxUploadUrl : "",
-		
+		ajaxUploadUrl : "",
+		statusParameterName : "statusID",
 		uploadParameterName : "upload",
-	
 		uploadValuePrefix : "uploadedFile_",
+		uploadTimeout : "",
 		
-		timeout : "",
+		progressBarMode : true,
+			statusTimeout : "",
+			checkInterval : 2000, 
+			uploadStatusURL : "",
+			apc_php_enabled : true,
+		
 		
 		fakeMode: false,
-		
-		fakeResponse: '',
-	
+		fakeResponse: "",
+
    
 	    postCreate: function(){
 			
@@ -53,8 +57,26 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 				  };
 				  dojo.mixin(params,fakeUploadStrategy);
 			}
-			this._uploadManager = new multiplefileuploader.widget.UploadManager( params, 
-					this.ajaxUploadUrl, this.timeout, this.uploadParameterName, this.uploadValuePrefix);
+			
+			var widget_tests= { 
+				fakeMode : this.fakeMode,
+				fakeResponse: this.fakeResponse
+			};
+			var widget_server = {
+				ajaxUploadUrl : this.ajaxUploadUrl,	
+				uploadParameterName : this.uploadParameterName,
+				uploadValuePrefix : this.uploadValuePrefix,
+				apc_php_enabled : this.apc_php_enabled
+			};
+			var widget_status = {
+				uploadStatusURL : this.uploadStatusURL,
+				progressBarMode : this.progressBarMode,
+				statusTimeout : this.statusTimeout,
+				checkInterval : this.checkInterval, 
+				statusParameterName : this.statusParameterName		
+			};
+
+			this._uploadManager = new multiplefileuploader.widget.UploadManager( params, widget_server, widget_status);
 			
 			var params = {
 				uploadManager: this._uploadManager,

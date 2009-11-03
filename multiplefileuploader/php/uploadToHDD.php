@@ -25,6 +25,7 @@ $randomID = rand()%50000;
   	}	
   	 
  $jsonReturn = "<textarea> { \"id\" : \"$randomID\", \"name\" : \"$filename\", \"status\" : \"$status\", \"mimetype\" : \"$mimetype\", \"size\" : \"$size\" , \"errorcode\" : \"$errorcode\"} </textarea>";    
+echo $targetFolder . $filename;
  if(move_uploaded_file($_FILES[$uploadParameterName]['tmp_name'], $targetFolder . $filename))
  	echo  $jsonReturn; //dojo needs a JSON result in a textarea
  else {

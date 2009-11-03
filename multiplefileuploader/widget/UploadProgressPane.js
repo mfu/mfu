@@ -6,7 +6,8 @@ dojo.declare("multiplefileuploader.widget.UploadProgressPane", [dijit._Widget,di
 			
     postCreate: function(params){
 		this._populateUploadStatusContainer();
-		this._makeUploadStatusContainerVisible();						
+		this._makeUploadStatusContainerVisible();
+				
   },
 
   hide: function() {
@@ -19,8 +20,8 @@ dojo.declare("multiplefileuploader.widget.UploadProgressPane", [dijit._Widget,di
 	},
 	
 	_populateProgressBarTmp : function() {
-		new dijit.ProgressBar({
-				indeterminate: true,
+		this._progressBar = new dijit.ProgressBar({
+				indeterminate: false,
 				style: "width:15%; float: left; height:15px"
 			}, this.progressBarTmp);
 			
@@ -41,6 +42,10 @@ dojo.declare("multiplefileuploader.widget.UploadProgressPane", [dijit._Widget,di
 
 	_getCurrentFilename : function() {
 		return this.unit.getSelectedFilename();
+	},
+	
+	updateProgressBar : function(statusInformation) {
+			this._progressBar.update({"maximum": statusInformation.getTotalSize(), "progress":  statusInformation.getUploadedSize()  });
 	}
  
 });

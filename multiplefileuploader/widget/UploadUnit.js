@@ -11,8 +11,8 @@ dojo.require("multiplefileuploader.widget.UploadErrorPane");
 dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
    
     constructor: function(params, srcNodeRef){
-
 	    dojo.mixin(this,params);
+		this._currentID = null;
 		this._uploadInputPane = null;
 		this._uploadProgressPane = null;		
 		this._uploadResultPane = null;
@@ -50,6 +50,15 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 	},
 	requestDeletion : function(){
 		this.onUploadUnitDeletion(this);
+	},
+	updateProgressBar : function(statusInformation) {
+		this._uploadProgressPane.updateProgressBar(statusInformation);
+	 },
+	setAssociatedID : function(currentID) {
+		this._currentID = currentID;
+	},
+	getAssociatedID : function() {
+		return this._currentID;
 	},
 	notifyLastFileInputChanged : function(uploadRequest) {
 		this._uploadInputPane.notifyLastFileInputChanged(uploadRequest);
@@ -110,15 +119,11 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 			}; 
 			return new multiplefileuploader.widget.UploadInputPane(params, srcNodeRef);		
 	},
-	
-
-	
 	progressPane: function(){
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
 			return new multiplefileuploader.widget.UploadProgressPane({unit: this._unit}, srcNodeRef);
 	},
-	
 	resultPane : function(uploadedImageInformation, uploadValuePrefix) {
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
@@ -130,7 +135,6 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 			}; 
 			return new multiplefileuploader.widget.UploadResultPane(params, srcNodeRef);				
 	}, 
-
 	errorPane : function(response, errorCode) {
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
@@ -141,7 +145,6 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 			}; 
 			return new multiplefileuploader.widget.UploadErrorPane(params, srcNodeRef);	
 	}, 	
-	
 	createFileUploadRequest : function(params) {
 		var paramsToUse = {};
 		dojo.mixin(paramsToUse, params);
@@ -154,16 +157,14 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 dojo.declare("multiplefileuploader.widget._FileUploadRequest", multiplefileuploader.widget.FileUploadRequestMixin, {
 	 constructor: function(params, unit) {	
 		this._unit = unit;
+
 		dojo.mixin(this,params);
 	}, 
 	_doOnBeforeUploadStart : function() {
-	
 	},	
-	_doOnAfterUploadStart : function() {
-		
+	_doOnAfterUploadStart : function() {	
 	},	
 	_doOnUploadSuccess : function(uploadedImageInformation, uploadValuePrefix) {				
-
 		this._unit.createResultPane(uploadedImageInformation, uploadValuePrefix);	
 	},
 	_doOnUploadFailure : function(response, errorCode) {
@@ -180,5 +181,18 @@ dojo.declare("multiplefileuploader.widget._FileUploadRequest", multiplefileuploa
 	},	
 	_doGetFileInput : function () {	
 		return this._unit.getFileInput();						
-	}	
+	},
+	_doSetAssociatedID : function(currentID) {
+		return this._unit.setAssociatedID(currentID);
+	},
+	_doGetAssociatedID : function() {
+		return this._unit.getAssociatedID();
+	},
+	/****Status Information ****/
+	_doOnStatusSuccess : function(statusInformation) {
+		this._unit.updateProgressBar(statusInformation);		
+	},
+	_doOnStatusError : function(statusInformation) {
+		this._unit.updateProgressBar();			
+	}		
 });

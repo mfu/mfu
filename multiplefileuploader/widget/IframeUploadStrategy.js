@@ -2,32 +2,32 @@ dojo.provide("multiplefileuploader.widget.IframeUploadStrategy");
 dojo.require("dojo.io.iframe");		
 		
 dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
-	constructor: function(targetPost, timeout, uploadParameterName ,uploadValuePrefix){
 	
-	this._targetPost = targetPost;
-	this._timeout = timeout;
-	this._uploadParameterName = uploadParameterName;
-	this._uploadValuePrefix = uploadValuePrefix;
+	constructor: function(widget_server, widget_status){
+
+	this._widget_server = widget_server;
+	this._widget_status = widget_status;
 	this._temporaryUploadForm = null;
-	this._createTemporaryForm();	
-	
-	},
+	this._createTemporaryForm();
+	}, 
 		
-	upload : function (uploadRequest, callbacks) {					
+	upload : function (callbacks, uploadRequest) {					
 			this._prepareForm(uploadRequest);
+			console.debug(this._temporaryUploadForm)
+			console.debug("we r going to upload")
 			dojo.io.iframe.send( {
-					url: this._targetPost,
-					method: "post",
-					timeout: this._timeout,					
+					//find a strategy to add params only when progressBar enabled
+					url: this._widget_server.ajaxUploadUrl,
+					method: "POST",	
+					timeout: this._widget_server.uploadTimeout,
 					handleAs: "text",
 					form: this._temporaryUploadForm,
 					load:  dojo.hitch(this, function(response){ 
-						console.debug("in load");
-						dojox.data.dom.removeChildren(this._temporaryUploadForm); 
-						callbacks.onSuccess(response, this._uploadValuePrefix );
+					dojox.data.dom.removeChildren(this._temporaryUploadForm); 
+						callbacks.onSuccess(response, this._widget_server.uploadValuePrefix);
 					 }),
 					 error:  dojo.hitch(this, function(response){
-							console.debug("in error");
+						console.debug("upload on error");
 						dojox.data.dom.removeChildren(this._temporaryUploadForm);   
 						callbacks.onError(response);
 					})
@@ -35,11 +35,40 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 	},
 		
 	_prepareForm : function(uploadRequest) {
-			var fileInput = uploadRequest.getFileInput();
-			dojo.attr(fileInput, "name", this._uploadParameterName);
-			dojo.place(fileInput, this._temporaryUploadForm);			
+			 if(this._widget_server.apc_php_enabled) {
+				this._createAPCInput(uploadRequest);
+			 }
+			this._createFileInput(uploadRequest);
+			this._createStatusIDInput(uploadRequest);
+
+
 	},
 	
+	_createFileInput : function(uploadRequest) {
+		console.debug("create file ")	
+			var fileInput = uploadRequest.getFileInput();
+			dojo.attr(fileInput, "name", this._widget_server.uploadParameterName);
+			dojo.place(fileInput, this._temporaryUploadForm);		
+	},
+	 _createStatusIDInput : function(uploadRequest) {
+			var input = document.createElement('input');
+			dojo.attr(input, "type", "hidden");
+			dojo.attr(input, "name", this._widget_status.statusParameterName);
+			dojo.attr(input, "value", uploadRequest.getAssociatedID());
+			dojo.place(input, this._temporaryUploadForm);
+
+	 },
+	 	
+	_createAPCInput : function(uploadRequest) {
+			var input = document.createElement('input');
+			dojo.attr(input, "type", "hidden");
+			dojo.attr(input, "name", "APC_UPLOAD_PROGRESS");
+			dojo.attr(input, "value", uploadRequest.getAssociatedID());
+			dojo.place(input, this._temporaryUploadForm);	
+	},
+
+
+	 	
 	_createTemporaryForm : function () {
 
 			if(dojo.isIE){
@@ -52,5 +81,4 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 				} 
 			 dojo.body().appendChild(this._temporaryUploadForm);
 	}	
-		
 });

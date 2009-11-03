@@ -35,7 +35,6 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 					}		
 				});			
 				uploadQueue.onUploadFailure(f1, "NETWORK_ERROR");
-				console.debug(uploadQueue);
 				uploadQueue.verify();
 			},
 			function shouldReturnNumberOfUploadRequestsWithEmptyQueue(t) {
