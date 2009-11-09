@@ -1,5 +1,6 @@
 <?php
     require_once('FileUploader.php');
     $fu = FileUploader::getInstance();
-    $fu->upload('upload', 'uploadedFiles/');
+	$conf = parse_ini_file("upload.conf", true);	
+	$fu->upload($conf);													
 ?>

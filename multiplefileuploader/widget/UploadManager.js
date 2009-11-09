@@ -9,9 +9,9 @@ dojo.require("dojox.collections.ArrayList");
 dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	constructor: function(params, widget_server, widget_status){
 		this._offline = false;
-		this._checkInterval = widget_status.checkInterval;
 		this._statusLifeCycle = null;
 	    this._interval = null;
+		this._getStatusInterval = widget_status.getStatusInterval;		
 		this._progressbarMode =  widget_status.progressBarMode;
 	    this._statusUploadStrategy = new multiplefileuploader.widget.StatusUploadStrategy(widget_status);
 		this._uploadQueue = new multiplefileuploader.widget._UploadQueue(this);	
@@ -41,7 +41,11 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	_processNextUpload: function() {		
 			var uploadRequest = this._uploadQueue.getNextUploadRequest();		
 			if(uploadRequest !== null && this._offline == false) {									
-				this._getNewID(this, uploadRequest);
+				console.debug(uploadRequest.getAssociatedID())
+				if(uploadRequest.getAssociatedID() == null)
+					this._getNewID(this, uploadRequest);
+				else
+					this._upload(uploadRequest);
 			}
 			if(uploadRequest == null) {
 				this.onFinishedUploads();
@@ -78,7 +82,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 										};
 										this._statusUploadStrategy.getStatus(callbacks, uploadRequest);
 							}		
-						}), this._checkInterval );
+						}), this._getStatusInterval );
 		
 	},
 		
@@ -238,13 +242,11 @@ dojo.declare("multiplefileuploader.widget._StatusLifeCycle", null, {
 
 	_onGetIDComplete : function(response) {
 		this._currentIDInformation = new multiplefileuploader.widget._IDInformation(dojo.fromJson(response));
-		this._uploadRequest.setAssociatedID(this._currentIDInformation.getID());
-		
+		this._uploadRequest.setAssociatedID(this._currentIDInformation.getID());	
 	},
 	
 	_onGetIDError : function(response) {		
-		this._currentIDInformation = new multiplefileuploader.widget._IDInformation(dojo.fromJson(response));
-		
+		this._currentIDInformation = new multiplefileuploader.widget._IDInformation(dojo.fromJson(response));		
 	},
 	
 	_onStatusSuccess : function(response) {
@@ -267,9 +269,7 @@ dojo.declare("multiplefileuploader.widget._StatusLifeCycle", null, {
 
 dojo.declare("multiplefileuploader.widget._IDInformation", null, {
 	constructor: function(data) {
-		console.debug('in ID')
 		this._data = data;	
-		console.debug(this._data);
 	}, 
 	getID : function() {
 		return this._data.id;
@@ -281,7 +281,6 @@ dojo.declare("multiplefileuploader.widget._IDInformation", null, {
 dojo.declare("multiplefileuploader.widget._StatusInformation", null, {
 	constructor: function(data) {
 		this._data = data;	
-		console.debug(this._data)
 	}, 
 	getID : function() {
 		return this._data.id;

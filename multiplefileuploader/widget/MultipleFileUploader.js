@@ -17,14 +17,14 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	    templatePath: dojo.moduleUrl("multiplefileuploader.widget","MultipleFileUploader.html"),	
 		
 		ajaxUploadUrl : "",
-		statusParameterName : "statusID",
 		uploadParameterName : "upload",
 		uploadValuePrefix : "uploadedFile_",
-		uploadTimeout : "",
+		uploadTimeout : "50000",
 		
 		progressBarMode : true,
+			statusParameterName : "statusID",
 			statusTimeout : "",
-			checkInterval : 2000, 
+			getStatusInterval : 2000, 
 			uploadStatusURL : "",
 			apc_php_enabled : true,
 		
@@ -63,7 +63,8 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 				fakeResponse: this.fakeResponse
 			};
 			var widget_server = {
-				ajaxUploadUrl : this.ajaxUploadUrl,	
+				ajaxUploadUrl : this.ajaxUploadUrl,
+				uploadTimeout : this.uploadTimeout,
 				uploadParameterName : this.uploadParameterName,
 				uploadValuePrefix : this.uploadValuePrefix,
 				apc_php_enabled : this.apc_php_enabled
@@ -71,7 +72,7 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			var widget_status = {
 				uploadStatusURL : this.uploadStatusURL,
 				progressBarMode : this.progressBarMode,
-				statusTimeout : this.statusTimeout,
+				getStatusInterval : this.getStatusInterval,
 				checkInterval : this.checkInterval, 
 				statusParameterName : this.statusParameterName		
 			};

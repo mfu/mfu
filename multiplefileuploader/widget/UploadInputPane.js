@@ -11,7 +11,7 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 			
     deleteLink: multiplefileuploader.widget._uploadContainerMessages.deleteFile,
 	
-	inputSize : "40",
+	inputWidth : "40",
 
     postCreate: function(params){
 	    this._handles = new Array([]);		
