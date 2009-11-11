@@ -10,13 +10,12 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	constructor: function(params, widget_server, widget_status){
 		this._offline = false;
 		this._statusLifeCycle = null;
-	    this._interval = null;
 		this._getStatusInterval = widget_status.getStatusInterval;		
 		this._progressbarMode =  widget_status.progressBarMode;
 	    this._statusUploadStrategy = new multiplefileuploader.widget.StatusUploadStrategy(widget_status);
 		this._uploadQueue = new multiplefileuploader.widget._UploadQueue(this);	
-		this._lifeCycleFactory = new multiplefileuploader.widget._LifeCycleFactory();
 		this._statusLifeCycleFactory = new multiplefileuploader.widget._StatusLifeCycleFactory();
+		this._lifeCycleFactory = new multiplefileuploader.widget._LifeCycleFactory();
 		this._uploadStrategy = new multiplefileuploader.widget.IframeUploadStrategy(widget_server, widget_status );		
 		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		dojo.mixin(this,params);
@@ -43,7 +42,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 			if(uploadRequest !== null && this._offline == false) {									
 				console.debug(uploadRequest.getAssociatedID())
 				if(uploadRequest.getAssociatedID() == null)
-					this._getNewID(this, uploadRequest);
+					this._getNewID(uploadRequest);
 				else
 					this._upload(uploadRequest);
 			}
@@ -52,9 +51,8 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 			}
 	},
 	
-	_getNewID : function(uploadManager, uploadRequest) {
-		// try to get rid of UploadManager ( because of interval )
-			    this._statusLifeCycle =  this._statusLifeCycleFactory.createStatusLifeCycle(uploadManager, uploadRequest);		
+	_getNewID : function( uploadRequest) {
+			    this._statusLifeCycle =  this._statusLifeCycleFactory.createStatusLifeCycle(uploadRequest);		
 				var callbacks = {
 						onIDSuccess : dojo.hitch(this,  function(response) {
 							console.debug('on id success')
@@ -68,9 +66,9 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 				this._statusUploadStrategy.getID(callbacks);
 	},
 
-	_getStatus : function(uploadRequest) {
+	_setupUploadMonitoring : function(uploadRequest) {
 	
-		 	this._interval = setInterval(dojo.hitch(this, function () {
+		 	var monitoringUploadHandler = setInterval(dojo.hitch(this, function () {
 							if(this._progressbarMode) {
 										var callbacks = {
 											onStatusSuccess: dojo.hitch(this, function(response){
@@ -83,11 +81,13 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 										this._statusUploadStrategy.getStatus(callbacks, uploadRequest);
 							}		
 						}), this._getStatusInterval );
+						
+			this._statusLifeCycle.saveMonitoringUploadHandler(monitoringUploadHandler);			
 		
 	},
 		
 	_upload : function(uploadRequest) {
-		var lifeCycle = this._lifeCycleFactory.createLifeCycle(this, uploadRequest);		
+		var lifeCycle = this._lifeCycleFactory.createLifeCycle(this, this._statusLifeCycle, uploadRequest);		
 		this._uploadQueue.onBeforeUploadStart(uploadRequest);
 		uploadRequest.onBeforeUploadStart();	
 		this.fireProgress();	
@@ -103,7 +103,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 		this._uploadStrategy.upload(callbacks, uploadRequest);	
 		lifeCycle._onAfterUploadStart();	
 		this.onAfterUploadStart(uploadRequest);
-		this._getStatus(uploadRequest);
+		this._setupUploadMonitoring(uploadRequest);
 
 		
 	}, 
@@ -146,14 +146,15 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 
 
 dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
-	 constructor: function(params, uploadManager, uploadRequest) {	
+	 constructor: function(params, uploadManager, statusLifeCycle, uploadRequest) {	
 		this._uploadManager = uploadManager;
 		this._uploadRequest =  uploadRequest;
+		this._statusLifeCycle = statusLifeCycle;
 		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		dojo.mixin(this, params);
 	}, 	
 	_onUploadComplete : function(response, uploadValuePrefix) {	
-		clearInterval(this._uploadManager._interval);
+		clearInterval(this._statusLifeCycle.getMonitoringUploadHandler());
 		var jsonResponse= null;
 		try {
 			if(response == null){
@@ -179,8 +180,7 @@ dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 			}
 	},
 	_onRecoverableError : function(response, errorCode) {
-		//Supposed to stopInterval Handler here; but dirty hack to access to private var here
-	    clearInterval(this._uploadManager._interval);
+	    clearInterval(this._statusLifeCycle.getMonitoringUploadHandler());
 		this._uploadRequest.onUploadFailure(response, errorCode);
 		this._uploadManager._stopProcessingUploads(this._uploadRequest, errorCode);		
 	},
@@ -215,8 +215,8 @@ dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 dojo.declare("multiplefileuploader.widget._LifeCycleFactory", null, {
 	 constructor: function() {	
 	}, 
-	createLifeCycle : function(uploadManager, uploadRequest) {	
-		return new multiplefileuploader.widget._LifeCycle({}, uploadManager, uploadRequest );
+	createLifeCycle : function(uploadManager, statusLifeCycle,  uploadRequest) {	
+		return new multiplefileuploader.widget._LifeCycle({}, uploadManager, statusLifeCycle, uploadRequest );
 	}
 		
 });		
@@ -225,21 +225,28 @@ dojo.declare("multiplefileuploader.widget._LifeCycleFactory", null, {
 dojo.declare("multiplefileuploader.widget._StatusLifeCycleFactory", null, {
 	 constructor: function() {	
 	}, 
-	createStatusLifeCycle : function(uploadManager, uploadRequest) {	
-		return new multiplefileuploader.widget._StatusLifeCycle({},uploadManager, uploadRequest);
+	createStatusLifeCycle : function( uploadRequest) {	
+		return new multiplefileuploader.widget._StatusLifeCycle({}, uploadRequest);
 	}
 		
 });		
 	
 
 dojo.declare("multiplefileuploader.widget._StatusLifeCycle", null, {
-	 constructor: function(params, uploadManager, uploadRequest) {	 // UM maybe usefull for interval handler
+	 constructor: function(params,  uploadRequest) {	 // UM maybe usefull for interval handler
    		this._uploadRequest = uploadRequest;
-	    this._uploadManager = uploadManager;
 		this._currentIDInformation = null;
+		this._monitoringUploadHandler = null;
 		dojo.mixin(this, params);
 	}, 	
 
+	getMonitoringUploadHandler : function() {
+		return this._monitoringUploadHandler;
+	},
+	
+	saveMonitoringUploadHandler : function(monitoringUploadHandler) {
+		this._monitoringUploadHandler = monitoringUploadHandler;
+	},
 	_onGetIDComplete : function(response) {
 		this._currentIDInformation = new multiplefileuploader.widget._IDInformation(dojo.fromJson(response));
 		this._uploadRequest.setAssociatedID(this._currentIDInformation.getID());	
@@ -255,7 +262,7 @@ dojo.declare("multiplefileuploader.widget._StatusLifeCycle", null, {
 	},
 	
 	_onStatusError: function(response) {	
-		clearInterval(this._uploadManager._interval);
+		clearInterval(this._monitoringUploadHandler);
 		var statusInformation = new multiplefileuploader.widget._StatusInformation(dojo.fromJson(response));
 		this._uploadRequest.onStatusError(statusInformation);	
 	},
