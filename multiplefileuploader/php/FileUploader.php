@@ -151,10 +151,10 @@
 							'filename' => basename($file['name']),
 							'data' => file_get_contents($file['tmp_name'])
 				);					
-				$http_client = new http( HTTP_V11, false , Array($r['user'],$r['user']));
+				$http_client = new http( HTTP_V11, false , Array($r['user'],$r['password']));
 				$http_client->host =  $r['host'];
 				$http_client->port =  $r['port'];
-				if(isset($r['proxy_url'])) {
+				if(!empty($r['proxy_url'])) {
 					$http_client->use_proxy( $r['proxy_url'], $r['proxy_port'] );
 				}
 				$http_client->multipart_post( self::PYMAGER_UPLOAD_PATH.$id, $fields = array() , $files , false);
