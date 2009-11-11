@@ -3,10 +3,10 @@ dojo.require("dojo.io.iframe");
 		
 dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 	
-	constructor: function(widget_server, widget_status){
+	constructor: function(config_server, config_status){
 
-	this._widget_server = widget_server;
-	this._widget_status = widget_status;
+	this._config_server = config_server;
+	this._config_status = config_status;
 	this._temporaryUploadForm = null;
 	this._createTemporaryForm();
 	}, 
@@ -17,14 +17,14 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 			console.debug("we r going to upload")
 			dojo.io.iframe.send( {
 					//find a strategy to add params only when progressBar enabled
-					url: this._widget_server.ajaxUploadUrl,
+					url: this._config_server.ajaxUploadUrl,
 					method: "POST",	
-					timeout: this._widget_server.uploadTimeout,
+					timeout: this._config_server.uploadTimeout,
 					handleAs: "text",
 					form: this._temporaryUploadForm,
 					load:  dojo.hitch(this, function(response){ 
 					dojox.data.dom.removeChildren(this._temporaryUploadForm); 
-						callbacks.onSuccess(response, this._widget_server.uploadValuePrefix);
+						callbacks.onSuccess(response, this._config_server.uploadValuePrefix);
 					 }),
 					 error:  dojo.hitch(this, function(response){
 						console.debug("upload on error");
@@ -35,7 +35,7 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 	},
 		
 	_prepareForm : function(uploadRequest) {
-			 if(this._widget_server.apc_php_enabled) {
+			 if(this._config_server.apc_php_enabled) {
 				this._createAPCInput(uploadRequest);
 			 }
 			this._createFileInput(uploadRequest);
@@ -47,13 +47,13 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 	_createFileInput : function(uploadRequest) {
 		console.debug("create file ")	
 			var fileInput = uploadRequest.getFileInput();
-			dojo.attr(fileInput, "name", this._widget_server.uploadParameterName);
+			dojo.attr(fileInput, "name", this._config_server.uploadParameterName);
 			dojo.place(fileInput, this._temporaryUploadForm);		
 	},
 	 _createStatusIDInput : function(uploadRequest) {
 			var input = document.createElement('input');
 			dojo.attr(input, "type", "hidden");
-			dojo.attr(input, "name", this._widget_status.statusParameterName);
+			dojo.attr(input, "name", this._config_status.statusParameterName);
 			dojo.attr(input, "value", uploadRequest.getAssociatedID());
 			dojo.place(input, this._temporaryUploadForm);
 

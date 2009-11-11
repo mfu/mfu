@@ -41,6 +41,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
 	createUploadUnit : function () {
 
 			var uploadUnitsParams = {
+				config_UI : this.config_UI,
 				uploadManager : this.uploadManager,
 				onUploadUnitDeletion: dojo.hitch(this, function(unit){
 					this._notifyUploadUnitDeleted(unit);
@@ -54,7 +55,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
         dojo.place(srcNodeRef, this._containerDiv); 				
 		var uploadUnit = new multiplefileuploader.widget.UploadUnit(uploadUnitsParams, srcNodeRef);
 		this._uploadUnits.add(uploadUnit);
-		this.onInputDisplay(uploadUnit.getFileInput());
+		
 		this._makeSureDeleteLinkIsHiddenForTheFirstInput();	
 	},
 	

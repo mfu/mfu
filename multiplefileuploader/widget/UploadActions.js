@@ -10,7 +10,7 @@ dojo.declare("multiplefileuploader.widget.UploadActions", [dijit._Widget,dijit._
 	 
 	    
 	postCreate: function(params){ 	
-	    this._handles = new Array([]);	
+	    this._eventHandles = new Array([]);	
 		this._registerEvents();
 	},
 	
@@ -26,8 +26,8 @@ dojo.declare("multiplefileuploader.widget.UploadActions", [dijit._Widget,dijit._
 		}));
 				
 				
-		this._handles.push(attachAnotherFileLinkHandle);			
-	    this._handles.push(retryFailedUploads);	
+		this._eventHandles.push(attachAnotherFileLinkHandle);			
+	    this._eventHandles.push(retryFailedUploads);	
 	
 	},
     _onClickJoinAnotherFile : function(e) {         
@@ -39,7 +39,7 @@ dojo.declare("multiplefileuploader.widget.UploadActions", [dijit._Widget,dijit._
 		this.uploadManager.retryAllUploads();
 	},
 	_unregisterEvents : function() {
-	    dojo.forEach(this._handles, function (handle) {
+	    dojo.forEach(this._eventHandles, function (handle) {
 	        dojo.disconnect(handle);
 	    });		
 	},

@@ -10,12 +10,11 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
     templatePath: dojo.moduleUrl("multiplefileuploader.widget","UploadInputPane.html"),
 			
     deleteLink: multiplefileuploader.widget._uploadContainerMessages.deleteFile,
-	
-	inputWidth : "40",
 
     postCreate: function(params){
-	    this._handles = new Array([]);		
-        this._registerEvents();					
+	    this._eventHandles = new Array([]);		
+        this._registerEvents();
+		this._setupUI();					
   	},	
 	hide : function() {
 		dojo.style(this.unitInput, { display: "none"});			
@@ -36,7 +35,7 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 					dojo.stopEvent(e);
 					this._onFileInputChange(); 
 				}));
-		this._handles.push(fileInputHandle);						
+		this._eventHandles.push(fileInputHandle);						
 			
 	},
 	_registerDeleteLink : function() {
@@ -45,14 +44,14 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 					dojo.stopEvent(e);  
 					this._onClickDeleteLink();
 				}));
-		this._handles.push(addDeleteLinkHandle);						
+		this._eventHandles.push(addDeleteLinkHandle);						
 			
 	},	 
     _unregisterEvents : function(){  
-        dojo.forEach(this._handles, function (handle) {
+        dojo.forEach(this._eventHandles, function (handle) {
             dojo.disconnect(handle);
         });
-		this._handles = new Array([]);
+		this._eventHandles = new Array([]);
     },	    
     _onClickDeleteLink : function() {        	
 		this.unit.requestDeletion();
@@ -74,6 +73,9 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 	getFileInput : function() {
 		return this.inputFile;
 	},	
+	_setupUI : function() {
+		dojo.attr(this.inputFile, "size", this.config_UI.inputWidth);	
+	},
 	destroy : function() {
 	    this._unregisterEvents();
 	    this.inherited(arguments);

@@ -6,8 +6,7 @@ dojo.declare("multiplefileuploader.widget.UploadProgressPane", [dijit._Widget,di
 			
     postCreate: function(params){
 		this._populateUploadStatusContainer();
-		this._makeUploadStatusContainerVisible();
-				
+		this._makeUploadStatusContainerVisible();	
   },
 
   hide: function() {
@@ -20,11 +19,10 @@ dojo.declare("multiplefileuploader.widget.UploadProgressPane", [dijit._Widget,di
 	},
 	
 	_populateProgressBarTmp : function() {
-		this._progressBar = new dijit.ProgressBar({
-				indeterminate: false,
-				style: "width:15%; float: left; height:15px"
-			}, this.progressBarTmp);
-			
+		this._progressBarTmp = new dijit.ProgressBar({ 
+			indeterminate: false, 
+			style: "width: "+this.config_UI.progressBarWidth+";"+"height: "+this.config_UI.progressBarHeight+";"+"float: left;"
+		}, this.progressBarTmp);			
 	},
 	_populateCheckboxTmp : function() {
 		new dijit.form.CheckBox({
@@ -35,17 +33,14 @@ dojo.declare("multiplefileuploader.widget.UploadProgressPane", [dijit._Widget,di
 	_populateFilenameTmp : function() {
 		dojo.place(document.createTextNode(this._getCurrentFilename()), this.filenameTmp); 
 	},
-	
 	_makeUploadStatusContainerVisible : function() {	
 		dojo.style(this.progressBarContainer, { display: "block"});		
 	},
-
 	_getCurrentFilename : function() {
 		return this.unit.getSelectedFilename();
 	},
-	
 	updateProgressBar : function(statusInformation) {
-			this._progressBar.update({"maximum": statusInformation.getTotalSize(), "progress":  statusInformation.getUploadedSize()  });
+			this._progressBarTmp.update({"maximum": statusInformation.getTotalSize(), "progress":  statusInformation.getUploadedSize()  });
 	}
  
 });

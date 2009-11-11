@@ -7,16 +7,16 @@ dojo.require("dojox.collections.ArrayList");
 
 
 dojo.declare("multiplefileuploader.widget.UploadManager", null, {
-	constructor: function(params, widget_server, widget_status){
+	constructor: function(params, config_server, config_status){
 		this._offline = false;
 		this._statusLifeCycle = null;
-		this._getStatusInterval = widget_status.getStatusInterval;		
-		this._progressbarMode =  widget_status.progressBarMode;
-	    this._statusUploadStrategy = new multiplefileuploader.widget.StatusUploadStrategy(widget_status);
+		this._getStatusInterval = config_status.getStatusInterval;		
+		this._progressbarMode =  config_status.progressBarMode;
+	    this._statusUploadStrategy = new multiplefileuploader.widget.StatusUploadStrategy(config_status);
 		this._uploadQueue = new multiplefileuploader.widget._UploadQueue(this);	
 		this._statusLifeCycleFactory = new multiplefileuploader.widget._StatusLifeCycleFactory();
 		this._lifeCycleFactory = new multiplefileuploader.widget._LifeCycleFactory();
-		this._uploadStrategy = new multiplefileuploader.widget.IframeUploadStrategy(widget_server, widget_status );		
+		this._uploadStrategy = new multiplefileuploader.widget.IframeUploadStrategy(config_server, config_status );		
 		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		dojo.mixin(this,params);
 

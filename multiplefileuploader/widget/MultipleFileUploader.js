@@ -15,20 +15,29 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
    
    
 	    templatePath: dojo.moduleUrl("multiplefileuploader.widget","MultipleFileUploader.html"),	
-		
+
+/* upload setup */			
 		ajaxUploadUrl : "",
 		uploadParameterName : "upload",
 		uploadValuePrefix : "uploadedFile_",
 		uploadTimeout : "50000",
 		
+	
+/* progressBar setup */	
 		progressBarMode : true,
 			statusParameterName : "statusID",
 			statusTimeout : "",
-			getStatusInterval : 2000, 
+			getStatusInterval : "2000", 
 			uploadStatusURL : "",
 			apc_php_enabled : true,
+
+/* UI setup */
+		inputWidth : 40,
+		progressBarWidth : "15%",
+		progressBarHeight : "15px",
 		
-		
+			
+/* tests setup */			
 		fakeMode: false,
 		fakeResponse: "",
 
@@ -58,32 +67,36 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 				  dojo.mixin(params,fakeUploadStrategy);
 			}
 			
-			var widget_tests= { 
+			var config_tests= { 
 				fakeMode : this.fakeMode,
 				fakeResponse: this.fakeResponse
 			};
-			var widget_server = {
+			var config_server = {
 				ajaxUploadUrl : this.ajaxUploadUrl,
 				uploadTimeout : this.uploadTimeout,
 				uploadParameterName : this.uploadParameterName,
 				uploadValuePrefix : this.uploadValuePrefix,
 				apc_php_enabled : this.apc_php_enabled
 			};
-			var widget_status = {
+			var config_status = {
 				uploadStatusURL : this.uploadStatusURL,
 				progressBarMode : this.progressBarMode,
 				getStatusInterval : this.getStatusInterval,
 				checkInterval : this.checkInterval, 
 				statusParameterName : this.statusParameterName		
 			};
+			var config_UI = {
+				inputWidth : this.inputWidth,
+				progressBarWidth : this.progressBarWidth,
+				progressBarHeight : this.progressBarHeight			
+			};
 
-			this._uploadManager = new multiplefileuploader.widget.UploadManager( params, widget_server, widget_status);
+			
+			this._uploadManager = new multiplefileuploader.widget.UploadManager( params, config_server, config_status);
 			
 			var params = {
-				uploadManager: this._uploadManager,
-				onInputDisplay : dojo.hitch(this, function(fileInput) {
-					this.onInputDisplay(fileInput);
-				})
+				config_UI : config_UI,
+				uploadManager: this._uploadManager
 			};
 			
 			this.uploadUnitContainer = new multiplefileuploader.widget.UploadUnitContainer(params, this.fileUploadContainer , this.uploadActionsContainer);			
@@ -105,9 +118,6 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 _onAfterUploadStart : function(uploadRequest){
 	 	this.onAfterUploadStart(uploadRequest);
 	 },
-	 _onInputDisplay : function(fileInput){
-	 	this.onInputDisplay(fileInput);
-	 },
 	 onError : function() {
 	 }, 
 	 onProgress : function(queueStatus) {	 	
@@ -117,8 +127,6 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 onFinishedUpload : function(uploadedFileInformation) { 	
 	 },	
 	 onAfterUploadStart : function(uploadRequest) {
-	 },
-	 onInputDisplay : function(fileInput) {
 	 },
 	 fireProgress : function() {
 		this._uploadManager.fireProgress();

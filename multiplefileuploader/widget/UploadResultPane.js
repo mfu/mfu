@@ -7,7 +7,7 @@ dojo.declare("multiplefileuploader.widget.UploadResultPane", [dijit._Widget,diji
 	templatePath: dojo.moduleUrl("multiplefileuploader.widget","UploadResultPane.html"),
 	
 	postCreate: function(params){
-	    this._handles = new Array([]);		
+	    this._eventHandles = new Array([]);		
 		this._displayCancelCheckbox();
 		this._displayUploadedFilename();
 		this._displayMimetype();
@@ -23,7 +23,7 @@ dojo.declare("multiplefileuploader.widget.UploadResultPane", [dijit._Widget,diji
 				disabled: false
 			}, this.cancelUploadCheckbox);		
 		dojo.connect(cb, 'onClick', dojo.hitch(this, function() {this._deleteFilenameIfNeeded(cb); }) );
-		this._handles.push(cb);	
+		this._eventHandles.push(cb);	
 	},	
 	_displayUploadedFilename : function() {	
 			dojo.place(document.createTextNode(this.uploadedImageInformation.getName()), this.uploadedFilename); 			
@@ -59,7 +59,7 @@ dojo.declare("multiplefileuploader.widget.UploadResultPane", [dijit._Widget,diji
 	},
 			
 	destroy : function() {
-		dojo.forEach(this._handles, function (handle) {
+		dojo.forEach(this._eventHandles, function (handle) {
 		        dojo.disconnect(handle);
 		    });				
 		this.inherited(arguments);

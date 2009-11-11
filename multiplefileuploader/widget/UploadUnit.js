@@ -19,7 +19,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 		this._uploadErrorPane = null;		
 		this._paneContainer = document.createElement("div");
         dojo.place(this._paneContainer, srcNodeRef); 	
-		this._uploadPaneFactory = new multiplefileuploader.widget._UploadPaneFactory(this, this._paneContainer, srcNodeRef, this.uploadManager);
+		this._uploadPaneFactory = new multiplefileuploader.widget._UploadPaneFactory(this, this._paneContainer, srcNodeRef, this.uploadManager,  this.config_UI);
 		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		this.createInputPane();	      		
     },
@@ -101,7 +101,8 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 
 dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
    
-    constructor: function(unit, paneContainer, attachLinkContainer, uploadManager){
+    constructor: function(unit, paneContainer, attachLinkContainer, uploadManager,  config_UI){
+		this._config_UI = config_UI;
 		this._unit=unit; 
         this._attachLinkContainer = attachLinkContainer;
 		this._paneContainer = paneContainer;
@@ -113,6 +114,7 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
 			var params = {
+				config_UI : this._config_UI,
 				unit: this._unit,
 				uploadManager: this._uploadManager,
 				uploadPaneFactory: this
@@ -122,12 +124,17 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 	progressPane: function(){
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
-			return new multiplefileuploader.widget.UploadProgressPane({unit: this._unit}, srcNodeRef);
+			var params =  {
+				config_UI : this._config_UI,
+				unit: this._unit
+			};
+			return new multiplefileuploader.widget.UploadProgressPane(params, srcNodeRef);
 	},
 	resultPane : function(uploadedImageInformation, uploadValuePrefix) {
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
 			var params = {
+				config_UI : this._config_UI,
 				unit: this._unit,
 				uploadPaneFactory: this,
 				uploadedImageInformation: uploadedImageInformation,
@@ -139,6 +146,7 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
 			var params = {
+				config_UI : this._config_UI,
 				response: response,
 				errorCode: errorCode,
 				unit: this._unit
