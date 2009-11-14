@@ -11,6 +11,8 @@ dojo.declare("multiplefileuploader.tests.FakeUploadRequestWithFakeFileName", mul
 	},
 	setUnit : function(unit) {
 		this._unit = unit;
+	},
+	setAssociatedID : function(currentID) {
 	}
 
 });

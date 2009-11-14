@@ -41,6 +41,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
 	createUploadUnit : function () {
 
 			var uploadUnitsParams = {
+				config_status : this.config_status,
 				config_UI : this.config_UI,
 				uploadManager : this.uploadManager,
 				onUploadUnitDeletion: dojo.hitch(this, function(unit){

@@ -27,7 +27,10 @@ dojo.declare("multiplefileuploader.tests.FakeUploadRequest", multiplefileuploade
 	},		
 	_doGetFileInput : function () {	
 				
-	}	
+	},
+	_doGetAssociatedID : function() {
+		
+	}
 
 });
 

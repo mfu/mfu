@@ -7,8 +7,7 @@ dojo.declare("multiplefileuploader.tests.FakeUploadStrategy", null, {
 		this._fakeUploadValuePrefix="uploadedFile_";   
 },
 	
-	upload : function (uploadRequest, callbacks) {		
-
+	upload : function ( callbacks, uploadRequest) {		
 				var jsonResponse= null;
 				try {
 					if(this._fakeResponse == null){
@@ -21,10 +20,11 @@ dojo.declare("multiplefileuploader.tests.FakeUploadStrategy", null, {
 					callbacks.onSuccess(this._fakeResponse, this._fakeUploadValuePrefix);	
 					return;
 				}				
-				var uploadedFileInformation = new multiplefileuploader.widget._UploadedFileInformation( jsonResponse);
-				if(uploadedFileInformation.getErrorCode() == "NETWORK_ERROR")
-					callbacks.onError(this._fakeResponse, this._fakeUploadValuePrefix);	
-				else
-					callbacks.onSuccess(this._fakeResponse, this._fakeUploadValuePrefix);	
+				var uploadedFileInformation = new multiplefileuploader.widget._UploadedFileInformation(jsonResponse);
+				if (uploadedFileInformation.getErrorCode() == "NETWORK_ERROR") 
+					callbacks.onError(this._fakeResponse, this._fakeUploadValuePrefix);
+				else {
+					callbacks.onSuccess(this._fakeResponse, this._fakeUploadValuePrefix);
+				}
 	}
 });	

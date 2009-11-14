@@ -19,7 +19,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 		this._uploadErrorPane = null;		
 		this._paneContainer = document.createElement("div");
         dojo.place(this._paneContainer, srcNodeRef); 	
-		this._uploadPaneFactory = new multiplefileuploader.widget._UploadPaneFactory(this, this._paneContainer, srcNodeRef, this.uploadManager,  this.config_UI);
+		this._uploadPaneFactory = new multiplefileuploader.widget._UploadPaneFactory(this, this._paneContainer, srcNodeRef, this.uploadManager,  this.config_UI, this.config_status);
 		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		this.createInputPane();	      		
     },
@@ -101,7 +101,8 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 
 dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
    
-    constructor: function(unit, paneContainer, attachLinkContainer, uploadManager,  config_UI){
+    constructor: function(unit, paneContainer, attachLinkContainer, uploadManager,  config_UI, config_status){
+		this._config_status = config_status;
 		this._config_UI = config_UI;
 		this._unit=unit; 
         this._attachLinkContainer = attachLinkContainer;
@@ -125,6 +126,7 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 			var srcNodeRef = document.createElement("div");
 			dojo.place(srcNodeRef, this._paneContainer);
 			var params =  {
+				config_status : this._config_status,
 				config_UI : this._config_UI,
 				unit: this._unit
 			};

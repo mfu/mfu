@@ -1,6 +1,7 @@
 dojo.provide("multiplefileuploader.widget.MultipleFileUploader");
 dojo.require("multiplefileuploader.widget.UploadManager");
 dojo.require("multiplefileuploader.tests.FakeUploadStrategy");
+dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 dojo.require("multiplefileuploader.widget.UploadUnit");
 dojo.require("multiplefileuploader.widget.UploadUnitContainer");
 dojo.require("multiplefileuploader.widget.UploadInputPane");
@@ -25,10 +26,10 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	
 /* progressBar setup */	
 		progressBarMode : true,
+			uploadStatusURL : "",
 			statusParameterName : "statusID",
 			statusTimeout : "",
 			getStatusInterval : "2000", 
-			uploadStatusURL : "",
 			apc_php_enabled : true,
 
 /* UI setup */
@@ -44,6 +45,8 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
    
 	    postCreate: function(){
 			
+			this._sanityCheck(); 
+		
 			var params = {
 					onError: dojo.hitch(this, this._onError),
 					onProgress: dojo.hitch(this, function(queueStatus){
@@ -61,10 +64,11 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			};
 			
 			if (this.fakeMode) {		
-	         	  var fakeUploadStrategy = {
-						_uploadStrategy : new multiplefileuploader.tests.FakeUploadStrategy(this.fakeResponse)
+	         	  var fakeStrategy = {
+						_uploadStrategy : new multiplefileuploader.tests.FakeUploadStrategy(this.fakeResponse),
+						_uploadStatusStrategy : new multiplefileuploader.tests.FakeUploadStatusStrategy()
 				  };
-				  dojo.mixin(params,fakeUploadStrategy);
+				  dojo.mixin(params,fakeStrategy);
 			}
 			
 			var config_tests= { 
@@ -95,6 +99,7 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			this._uploadManager = new multiplefileuploader.widget.UploadManager( params, config_server, config_status);
 			
 			var params = {
+				config_status : config_status,
 				config_UI : config_UI,
 				uploadManager: this._uploadManager
 			};
@@ -102,6 +107,14 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			this.uploadUnitContainer = new multiplefileuploader.widget.UploadUnitContainer(params, this.fileUploadContainer , this.uploadActionsContainer);			
  	},
 
+	_sanityCheck : function() {
+		if(this.progressBarMode)
+			if(this.uploadStatusURL == "")
+				throw "When ProgressBarMode enabled, you have to set an uploadStatusURL parameter when instanciate MultipleFileUploader";
+				
+		if(this.ajaxUploadUrl == "")
+			throw "you have to provide an ajaxUploadUrl parameter";
+	},
 	 
 	 _onError : function() {
 		this.onError();

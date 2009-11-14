@@ -18,9 +18,13 @@ dojo.declare("multiplefileuploader.widget.UploadProgressPane", [dijit._Widget,di
 		this._populateFilenameTmp();	
 	},
 	
+	_isIndeterminate : function() {
+		return (this.config_status.progressBarMode) ? false : true;
+	},
 	_populateProgressBarTmp : function() {
+		
 		this._progressBarTmp = new dijit.ProgressBar({ 
-			indeterminate: false, 
+			indeterminate: this._isIndeterminate(), 
 			style: "width: "+this.config_UI.progressBarWidth+";"+"height: "+this.config_UI.progressBarHeight+";"+"float: left;"
 		}, this.progressBarTmp);			
 	},

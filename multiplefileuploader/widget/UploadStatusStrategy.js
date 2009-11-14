@@ -1,7 +1,7 @@
-dojo.provide("multiplefileuploader.widget.StatusUploadStrategy");
+dojo.provide("multiplefileuploader.widget.UploadStatusStrategy");
 dojo.require("dojo.io.iframe");		
 		
-dojo.declare("multiplefileuploader.widget.StatusUploadStrategy", null , {
+dojo.declare("multiplefileuploader.widget.UploadStatusStrategy", null , {
 
 	constructor: function(config_status){	
 		this._config_status = config_status;

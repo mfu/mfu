@@ -8,7 +8,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 		
 			function shouldEnqueueElementAtBeginning(t) {                      
 					
-					var uploadManager = new multiplefileuploader.widget.UploadManager();
+					var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 					var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 					var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"})
 					var f2 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f2"})
@@ -22,7 +22,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 	        },
 			
 			function enqueueAtTheBeginingShouldOnlyBeTriggeredWhenErrorTypeIsRecoverable(t) {
-				var uploadManager = new multiplefileuploader.widget.UploadManager();			
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");			
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"})
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				dojo.mixin(uploadQueue, {
@@ -39,13 +39,13 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 			},
 			function shouldReturnNumberOfUploadRequestsWithEmptyQueue(t) {
 
-					var uploadManager = new multiplefileuploader.widget.UploadManager();
+					var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 					var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);				
 					t.assertEqual(null, uploadQueue.getNextUploadRequest());	
 			},		
 			function shouldReturnNumberOfUploadRequests(t) {
 				var uploadRequestNbr = 5; 			
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);			
 				for(i =0; i<uploadRequestNbr; i++) {
 					uploadQueue.onImageUploadRequest(new multiplefileuploader.tests.FakeUploadRequest({currentFilename: i}));
@@ -54,7 +54,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 			},			
 			function shouldReturnNumberOfUploadsFinished(t) {
 				var uploadRequestNbr = 5;
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				for(i =0; i<uploadRequestNbr; i++) {
 					uploadQueue.onImageUploadRequest( new multiplefileuploader.tests.FakeUploadRequest({currentFilename: i}) );
@@ -64,7 +64,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 				
 			},
 			function thereShouldBeNoFinishedUploads(t) {
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});					
 				uploadQueue.onImageUploadRequest(f1);
@@ -72,7 +72,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 			},
 			
 			function shouldBeUploadingAfterOnBeforeUploadStartEvent(t) { 
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});				
 				uploadQueue.onImageUploadRequest(f1);
@@ -80,7 +80,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 				t.assertTrue(true, uploadQueue.isUploading());	
 			},
 			function shouldNotBeUploadingAfterOnUploadSuccessEvent(t) { 
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});
 				uploadQueue.onImageUploadRequest(f1);
@@ -88,7 +88,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 				t.assertFalse(uploadQueue.isUploading());	
 			},		
 			function shouldBeConsideredAsNonUploadingOnUploadFailure(t) { 
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});				
 				uploadQueue.onImageUploadRequest(f1);
@@ -96,7 +96,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 				t.assertFalse(uploadQueue.isUploading());	
 			},	
 			function shouldReturnNumberUploadsInProgress(t) { 
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});
 				var f2 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f2"});
@@ -107,7 +107,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 				t.assertEqual(3, uploadQueue.getNumberUploadsInProgress());	
 			},								
 			function oneElementShouldBePending(t) { 
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});
 				uploadQueue.onImageUploadRequest(f1);
@@ -115,14 +115,14 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 				t.assertEqual(f1.getUploadingFilename(), uploadQueue.getPendingElements()[0].getUploadingFilename() );	
 			},
 			function shouldReturnEmptyWhenNoElementInPending(t) { 
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				t.assertEqual(0, uploadQueue.getPendingElements().length);	
 				t.assertEqual([], uploadQueue.getPendingElements());	
 			},			
 			function shouldReturnNumberUploadInProgress(t) {
 			
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});
 				var f2 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f2"});
@@ -135,7 +135,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 			},
 			
 			function thereShouldHaveNoMoreUploadInProgressWhenAllUploadsAreProcessed(t) {
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});
 				var f2 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f2"});
@@ -151,14 +151,14 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 			},
 			
 			function shouldEnqueueElementOnUploadRequest(t) {
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});
 				uploadQueue.onImageUploadRequest(f1);
 				t.assertEqual("f1", uploadQueue.getNextUploadRequest().getUploadingFilename());		
 			}, 			
 			function shouldDequeueElementOnBeforeUploadStart(t) {
-				var uploadManager = new multiplefileuploader.widget.UploadManager();
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");
 				var uploadQueue =  new multiplefileuploader.widget._UploadQueue(uploadManager);
 				var f1 = new multiplefileuploader.tests.FakeUploadRequest({currentFilename: "f1"});
 				uploadQueue.onImageUploadRequest(f1);
@@ -168,7 +168,7 @@ dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 			},
 			
 			function onUploadSuccessShouldTriggerProcessNextUpload(t) {
-				var uploadManager = new multiplefileuploader.widget.UploadManager();			
+				var uploadManager = new multiplefileuploader.widget.UploadManager({}, "config_server", "config_status");			
 				dojo.mixin(uploadManager, {
 					_processNextUpload: function(){
 							 this._processNextUpload = true;

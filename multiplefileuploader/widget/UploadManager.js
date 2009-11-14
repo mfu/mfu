@@ -1,6 +1,6 @@
 dojo.provide("multiplefileuploader.widget.UploadManager");
 dojo.require("multiplefileuploader.widget.IframeUploadStrategy");
-dojo.require("multiplefileuploader.widget.StatusUploadStrategy");
+dojo.require("multiplefileuploader.widget.UploadStatusStrategy");
 dojo.require("multiplefileuploader.widget.ErrorCategorizer");
 dojo.require("dojox.collections.Queue");
 dojo.require("dojox.collections.ArrayList");
@@ -12,7 +12,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 		this._statusLifeCycle = null;
 		this._getStatusInterval = config_status.getStatusInterval;		
 		this._progressbarMode =  config_status.progressBarMode;
-	    this._statusUploadStrategy = new multiplefileuploader.widget.StatusUploadStrategy(config_status);
+	    this._uploadStatusStrategy = new multiplefileuploader.widget.UploadStatusStrategy(config_status);
 		this._uploadQueue = new multiplefileuploader.widget._UploadQueue(this);	
 		this._statusLifeCycleFactory = new multiplefileuploader.widget._StatusLifeCycleFactory();
 		this._lifeCycleFactory = new multiplefileuploader.widget._LifeCycleFactory();
@@ -40,7 +40,6 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	_processNextUpload: function() {		
 			var uploadRequest = this._uploadQueue.getNextUploadRequest();		
 			if(uploadRequest !== null && this._offline == false) {									
-				console.debug(uploadRequest.getAssociatedID())
 				if(uploadRequest.getAssociatedID() == null)
 					this._getNewID(uploadRequest);
 				else
@@ -55,7 +54,6 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 			    this._statusLifeCycle =  this._statusLifeCycleFactory.createStatusLifeCycle(uploadRequest);		
 				var callbacks = {
 						onIDSuccess : dojo.hitch(this,  function(response) {
-							console.debug('on id success')
 							 this._statusLifeCycle._onGetIDComplete(response);
 							 this._upload(uploadRequest);
 						}),
@@ -63,7 +61,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 							 this._statusLifeCycle._onGetIDError(response);
 						})
 				}; 						
-				this._statusUploadStrategy.getID(callbacks);
+				this._uploadStatusStrategy.getID(callbacks);
 	},
 
 	_setupUploadMonitoring : function(uploadRequest) {
@@ -78,7 +76,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 												this._statusLifeCycle._onStatusError(response);
 											})
 										};
-										this._statusUploadStrategy.getStatus(callbacks, uploadRequest);
+										this._uploadStatusStrategy.getStatus(callbacks, uploadRequest);
 							}		
 						}), this._getStatusInterval );
 						
@@ -99,7 +97,6 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 				lifeCycle._onRecoverableError (response, "NETWORK_ERROR");
 			}
 		}; 
-	
 		this._uploadStrategy.upload(callbacks, uploadRequest);	
 		lifeCycle._onAfterUploadStart();	
 		this.onAfterUploadStart(uploadRequest);
@@ -233,7 +230,7 @@ dojo.declare("multiplefileuploader.widget._StatusLifeCycleFactory", null, {
 	
 
 dojo.declare("multiplefileuploader.widget._StatusLifeCycle", null, {
-	 constructor: function(params,  uploadRequest) {	 // UM maybe usefull for interval handler
+	 constructor: function(params,  uploadRequest) {
    		this._uploadRequest = uploadRequest;
 		this._currentIDInformation = null;
 		this._monitoringUploadHandler = null;
@@ -334,11 +331,9 @@ dojo.declare("multiplefileuploader.widget.FileUploadRequestMixin", null, {
 		return this._doGetFileInput();			
 	},	
 	setAssociatedID : function(currentID) {
-		console.debug("in setAssociatedID "+ currentID)
 		this._doSetAssociatedID(currentID);
 	},
 	getAssociatedID : function() {
-	console.debug("in getAssociatedID, before _doGetAssociatedID ")
 		return this._doGetAssociatedID();
 	},
 	
