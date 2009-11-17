@@ -2,9 +2,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="dojo-release-1.3.0-src/dijit/themes/nihilo/nihilo.css"/>		
-		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="dojo-release-1.3.0-src/dojo/resources/dojo.css"/>
-		<script type="text/javascript" src="dojo-release-1.3.0-src/dojo/dojo.js" ></script> 
+		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="dojo-release-1.3.2-src/dijit/themes/nihilo/nihilo.css"/>		
+		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="dojo-release-1.3.2-src/dojo/resources/dojo.css"/>
+		<script type="text/javascript" src="dojo-release-1.3.2-src/dojo/dojo.js" ></script> 
 		<!-- djConfig="parseOnLoad: true, isDebug:true" -->
 	</head>
 	<body class="nihilo">
@@ -26,7 +26,11 @@
 	dojo.addOnLoad( function(){
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
 			dojo.addOnLoad( function(){			 					
-				var upload = new multiplefileuploader.widget.MultipleFileUploader( { ajaxUploadUrl: "http://localhost/multiplefileuploader/php/upload.php", uploadStatusURL : "http://localhost/multiplefileuploader/php/status.php" }, dojo.byId("uploadContainer") ); 	
+				var params = { ajaxUploadUrl: "http://localhost/multiplefileuploader/php/upload.php", 
+										  uploadStatusURL : "http://localhost/multiplefileuploader/php/status.php" 
+										 };
+				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
+
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
 						dojo.forEach(supportedFormats , function(format) {							
 							 link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize+"."+format+">Download "+uploadedFileInformation.getName()+"  Converted to "+format+" ["+convertToSize+"]</a><br />";						

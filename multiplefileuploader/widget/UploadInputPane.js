@@ -1,7 +1,5 @@
-
 dojo.provide("multiplefileuploader.widget.UploadInputPane");
 dojo.require("dijit._Templated");
-
 dojo.requireLocalization("multiplefileuploader", "messages");
 multiplefileuploader.widget._uploadContainerMessages = dojo.i18n.getLocalization("multiplefileuploader","messages"); //uploadInputPaneMessages
 dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit._Templated], {

@@ -1,5 +1,5 @@
-
 dojo.provide("multiplefileuploader.widget.UploadErrorPane");
+
 dojo.require("dijit._Templated");
 dojo.requireLocalization("multiplefileuploader", "messages");
 multiplefileuploader.widget._uploadContainerMessages = dojo.i18n.getLocalization("multiplefileuploader","messages");
