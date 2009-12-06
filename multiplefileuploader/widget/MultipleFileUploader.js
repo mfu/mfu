@@ -1,16 +1,11 @@
 dojo.provide("multiplefileuploader.widget.MultipleFileUploader");
 dojo.require("multiplefileuploader.widget.UploadManager");
-dojo.require("multiplefileuploader.tests.FakeUploadStrategy");
-dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 dojo.require("multiplefileuploader.widget.UploadUnit");
 dojo.require("multiplefileuploader.widget.UploadUnitContainer");
 dojo.require("multiplefileuploader.widget.UploadInputPane");
 dojo.require("dojox.data.dom");
 dojo.require("dojox.collections.ArrayList");
 dojo.require("dijit._Templated");
-
-dojo.requireLocalization("multiplefileuploader", "messages");
-multiplefileuploader.widget._uploadContainerMessages = dojo.i18n.getLocalization("multiplefileuploader","messages");
 
 dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,dijit._Templated], {
    
@@ -42,7 +37,6 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 		fakeMode: false,
 		fakeResponse: "",
 
-   
 	    postCreate: function(){
 			
 			this._sanityCheck(); 
@@ -64,7 +58,9 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			};
 			
 			if (this.fakeMode) {		
-	         	  var fakeStrategy = {
+	         	  dojo.require("multiplefileuploader.tests.FakeUploadStrategy");
+				  dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
+				  var fakeStrategy = {
 						_uploadStrategy : new multiplefileuploader.tests.FakeUploadStrategy(this.fakeResponse),
 						_uploadStatusStrategy : new multiplefileuploader.tests.FakeUploadStatusStrategy()
 				  };

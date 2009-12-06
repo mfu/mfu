@@ -18,6 +18,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
 		this._makeSureDeleteLinkIsHiddenForTheFirstInput();
     }, 	
 	_notifyUnitFailureRecoverable : function() {
+			console.debug("_notifyUnitFailureRecoverable")
 			this._uploadActions.showRetryUploadsLink();
 	},
 	

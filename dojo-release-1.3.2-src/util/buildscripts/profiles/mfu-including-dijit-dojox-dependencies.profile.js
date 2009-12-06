@@ -1,7 +1,8 @@
 dependencies ={
     layers:  [
 		{
-       name: "dojo.js",
+        name: "../layers/mfu.js",
+		resourceName: "layers.mfu",
         dependencies: [
 		    "multiplefileuploader.widget.MultipleFileUploader"					
         ],
@@ -10,6 +11,7 @@ dependencies ={
     prefixes: [
 	  	[ "dijit", "../dijit" ],
 		[ "dojox", "../dojox" ],
-	    [ "multiplefileuploader", "../../multiplefileuploader" ]
+	    [ "multiplefileuploader", "../../multiplefileuploader" ],
+		[ "layers", "../layers"]
     ]
 };

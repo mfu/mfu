@@ -1,14 +1,14 @@
 dojo.provide("multiplefileuploader.widget.UploadActions");
 dojo.require("dijit._Templated");
 dojo.requireLocalization("multiplefileuploader", "messages");
-multiplefileuploader.widget._uploadContainerMessages = dojo.i18n.getLocalization("multiplefileuploader","messages");
 dojo.declare("multiplefileuploader.widget.UploadActions", [dijit._Widget,dijit._Templated] , {
     
 	templatePath: dojo.moduleUrl("multiplefileuploader.widget","UploadActions.html"),
-    attachAnotherFileLink: multiplefileuploader.widget._uploadContainerMessages.attachAnotherFile,
-	retryFailedUploadsLink : multiplefileuploader.widget._uploadContainerMessages.retryFailedUploads,
 	 
-	    
+    postMixInProperties: function(){
+		this.i18n = dojo.i18n.getLocalization("multiplefileuploader","messages"); 
+		this.inherited(arguments);
+    },	    
 	postCreate: function(params){ 	
 	    this._eventHandles = new Array([]);	
 		this._registerEvents();
@@ -48,6 +48,7 @@ dojo.declare("multiplefileuploader.widget.UploadActions", [dijit._Widget,dijit._
 		dojo.style(this.retryFailedUploadsLink, { display: "none"});	
 	},	
 	showRetryUploadsLink : function() {
+		console.debug("show retry")
 		dojo.style(this.retryFailedUploadsLink, { display: "inline"});	
 	},
 	destroy : function() {

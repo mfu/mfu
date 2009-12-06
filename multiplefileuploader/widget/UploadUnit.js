@@ -70,6 +70,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 		return this._uploadInputPane._showDeleteLink();				
 	},	
 	notifyRecoverableFailure : function(response, errorCode) {
+			console.debug("notifyRecoverableFailurey")
 		this.createErrorPane(response, errorCode);
 		if(this._errorCategorizer.getErrorType(errorCode) == multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE)
 			this.onUnitFailureRecoverable();

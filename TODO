@@ -1,0 +1,4 @@
+TODO :
+
+- We should expose an onProgress event to get queue status whenever the user want
+-

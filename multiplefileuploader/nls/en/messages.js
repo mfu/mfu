@@ -1,5 +1,5 @@
 {
-	attachAnotherFile: "Join another image",
+	attachAnotherFile: "Attach another file",
 	deleteFile: "Delete",
 	retryFailedUploads: "Retry failed upload(s)",
 	NETWORK_ERROR: "The server cannot be reached. Please retry",

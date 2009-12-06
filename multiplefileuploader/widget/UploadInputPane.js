@@ -1,14 +1,14 @@
 dojo.provide("multiplefileuploader.widget.UploadInputPane");
 dojo.require("dijit._Templated");
 dojo.requireLocalization("multiplefileuploader", "messages");
-multiplefileuploader.widget._uploadContainerMessages = dojo.i18n.getLocalization("multiplefileuploader","messages"); //uploadInputPaneMessages
 dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit._Templated], {
-    
-   
+
     templatePath: dojo.moduleUrl("multiplefileuploader.widget","UploadInputPane.html"),
 			
-    deleteLink: multiplefileuploader.widget._uploadContainerMessages.deleteFile,
-
+    postMixInProperties: function(){
+		this.i18n = dojo.i18n.getLocalization("multiplefileuploader","messages"); 
+		this.inherited(arguments);
+    },
     postCreate: function(params){
 	    this._eventHandles = new Array([]);		
         this._registerEvents();

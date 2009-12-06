@@ -1,5 +1,5 @@
 {
-	attachAnotherFile: "Joindre une autre image",
+	attachAnotherFile: "Joindre un autre fichier",
 	deleteFile: "Supprimer",
 	retryFailedUploads : "relancer les téléchargements fuckés",
 	NETWORK_ERROR: "Le serveur distant ne réponds pas, réeesayez",
