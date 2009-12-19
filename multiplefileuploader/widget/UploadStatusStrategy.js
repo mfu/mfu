@@ -20,7 +20,6 @@ dojo.declare("multiplefileuploader.widget.UploadStatusStrategy", null , {
 						callbacks.onStatusSuccess(response );				
 					 }),
 					 error:  dojo.hitch(this, function(response){
-						console.debug('response error!! !! in getStatus()')
 						dojox.data.dom.removeChildren(this._temporaryUploadForm); 
 						callbacks.onStatusError(response);
 					})
@@ -34,7 +33,6 @@ dojo.declare("multiplefileuploader.widget.UploadStatusStrategy", null , {
 					form: this._temporaryUploadForm,			
 					handleAs: "text",
 					load:  dojo.hitch(this, function(response){ 
-						console.debug("on getID response success")
 						dojox.data.dom.removeChildren(this._temporaryUploadForm); 
 						callbacks.onIDSuccess(response);
 					 }),

@@ -48,7 +48,6 @@ dojo.declare("multiplefileuploader.widget.UploadActions", [dijit._Widget,dijit._
 		dojo.style(this.retryFailedUploadsLink, { display: "none"});	
 	},	
 	showRetryUploadsLink : function() {
-		console.debug("show retry")
 		dojo.style(this.retryFailedUploadsLink, { display: "inline"});	
 	},
 	destroy : function() {

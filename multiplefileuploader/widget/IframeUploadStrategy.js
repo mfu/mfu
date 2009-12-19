@@ -13,8 +13,6 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 		
 	upload : function (callbacks, uploadRequest) {					
 			this._prepareForm(uploadRequest);
-			console.debug(this._temporaryUploadForm)
-			console.debug("we r going to upload")
 			dojo.io.iframe.send( {
 					//find a strategy to add params only when progressBar enabled
 					url: this._config_server.ajaxUploadUrl,
@@ -27,7 +25,6 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 						callbacks.onSuccess(response, this._config_server.uploadValuePrefix);
 					 }),
 					 error:  dojo.hitch(this, function(response){
-						console.debug("upload on error");
 						dojox.data.dom.removeChildren(this._temporaryUploadForm);   
 						callbacks.onError(response);
 					})
@@ -45,7 +42,6 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 	},
 	
 	_createFileInput : function(uploadRequest) {
-		console.debug("create file ")	
 			var fileInput = uploadRequest.getFileInput();
 			dojo.attr(fileInput, "name", this._config_server.uploadParameterName);
 			dojo.place(fileInput, this._temporaryUploadForm);		

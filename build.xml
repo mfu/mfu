@@ -10,7 +10,8 @@
   <property name="remoteMfuDir"  value="" />
  
    <!-- set mfu dir-->  
-  <property name="dojoDir"  location="./dojo-release-1.3.2-src/" />
+  <property name="dojoVersion"  value="dojo-release-1.4.0-src" />
+  <property name="dojoDir"  location="./${dojoVersion}/" />
   <property name="buildDir" location="${dojoDir}/util/buildscripts" /> 
   <property name="version" value="${version}" />
   
@@ -113,15 +114,15 @@
   </target>
   
    <target name="dojo-copy" depends="prepare-folder,delete-release">
-        <copy todir="./build/multiplefileploader/dojo-release-1.3.2-src" overwrite="true">
-                <fileset dir="./dojo-release-1.3.2-src">
+        <copy todir="./build/multiplefileploader/${dojoVersion}" overwrite="true">
+                <fileset dir="${dojoDir}">
                 </fileset>
         </copy>
   </target>
   
   
     <target name="delete-release">
-	    <delete dir="./dojo-release-1.3.2-src/release" />
+	    <delete dir="${dojoDir}/release" />
   </target>
   
    

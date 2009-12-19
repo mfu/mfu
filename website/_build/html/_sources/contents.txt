@@ -1,0 +1,232 @@
+
+Pre-requisites :
+==================
+
+**Multiple File Uploader with a static progress bar**
+
+* A browser with javascript enabled
+* dojotoolkit >= 1.2
+
+
+**Multiple File Uploader with a shiny determinated progress bar indicator**
+
+* php case : If you want to have a shiny progress bar, you need to enable php_apc extension as php doesnt have built-in method to monitor upload.
+* other : ...
+
+
+**Client-Server RESTful protocol :**
+
+Here is a standard flow showing how does it works using progressBar indicator. If you are not using a determinated progress Bar, GET /Status wont be used
+
+.. image:: _static/upload.png
+
+
+Installation / Configuration
+====================================================
+
+our PHP library provides the ability to upload  image to a remote pymager instance
+If you dont want to forward file to pymager, leave upload_to = "local_directory"
+
+Check out upload.conf in php folder::
+
+  [general]
+  ;upload_to = "pymager"
+  upload_to = "local_directory"
+
+  [local]
+  upload_parameter_name = "upload"
+  upload_folder_name = "uploadedFiles"
+
+  [remote]
+  host = "127.0.0.1"
+  port =  "8000"
+  pymager_upload_parameter_name = "file"
+  user = "test"
+  password = "test"
+  proxy_url = ""
+  proxy_port = ""
+
+
+When upload_to = "pymager" is specified, php will upload the file according to the [remote] configuration section
+
+
+
+Configuration when NOT using progress bar indicator
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ **Server side**
+ 
+For this part, you dont need any server side configuration.You just need a folder with write right to indicate php or other where to upload files.
+
+ **client side**
+ 
+* Download the zip and extract files into your webapp folder.
+* Put the following line in the head : <script type="text/javascript" src="mfu.js"/>
+
+	.. code-block:: javascript
+	
+		var params = { 
+			ajaxUploadUrl: "http://localhost/multiplefileuploader/php/upload.php"
+		};
+		var upload = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer") ); 	
+		
+
+* Have a look to sample.html
+
+Configuration when using progress bar indicator
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**server side**
+
+A sample PHP implementation is provided at your convenience. Feel free to contribute patches and other server-side implementations.
+
+*for Linux* :
+
+Enable/add php_apc extension in php.ini as php doesnt have built-in method to monitor upload::
+
+  extension=apc.so
+
+*for Windows* ::
+
+  extension=php_apc.dll
+
+Next, APC feature which monitors file uploads has to be enable. To do so, the apc.rfc1867 setting must be switched to On in php.ini::
+
+  apc.rfc1867 = On
+
+Dont forget to restart your webserver and make sure your changes have been successfully saved by checking with :
+
+	.. code-block:: php
+	
+	 <?
+		phpinfo();
+	  ?> 
+
+**client side**
+
+In MultipleFileUploader.js
+progressBarMode : true
+apc_php_enabled : true
+
+When you instanciate mfu widget, you have to pass uploadAjaxURL as well as uploadStatusURL like in the sample :
+
+	.. code-block:: javascript
+	
+		var params = { 
+			ajaxUploadUrl: "http://localhost/multiplefileuploader/php/upload.php", 
+			uploadStatusURL : "http://localhost/multiplefileuploader/php/status.php" 
+		};
+		var upload = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer") ); 	
+
+
+MultipleFIleUploader.js parameters
+===============================================
+
+the following parameters are all overridable when instanciate MultipleFileUploader.
+
+	.. code-block:: javascript
+	
+		/* upload setup */			
+				ajaxUploadUrl : "",
+				uploadParameterName : "upload",
+				uploadValuePrefix : "uploadedFile_",
+				uploadTimeout : "50000",
+				
+			
+		/* progressBar setup */	
+				progressBarMode : true,
+					uploadStatusURL : "",
+					statusParameterName : "statusID",
+					statusTimeout : "",
+					getStatusInterval : "2000", 
+					apc_php_enabled : true,
+		
+		/* UI setup */
+				inputWidth : 40,
+				progressBarWidth : "15%",
+				progressBarHeight : "15px",
+		
+		
+
+how to connect MFU events to your application
+===============================================
+
+You probably want to connect your application to the different upload steps. MFU has several events which can be connected
+
+	.. code-block:: javascript
+	
+		/* triggered when a NETWORK error occured */
+		 onError : function() {
+		 }, 	 
+		/* triggered when all the files in queue are uploaded */		 
+		 onFinishedUploads : function() {
+		 },	 
+		/* triggered when a file is uploaded */
+		 onFinishedUpload : function(uploadedFileInformation) { 	
+		 },	
+		/* triggered when a file is being uploaded */ 
+		 onAfterUploadStart : function(uploadRequest) {
+		 }
+	 
+Example :
+	.. code-block:: javascript
+	
+		dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {
+			//Here your code when a file is uploaded
+		});
+
+
+
+Different way to instanciate MFU
+===============================================
+
+
+MultipleFileUploader can be instanciated in two differents way :
+The first one is the one above using javascript code
+
+	.. code-block:: javascript
+	
+		var params = { 
+			ajaxUploadUrl: "http://localhost/multiplefileuploader/php/upload.php", 
+			uploadStatusURL : "http://localhost/multiplefileuploader/php/status.php" 
+		};
+		var upload = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer") ); 	
+
+MultipleFileUploader can also be instanciated using html. When parsing DOM, dojo will automatically recognize the widget in dojoType declaration.
+
+ 	.. code-block:: html
+ 	
+		<div dojoType="multiplefileuploader.widget.MultipleFileUploader"  
+				ajaxUploadUrl="http://localhost/multiplefileuploader/php/status.php"  
+				uploadStatusURL="http://localhost/multiplefileuploader/php/upload.php">		
+		</div>
+	
+In that case, dont forget to add the following lines in a script tag, so that, dojo can parse DOM and instanciate MFU with defined parameters
+
+	.. code-block:: javascript
+	
+		dojo.require("dojo.parser");
+		dojo.addOnLoad(function() {
+		    dojo.parser.parse();
+		});		
+ 
+
+Packages
+====================
+
+we provide you one package including different mfu version :
+
+**mfu-dojo-embedded :** 
+This package is used when you dont have dojo framework in your webapp. dojo/dijit/dojox and mfu are included in one js file.
+
+**mfu-including-dijit-dojox-dependencies :**
+This package provides two js file. dojo.js, which is a common dojo.js , and mfu.js in layer folder which includes dijit, dojox, and mfu dependencies in one file.
+
+**mfu-src :**
+This package is mfu sources including units tests. We really advise you to build mfu using dojo build system ( in order to include mfu in your dojo.js ) for performance. As a matter of fact, you will only have one GET for all widgets dependencies.
+
+	|release|
+
+MFU package is available here `Get latest MFU |release| <_static/mfu-|release|.tar.gz>`_
+
+... is installed in :file:`/usr/lib/python2.{x}/site-packages` .

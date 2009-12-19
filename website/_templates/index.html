@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% set title = 'Overview' %}
+{% block body %}
+  <h1>Welcome</h1>
+
+  <p>
+	MFU is a javascript/AJAX file uploader that provides seamless integration with dojotoolkit.
+	<br />
+	It enables user to have straightforward and really easy to use file uploader onto his web application and allows you to upload multiple files in a same time as gmail uploading system.
+	<br />
+ </p>
+  <ul>
+    <li><b>Cross-browser compliant:</b> MFU has been successfully tested on IE6, IE7, firefox, Safari, chrome, Opera</li>
+    <li><b>Easy-to-use:</b> MFU package provides samples to show you how easy is to put uploader in place in your web site</li>
+    <li><b>Templatable control:</b> MFU uses the dojo <a href="http://docs.dojocampus.org/dijit/_Templated">template mechanism.</a> As a matter of fact, the layout such as links, progress bar color/size and placement are completly configurable through html in widget directory</li>
+    <li><b>Internationalizable (i18n):</b> All links and error messages are internationalizable through nls folder </li>
+    <li><b>Open source:</b> MFU is distributed under BSD licence (same as dojo licence), so you can modify it in order to customize it for your web site</li>
+  </ul>
+
+
+  <h2>Documentation</h2>
+  <table class="contentstable" align="center" style="margin-left: 30px"><tr>
+    <td width="50%">
+      <p class="biglink"><a class="biglink" href="{{ pathto("contents") }}">Installation</a><br/>
+         <span class="linkdescr">for installation details</span></p>
+      <p class="biglink"><a class="biglink" href="{{ pathto("search") }}">Search page</a><br/>
+         <span class="linkdescr">search the documentation</span></p>
+    </td><td width="50%">
+      <p class="biglink"><a class="biglink" href="{{ pathto("demo") }}">Demo</a><br/>
+         <span class="linkdescr">Live demo</span></p>
+      <p class="biglink"><a class="biglink" href="{{ pathto("screenshots") }}">Screenshots</a><br/>
+         <span class="linkdescr">Some screenshots</span></p>
+    </td></tr>
+  </table>
+
+  <h2>Get MFU</h2>
+  <p>
+    MFU is available here <a href="_static/mfu-{{release}}.tar.gz">Get latest MFU {{ release }}</a>.
+	
+  </p>
+  <p>Source code is hosted on <a href="http://github.com/florentvaldelievre/multiplefileuploader">github</a>
+  </p>
+
+{% endblock %}
