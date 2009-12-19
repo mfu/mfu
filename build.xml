@@ -20,7 +20,7 @@
   
   
    <!-- set sphinx site local dir-->  
-   <property name="sphinxBinDir" location="/home/florent/Applications/Sphinx-0.6.3/doc" />
+   <property name="sphinxBinDir" location="/usr/bin" />
    
    <property name="generateToDir" location="./website" />  
 
@@ -143,9 +143,9 @@
 
 
   <target name="site">
-    <exec dir="${sphinxBinDir}"
+    <exec dir="${basedir}/website"
 	    executable="python">
-	    	<arg value="../sphinx-build.py" />
+	      <arg value="${sphinxBinDir}/sphinx-build" />
           <arg value="-D" />
           <arg value="release=${version}" />
 		  <arg value="-b" />
@@ -153,18 +153,19 @@
 		  <arg value="-d" />		  
 		  <arg value="_build/doctrees" />
 		  <arg value="." />		  
-		  <arg value="${basedir}/website" />	  
+		  <arg value="_build/html" />	  
     </exec>
   </target>
 
   <target name="site:deploy" depends="site" >
+  <!--
   <sshexec host="${host}"
 			username="${scpUser}"
 			password="${scpPassword}"
-			command="rm -rf ${siteRemoteDir}/* "
-	 />	 
+			command="ss "
+	 />	--> 
 	  <scp todir="${scpUser}:${scpPassword}@${host}:${siteRemoteDir}" verbose="true">
-		<fileset dir="${basedir}/website"/>
+		<fileset dir="${basedir}/website/_build/html"/>
 	  </scp>
   </target>
 

@@ -8,8 +8,6 @@
 		const ID_KEY      = 'APC_UPLOAD_PROGRESS';
 		const PYMAGER_UPLOAD_PATH= '/original/';
  		private static $_instance = null;
-		
-		/* the two lines aboves are workin together, change according to your server configuration*/
 
  		
         public function __construct()
