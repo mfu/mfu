@@ -4,7 +4,7 @@ multiplefileuploader.widget.REMOVE_UNIT_DURATION = 5000;
 multiplefileuploader.widget.FADE_OUT_DURATION = 500;  
 dojo.declare("multiplefileuploader.widget.UploadResultPane", [dijit._Widget,dijit._Templated], {
      
-	templatePath: dojo.moduleUrl("multiplefileuploader.widget","UploadResultPane.html"),
+	templateString: dojo.cache("multiplefileuploader.widget","UploadResultPane.html"),
 	
 	postCreate: function(params){
 	    this._eventHandles = new Array([]);		
@@ -62,6 +62,6 @@ dojo.declare("multiplefileuploader.widget.UploadResultPane", [dijit._Widget,diji
 		dojo.forEach(this._eventHandles, function (handle) {
 		        dojo.disconnect(handle);
 		    });				
-		this.inherited(arguments);
+		this.inherited("destroy",arguments);
  	}
 });

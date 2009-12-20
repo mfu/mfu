@@ -74,25 +74,26 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 		if(this._errorCategorizer.getErrorType(errorCode) == multiplefileuploader.widget.errorType.ERROR_TYPE_RECOVERABLE)
 			this.onUnitFailureRecoverable();
 	},
-	_hideAllPanes : function() {	
+	_hideAllPanes : function() {				
 		dojo.forEach([this._uploadInputPane, this._uploadProgressPane, this._uploadResultPane, this._uploadErrorPane], function(widget) {
 			if (widget != null) {
 				widget.hide();
 			}
 		});
-		this._destroyAllExceptInputPane();		
+		this._destroyAllExceptInputPane();	
+	
 	},
 	_destroyAllExceptInputPane : function() {
 		dojo.forEach([this._uploadProgressPane, this._uploadResultPane, this._uploadErrorPane], function(widget) {
 			if (widget != null) {			
-				widget.destroy();
+				dojo.destroy(widget);
 			}
 		}); 				
 	},
 	destroy : function() {
 		dojo.forEach([this._uploadInputPane, this._uploadProgressPane, this._uploadResultPane, this._uploadErrorPane], function(widget) {
 			if (widget != null) {
-				widget.destroy();
+				dojo.destroy(widget);
 			}
 		}); 		
 	}

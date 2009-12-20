@@ -3,7 +3,7 @@ dojo.require("dijit._Templated");
 dojo.requireLocalization("multiplefileuploader", "messages");
 dojo.declare("multiplefileuploader.widget.UploadActions", [dijit._Widget,dijit._Templated] , {
     
-	templatePath: dojo.moduleUrl("multiplefileuploader.widget","UploadActions.html"),
+	templateString: dojo.cache("multiplefileuploader.widget","UploadActions.html"),
 	 
     postMixInProperties: function(){
 		this.i18n = dojo.i18n.getLocalization("multiplefileuploader","messages"); 

@@ -3,7 +3,7 @@ dojo.require("dijit._Templated");
 dojo.requireLocalization("multiplefileuploader", "messages");
 dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit._Templated], {
 
-    templatePath: dojo.moduleUrl("multiplefileuploader.widget","UploadInputPane.html"),
+   templateString: dojo.cache("multiplefileuploader.widget","UploadInputPane.html"),
 			
     postMixInProperties: function(){
 		this.i18n = dojo.i18n.getLocalization("multiplefileuploader","messages"); 
@@ -76,7 +76,7 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 	},
 	destroy : function() {
 	    this._unregisterEvents();
-	    this.inherited(arguments);
+	    this.inherited("destroy",arguments);
 	}	 
   
 });

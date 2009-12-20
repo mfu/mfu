@@ -10,7 +10,7 @@ dojo.require("dijit._Templated");
 dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,dijit._Templated], {
    
    
-	    templatePath: dojo.moduleUrl("multiplefileuploader.widget","MultipleFileUploader.html"),	
+	 templateString: dojo.cache("multiplefileuploader.widget","MultipleFileUploader.html"),	
 
 /* upload setup */			
 		ajaxUploadUrl : "",
