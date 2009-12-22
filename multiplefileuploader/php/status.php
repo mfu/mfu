@@ -9,7 +9,7 @@
    }
    else
    {
-		$idinfo = array( 'id' => rand()%5000 );
+		$idinfo = array( 'id' => md5 (uniqid ()) );
 		echo "<textarea>".json_encode($idinfo)."</textarea>";  	
    }
 

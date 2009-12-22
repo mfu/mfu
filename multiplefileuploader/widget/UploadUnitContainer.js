@@ -68,7 +68,7 @@ dojo.declare("multiplefileuploader.widget.UploadUnitContainer", null ,{
 	},
 	
     _noFileInputVisible : function() {
-        return (this._uploadUnits.count == 0) ? true : false;   
+		return (this._uploadUnits.count == 0) ? true : false;   
     }, 
 	
 	_oneFileInputVisible : function() {

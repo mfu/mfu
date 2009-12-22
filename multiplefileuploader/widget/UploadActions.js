@@ -52,6 +52,6 @@ dojo.declare("multiplefileuploader.widget.UploadActions", [dijit._Widget,dijit._
 	},
 	destroy : function() {
 		this._unregisterEvents();
-		this.inherited(arguments);	      
+		this.inherited("destroy",arguments);      
 	}	
 });  

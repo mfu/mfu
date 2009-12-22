@@ -10,20 +10,18 @@
 	<body class="nihilo">
 		<div id="uploadContainer"></div>
 		<br />
+		<div id="headmsg"></div>
 		<div id="result"></div>
 	</body>
 	
 	
 <script type="text/javascript">
 	dojo.registerModulePath("multiplefileuploader","../../mfu-src/multiplefileuploader");
-	var supportedFormats = ["jpg", "bmp", "gif", "eps", "im","msp", "palm","pdf","png","ppm", "tiff", "xbm"];
-	var imageServerURL = "http://localhost:8000";
-	var derivedImagesPath = "/derived/"
-	var convertToSize = "800x600";
-	var link ="";
+	dojo.registerModulePath("mfudemo","../../../mfudemo");
 	
 	dojo.addOnLoad( function(){
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
+			dojo.require("mfudemo.pymagerConf");
 			dojo.addOnLoad( function(){			 					
 				var params = { ajaxUploadUrl: "http://localhost/multiplefileuploader/php/upload.php", 
 										  uploadStatusURL : "http://localhost/multiplefileuploader/php/status.php" 
@@ -31,10 +29,8 @@
 				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
 
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
-						dojo.forEach(supportedFormats , function(format) {							
-							 link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize+"."+format+">Download "+uploadedFileInformation.getName()+"  Converted to "+format+" ["+convertToSize+"]</a><br />";						
-						});
-						dojo.byId("result").innerHTML = link;
+							mfudemo.pymagerConf.addHeadMsg();
+							mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
 				});
 			});
     });

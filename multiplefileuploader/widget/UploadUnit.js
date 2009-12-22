@@ -80,22 +80,14 @@ dojo.declare("multiplefileuploader.widget.UploadUnit", null, {
 				widget.hide();
 			}
 		});
-		this._destroyAllExceptInputPane();	
-	
 	},
-	_destroyAllExceptInputPane : function() {
-		dojo.forEach([this._uploadProgressPane, this._uploadResultPane, this._uploadErrorPane], function(widget) {
-			if (widget != null) {			
-				dojo.destroy(widget);
-			}
-		}); 				
-	},
-	destroy : function() {
+
+	destroy : function() {		    
 		dojo.forEach([this._uploadInputPane, this._uploadProgressPane, this._uploadResultPane, this._uploadErrorPane], function(widget) {
 			if (widget != null) {
-				dojo.destroy(widget);
+				widget.destroy();
 			}
-		}); 		
+		}); 
 	}
 });
 
@@ -168,7 +160,6 @@ dojo.declare("multiplefileuploader.widget._UploadPaneFactory", null, {
 dojo.declare("multiplefileuploader.widget._FileUploadRequest", multiplefileuploader.widget.FileUploadRequestMixin, {
 	 constructor: function(params, unit) {	
 		this._unit = unit;
-
 		dojo.mixin(this,params);
 	}, 
 	_doOnBeforeUploadStart : function() {

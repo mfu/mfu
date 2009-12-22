@@ -761,7 +761,6 @@
 		 
 		function _connect( ) {
 			if ( $this->host == '' ) user_error( 'Class HTTP->_connect() : host property not set !' , E_ERROR );
-			print_r($this);
 			if (!$this->_use_proxy)
 				$this->_socket = fsockopen( $this->host, $this->port, $errno, $errstr, 10 );
 			else

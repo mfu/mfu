@@ -17,8 +17,6 @@
   
    <property name="mfuiddd" value="mfu-including-dijit-dojox-dependencies" />
    <property name="mfude" value="mfu-dojo-embedded" />
-   <property name="mfuo" value="mfu-only" /> 
-  
   
    <!-- set sphinx site local dir-->  
    <property name="sphinxBinDir" location="/usr/bin" />
@@ -29,7 +27,7 @@
    <property name="siteRemoteDir" value="public_html/sphinx" /> 
 
 
-  <target name="package" depends="build-mfu-dojo-embedded,build-mfu-including-dijit-dojox-dependencies, build-mfu-only, mfu-src-copy,mfu-dojo-embedded-copy,mfu-including-dijit-dojox-dependencies-copy,dojo-copy,tar-release">
+  <target name="package" depends="build-mfu-dojo-embedded,build-mfu-including-dijit-dojox-dependencies, mfu-src-copy,mfu-dojo-embedded-copy,mfu-including-dijit-dojox-dependencies-copy,dojo-copy, pymager-conf-copy,tar-release">
     <tstamp/>
 
   </target>
@@ -53,16 +51,6 @@
           <arg value="profile=mfu-dojo-embedded" />
           <arg value="action=clean,release" />
           <arg value="releaseName=mfu-dojo-embedded" />
-     	  <arg value="version=${version}" />
-    </exec>
-  </target>
-
-  <target name="build-mfu-only">
-    <exec dir="${buildDir}"
-        executable="${buildDir}/build.sh">
-          <arg value="profile=mfu-only" />
-          <arg value="action=clean,release" />
-          <arg value="releaseName=mfu-only" />
      	  <arg value="version=${version}" />
     </exec>
   </target>
@@ -119,6 +107,13 @@
                 </fileset>
         </copy>
   </target>
+  
+   <target name="pymager-conf-copy">
+        <copy todir="./build/mfudemo" overwrite="true">
+                <fileset dir="./mfudemo">
+                </fileset>
+        </copy>
+  </target>  
   
   
     <target name="delete-release">
