@@ -4,25 +4,27 @@
   <h1>Welcome</h1>
 
   <p>
-	MFU is a javascript/AJAX file uploader that provides seamless integration with dojotoolkit.
+	MultipleFileUploader (MFU) is a javascript/AJAX file uploader that seamlessly integrates to <a href="http://www.dojotoolkit.org/">Dojo</a>-based web applications.
 	<br />
-	It enables user to have straightforward and really easy to use file uploader onto his web application and allows you to upload multiple files in a same time as gmail uploading system.
+	It enables users to easily add a file upload mechanism to their existing web applications and provides a user-experience similar to gmail file attachments. (See <a href="{{ pathto("screenshots") }}">Screenshots</a>)
 	<br />
  </p>
+ <p> Notable features include :
+ </p>
   <ul>
-    <li><b>Cross-browser compliant:</b> MFU has been successfully tested on IE6, IE7, firefox, Safari, chrome, Opera</li>
-    <li><b>Easy-to-use:</b> MFU package provides samples to show you how easy is to put uploader in place in your web site</li>
-    <li><b>Templatable control:</b> MFU uses the dojo <a href="http://docs.dojocampus.org/dijit/_Templated">template mechanism.</a> As a matter of fact, the layout such as links, progress bar color/size and placement are completly configurable through html in widget directory</li>
-    <li><b>Internationalizable (i18n):</b> All links and error messages are internationalizable through nls folder </li>
-    <li><b>Open source:</b> MFU is distributed under BSD licence (same as dojo licence), so you can modify it in order to customize it for your web site</li>
+    <li><b>Cross-browser compliance:</b> MFU has been successfully tested on IE6, IE7, Firefox, Safari, Chrome, and Opera. Moreover, it builds on top of <a href="http://www.dojotoolkit.org/">dojo</a> abstractions which provide a cross-browser compatiblity layer</li>
+    <li><b>Ease of use:</b> MFU either comes as an easy-to-use standalone, striped-down, optimized version, or as a module that can be plugged into any <a href="http://www.dojotoolkit.org/">dojo</a>-based application</a>. MFU distribution comes bundled with a set of sample HTML/JavaScript templates as well as a sample PHP-based server-side implementation. See the <a href="{{ pathto("quickstart") }}">Quickstart</a> for more information.</li>
+    <li><b>Controllable through Templates:</b> MFU takes advantage of dojo's <a href="http://docs.dojocampus.org/dijit/_Templated">Template</a> mechanism. As a matter of fact, the layout, links, and general appearance are completly configurable through an html template. This is particularly handy in situations where you need to customize MFU for your site's look and feel.</li>
+    <li><b>Internationalizable (i18n):</b> All links and error messages take advantage of dojo's internationalization support. You are more than welcome to <a href="{{ pathto("devzone") }}">fork the code on github</a> to provide additional translations.</li>
+    <li><b>Free Software:</b> MFU is liberally dual-licensed under the New BSD license and the Academic Free License v2.1 (same license terms as dojo). Feel free to either contribute to or fork the <a href="{{ pathto("devzone") }}">source code</a> on github</li>
   </ul>
 
 
   <h2>Documentation</h2>
   <table class="contentstable" align="center" style="margin-left: 30px"><tr>
     <td width="50%">
-      <p class="biglink"><a class="biglink" href="{{ pathto("contents") }}">Installation</a><br/>
-         <span class="linkdescr">for installation details</span></p>
+      <p class="biglink"><a class="biglink" href="{{ pathto("quickstart") }}">Quickstart</a><br/>
+         <span class="linkdescr">for details on how to plug MFU into your website</span></p>
       <p class="biglink"><a class="biglink" href="{{ pathto("search") }}">Search page</a><br/>
          <span class="linkdescr">search the documentation</span></p>
     </td><td width="50%">
@@ -38,7 +40,7 @@
     MFU is available here <a href="_static/mfu-{{release}}.tar.gz">Get latest MFU {{ release }}</a>.
 	
   </p>
-  <p>Source code is hosted on <a href="http://github.com/florentvaldelievre/multiplefileuploader">github</a>
+  <p>Please take a look at the <a href="{{ pathto("devzone") }}">Developer Zone</a> to access the source code.
   </p>
 
 {% endblock %}

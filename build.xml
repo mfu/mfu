@@ -21,13 +21,17 @@
    <!-- set sphinx site local dir-->  
    <property name="sphinxBinDir" location="/usr/bin" />
    
-   <property name="generateToDir" location="./website" />  
+   <property name="generateToDir" location="./target/website" />  
 
    <!-- set sphinx site remote dir-->  
    <property name="siteRemoteDir" value="public_html/sphinx" /> 
+   <property name="target_dir" value="${basedir}/target" />
 
+  <target name="init">
+    <mkdir dir="${target_dir}"/>
+  </target>
 
-  <target name="package" depends="build-mfu-dojo-embedded,build-mfu-including-dijit-dojox-dependencies, mfu-src-copy,mfu-dojo-embedded-copy,mfu-including-dijit-dojox-dependencies-copy,dojo-copy, pymager-conf-copy,tar-release">
+  <target name="package" depends="init,build-mfu-dojo-embedded,build-mfu-including-dijit-dojox-dependencies, mfu-src-copy,mfu-dojo-embedded-copy,mfu-including-dijit-dojox-dependencies-copy,dojo-copy, pymager-conf-copy,tar-release">
     <tstamp/>
 
   </target>
@@ -138,7 +142,7 @@
   </target>
 
 
-  <target name="site">
+  <target name="site" depends="init">
     <exec dir="${basedir}/website"
 	    executable="python">
 	      <arg value="${sphinxBinDir}/sphinx-build" />
@@ -149,7 +153,7 @@
 		  <arg value="-d" />		  
 		  <arg value="_build/doctrees" />
 		  <arg value="." />		  
-		  <arg value="_build/html" />	  
+		  <arg value="${target_dir}/_build/html" />	  
     </exec>
   </target>
 
@@ -161,7 +165,7 @@
 			command="ss "
 	 />	--> 
 	  <scp todir="${scpUser}:${scpPassword}@${host}:${siteRemoteDir}" verbose="true">
-		<fileset dir="${basedir}/website/_build/html"/>
+		<fileset dir="${target_dir}/website/_build/html"/>
 	  </scp>
   </target>
 
