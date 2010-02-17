@@ -1,4 +1,4 @@
-<project name="mfu-project" default="deploy site:deploy" basedir=".">
+<project name="mfu-project" default="deploy" basedir=".">
     <description>
         mfu build file
     </description>
@@ -24,7 +24,11 @@
    <property name="generateToDir" location="./target/website" />  
 
    <!-- set sphinx site remote dir-->  
-   <property name="siteRemoteDir" value="public_html/sphinx" /> 
+   <property name="siteRemoteDir" value="public_html/sphinx" />
+    <!-- set mfu site remote dir--> 
+	<property name="mfuRemoteDir" value="public_html/mfu" />
+	
+	
    <property name="target_dir" value="${basedir}/target" />
 
   <target name="init">
@@ -133,12 +137,21 @@
 
 
   <target name="deploy" depends="package">
-  <sshexec host="${host}"
+	   <sshexec host="${host}"
 			username="${scpUser}"
 			password="${scpPassword}"
-			command="mkdir -p ${siteRemoteDir}/_static "
-	 />
-	  <scp file="./mfu-${version}.tar.gz" todir="${scpUser}:${scpPassword}@${host}:${siteRemoteDir}/_static" verbose="true"></scp>
+			command="mkdir -p ${mfuRemoteDir}"
+	 /> 
+	 
+	  <scp file="./mfu-${version}.tar.gz" todir="${scpUser}:${scpPassword}@${host}:${mfuRemoteDir}" verbose="true">	  	
+	  </scp>	
+	  
+	   <sshexec host="${host}"
+			username="${scpUser}"
+			password="${scpPassword}"
+			command="cd ${mfuRemoteDir} ; tar -zvxf mfu-${version}.tar.gz"
+	 /> 
+	  
   </target>
 
 
@@ -158,14 +171,13 @@
   </target>
 
   <target name="site:deploy" depends="site" >
-  <!--
-  <sshexec host="${host}"
+	   <sshexec host="${host}"
 			username="${scpUser}"
 			password="${scpPassword}"
-			command="ss "
-	 />	--> 
+			command="mkdir -p ${siteRemoteDir}"
+	 /> 
 	  <scp todir="${scpUser}:${scpPassword}@${host}:${siteRemoteDir}" verbose="true">
-		<fileset dir="${target_dir}/website/_build/html"/>
+		<fileset dir="${target_dir}/_build/html"/>
 	  </scp>
   </target>
 

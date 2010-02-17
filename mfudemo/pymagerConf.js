@@ -9,13 +9,13 @@ dojo.provide("mfudemo.pymagerConf");
 		var link ="";
 		
 		dojo.forEach(supportedFormats , function(format) {							
-				link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize[0]+"."+format+">Download "+uploadedFileInformation.getName()+"  Converted to "+format+"<strong> ["+convertToSize[0]+"]</strong></a><br />";										
+				link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize[0]+"."+format+">Download "+uploadedFileInformation.getName()+"  converted to "+format+"<strong> ["+convertToSize[0]+"]</strong></a><br />";										
 		});
 		
 		link = link +"<br />";
 		
 		dojo.forEach(supportedFormats , function(format) {							
-				link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize[1]+"."+format+">Download "+uploadedFileInformation.getName()+"  Converted to "+format+"<strong> ["+convertToSize[1]+"]</strong></a><br />";										
+				link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize[1]+"."+format+">Download "+uploadedFileInformation.getName()+"  converted to "+format+"<strong> ["+convertToSize[1]+"]</strong></a><br />";										
 		});
 		
 		dojo.byId("result").innerHTML = link;

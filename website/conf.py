@@ -15,7 +15,7 @@ templates_path = ['_templates','_sources']
 source_suffix = '.rst'
 
 # The master toctree document.
-master_doc = 'contents'
+master_doc = 'devzone'
 
 # General substitutions.
 project = 'MFU'
@@ -32,6 +32,7 @@ show_authors = True
 
 # The HTML template theme.
 html_theme = 'sphinxdoc'
+
 
 # A list of ignored prefixes names for module index sorting.
 modindex_common_prefix = ['sphinx.']
@@ -53,7 +54,9 @@ html_sidebars = {'index': 'indexsidebar.html'}
 
 # Additional templates that should be rendered to pages, maps page names to
 # templates.
-html_additional_pages = {'index': 'index.html'}
+html_additional_pages = {'index': 'index.html',
+			 'download': 'customdownload.html'
+			}
 
 # Generate an OpenSearch description with that URL as the base.
 html_use_opensearch = 'http://sphinx.pocoo.org'

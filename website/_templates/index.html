@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% set title = 'Overview' %}
 {% block body %}
-  <h1>Welcome</h1>
+  <h1>Multiple File Uploader</h1>
 
   <p>
-	MultipleFileUploader (MFU) is a javascript/AJAX file uploader that seamlessly integrates to <a href="http://www.dojotoolkit.org/">Dojo</a>-based web applications.
+	MultipleFileUploader (MFU) is a javascript/AJAX file uploader that seamlessly integrates to <a href="http://www.dojotoolkit.org/">Dojo-based</a> web applications.
 	<br />
 	It enables users to easily add a file upload mechanism to their existing web applications and provides a user-experience similar to gmail file attachments. (See <a href="{{ pathto("screenshots") }}">Screenshots</a>)
 	<br />
@@ -12,11 +12,11 @@
  <p> Notable features include :
  </p>
   <ul>
-    <li><b>Cross-browser compliance:</b> MFU has been successfully tested on IE6, IE7, Firefox, Safari, Chrome, and Opera. Moreover, it builds on top of <a href="http://www.dojotoolkit.org/">dojo</a> abstractions which provide a cross-browser compatiblity layer</li>
-    <li><b>Ease of use:</b> MFU either comes as an easy-to-use standalone, striped-down, optimized version, or as a module that can be plugged into any <a href="http://www.dojotoolkit.org/">dojo</a>-based application</a>. MFU distribution comes bundled with a set of sample HTML/JavaScript templates as well as a sample PHP-based server-side implementation. See the <a href="{{ pathto("quickstart") }}">Quickstart</a> for more information.</li>
-    <li><b>Controllable through Templates:</b> MFU takes advantage of dojo's <a href="http://docs.dojocampus.org/dijit/_Templated">Template</a> mechanism. As a matter of fact, the layout, links, and general appearance are completly configurable through an html template. This is particularly handy in situations where you need to customize MFU for your site's look and feel.</li>
-    <li><b>Internationalizable (i18n):</b> All links and error messages take advantage of dojo's internationalization support. You are more than welcome to <a href="{{ pathto("devzone") }}">fork the code on github</a> to provide additional translations.</li>
-    <li><b>Free Software:</b> MFU is liberally dual-licensed under the New BSD license and the Academic Free License v2.1 (same license terms as dojo). Feel free to either contribute to or fork the <a href="{{ pathto("devzone") }}">source code</a> on github</li>
+    <li><b>Cross-browser compliance:</b> MFU has been successfully tested on IE6, IE7, Firefox, Safari, Chrome, and Opera. Moreover, it builds on top of dojo abstractions which provide a cross-browser compatiblity layer</li>
+    <li><b>Ease of use:</b> MFU either comes as an easy-to-use standalone, striped-down, optimized version, or as a module that can be plugged into any dojo-based application</a>. MFU distribution comes bundled with a set of sample HTML/JavaScript templates as well as a sample PHP-based server-side implementation. See the <a href="{{ pathto("quickstart") }}">Quickstart</a> for more information.</li>
+    <li><b>Customizable look:</b> MFU takes advantage of dojo's <a href="http://docs.dojocampus.org/dijit/_Templated">Template</a> mechanism. As a matter of fact, the layout, links, and general appearance are completly configurable through an html template. This is particularly handy in situations where you need to customize MFU for your site's look and feel.</li>
+    <li><b>Internationalizable (i18n):</b> All links and error messages take advantage of dojo's internationalization support. You are more than welcome to <a href="{{ pathto("devzone") }}#fork-the-code-on-github">fork the code on github</a> to provide additional translations.</li>
+    <li><b>Free Software:</b> MFU is liberally dual-licensed under the New BSD license and the Academic Free License v2.1 (same license terms as dojo). Feel free to either contribute to or fork the <a href="{{ pathto("devzone") }}#source-code">source code</a> on github</li>
   </ul>
 
 
@@ -28,19 +28,12 @@
       <p class="biglink"><a class="biglink" href="{{ pathto("search") }}">Search page</a><br/>
          <span class="linkdescr">search the documentation</span></p>
     </td><td width="50%">
-      <p class="biglink"><a class="biglink" href="{{ pathto("demo") }}">Demo</a><br/>
+      <p class="biglink"><a class="biglink" href="../mfu/multiplefileploader/mfu-dojo-embedded/mfu-dojo-embedded.html" target="_blank">Demo</a><br/>
          <span class="linkdescr">Live demo</span></p>
       <p class="biglink"><a class="biglink" href="{{ pathto("screenshots") }}">Screenshots</a><br/>
          <span class="linkdescr">Some screenshots</span></p>
     </td></tr>
   </table>
 
-  <h2>Get MFU</h2>
-  <p>
-    MFU is available here <a href="_static/mfu-{{release}}.tar.gz">Get latest MFU {{ release }}</a>.
-	
-  </p>
-  <p>Please take a look at the <a href="{{ pathto("devzone") }}">Developer Zone</a> to access the source code.
-  </p>
 
 {% endblock %}

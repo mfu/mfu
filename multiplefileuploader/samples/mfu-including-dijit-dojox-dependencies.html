@@ -22,9 +22,10 @@
 	dojo.addOnLoad( function(){
        		dojo.require("mfudemo.pymagerConf");
 			dojo.addOnLoad( function(){			 					
-				var params = { ajaxUploadUrl: "http://localhost/multiplefileuploader/php/upload.php", 
-										  uploadStatusURL : "http://localhost/multiplefileuploader/php/status.php" 
-										 };
+				var params = { 
+							ajaxUploadUrl: "php/upload.php", 
+							 uploadStatusURL : "php/status.php" 
+				};
 				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
 
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
