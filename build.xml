@@ -35,12 +35,17 @@
     <mkdir dir="${target_dir}"/>
   </target>
 
-  <target name="package" depends="init,build-mfu-dojo-embedded,build-mfu-including-dijit-dojox-dependencies, mfu-src-copy,mfu-dojo-embedded-copy,mfu-including-dijit-dojox-dependencies-copy,dojo-copy, pymager-conf-copy,tar-release">
+  <target name="package" depends="init,build-mfu-dojo-embedded,build-mfu-including-dijit-dojox-dependencies, mfu-src-copy,mfu-dojo-embedded-copy,mfu-including-dijit-dojox-dependencies-copy,dojo-copy, pymager-conf-copy,replace-dojo-version,tar-release">
     <tstamp/>
 
   </target>
 
-
+  <target name="replace-dojo-version">
+  		<replace file="./build/multiplefileploader/${mfude}/${mfude}.html" token="@DOJO_VERSION@" value="${dojoVersion}"/>
+  		<replace file="./build/multiplefileploader/${mfuiddd}/${mfuiddd}.html" token="@DOJO_VERSION@" value="${dojoVersion}"/>
+		<replace file="./build/multiplefileploader/mfu-src/multiplefileuploader/mfu-src.html" token="@DOJO_VERSION@" value="${dojoVersion}"/>	
+  </target>
+  
   <target name="build-mfu-including-dijit-dojox-dependencies">
     <tstamp/>
     <exec dir="${buildDir}"
