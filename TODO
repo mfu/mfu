@@ -1,13 +1,4 @@
-Build:
-* Use better names (ant-style names) in the build.xml (dojoVersion should be : dojo.version, host should be : mfu.site.deploy.host, mfuidd should be mfu.idd etc..)
-  (make sure to group concepts hierarchically)
-* Should not create the build in mfu-${version}.tar.gz but target/mfu-${version}.tar.gz
-* some stuff is built in the build/ folder.. everything  should be  in target/
-* sme stuff is built in website/_build folder.. everything should be in target/
-* we have a Makefile in website/. still useful ???
-
-
 TODO :
 
-- We should expose an onProgress event to get queue status whenever the user want
--
+- We should expose an onProgress event to get queue status whenever the user want-
+- When a network error occurs, the file should be automcatically restartdd after X sec

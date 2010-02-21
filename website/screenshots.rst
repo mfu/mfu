@@ -2,28 +2,32 @@
 Screenshots
 ==================
 
-#1 Upload in progress
-===========================
 
+Upload with progress bar indicator
+====================================
+
+.. note::
+	:abbr:`MFU (Multiple File Uploader)` is mono-thread. Files with 0% progress are considered as pending. ( ça fait pas tres marketing, mais faudrait trouver un moyen d'expliquer pkoi ils sont à 0% )
 
 .. image:: _static/sample.png
 
 
-#2 Connection error
+Connection error
 ===========================
  
- 
+.. note::
+	If an error occurs like a network error, a link allows you to restart failed files
+
 .. image:: _static/sample2.png
 	
 
- 
-MFU can handle multiple JSON response, and will display it to the user accordingly.
-
-The following strings are internationalizable ( have a look to message.js in nls folder )
-
-#3 possible errors
+possible errors
 ===========================
+
+.. note::
+	:abbr:`MFU (Multiple File Uploader)` interacts with the server using a REST/JSON-based protocol. In case the server does not respect the protocol correctly, it displays adequate errors that can be customized and :doc:internationalized 
 
 .. image:: _static/sample3.png
 
 
+:file:`conf.py`

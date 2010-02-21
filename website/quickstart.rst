@@ -9,38 +9,43 @@ Multiple File Uploader with progress bar
 
 **Pre-requisites**
 
-* A browser with javascript enabled
+* A javascript-compatible web browser
 * dojotoolkit >= 1.4
 
 
 Content of the distribution
 -------------------------------------------------------------------------------
 
-we provide you one package including different mfu version :
+MFU is available in several packages :
 
 **mfu-dojo-embedded :** 
-This package is used when you dont have dojo framework in your webapp. dojo/dijit/dojox and mfu are included in one js file.
+You should use this package when you do not explicitly use the dojo framework within your web application.   It contains a combination of dojo, dijit, dojox and mfu packed in a single stripped-down, minified, optimized file that you can directly include in your web pages." This is the easiest way to use MFU.
 
 **mfu-including-dijit-dojox-dependencies :**
-This package provides two js file. dojo.js, which is a common dojo.js , and mfu.js in layer folder which includes dijit, dojox, and mfu dependencies in one file.
+This package provides two javascript files : dojo.js that contains the core dojo system, and mfu.js that provides MFU with all its dojo,dijit and dojox dependencies. You should use this package when you use dojo in your application but do not yet have a complex build that optimizes your javascript code. It is not the most efficient way, but it is surely a good compromise between optimization and ease of use
 
 **mfu-src :**
-This package includes mfu sources and units tests. We strongly recommend you to build mfu using `dojo build system <http://docs.dojocampus.org/build/index?action=show&redirect=build>`_  ( in order to include mfu in your dojo.js ) for performance. As a matter of fact, you will only have one GET for all widgets dependencies.
+This package includes the complete set of MFU source files and the unit tests that we use for non-regression. You should use this package when you use dojo within your web application and already have a complex dojo build to optimize everything according to your needs. This is the recommended and most efficient way to use MFU as you can completly customize everything.
+
 
 a PHP sample is included for server-side implementation.
-For more information, take a look to  :doc:`devguide` 
+For more information, take a look at  :doc:`devguide` 
 
 Install and Configure the PHP server-side code
 -------------------------------------------------------------------------------
 
 
 - Extract all files from the archive 
-- Choose one of the version you need
+- Choose the package that is suited to your needs
 - Run the html with your favorite browser
 
 
-our PHP sample provides the ability to upload  image to a remote pymager instance
-If you dont want to forward file to pymager, leave upload_to = "local_directory"
+The sample PHP implementation provides the ability to either :
+
+* Upload the image to a remote  `Pymager <http://github.com/samokk/pymager>`_  instance
+* Upload the image to a local directory.
+
+If you do not want to integrate with  `Pymager <http://github.com/samokk/pymager>`_ , leave the upload_to configuration item to "local_directory"
 
 Check out upload.conf in php folder::
 
@@ -61,18 +66,14 @@ Check out upload.conf in php folder::
   proxy_url = ""
   proxy_port = ""
 
-When the 'upload_to' item contains 'pymager', the PHP code will contact a pymager (add link to github code) instance whose address and credentials are described in the 'remote' section"
+When the ‘upload_to’ item contains ‘pymager’, the PHP code will contact a `Pymager <http://github.com/samokk/pymager>`_  instance whose address and credentials are described in the ‘remote’ section
 
+Feel free to contribute patches or completly different server-side implementations. Fore more information on the RESTful/JSON-based protocol that is used between the server and the client, please take a look at the developer's guide, :ref:`ref-protocol` section.
 
-**server side**
-
-A sample PHP implementation is provided at your convenience. Feel free to contribute patches and other server-side implementations.
-Have a look to :ref:`devZone<configuration-when-using-progress-bar-indicator>` for more information
-
-
+  
 *for Linux* :
 
-Enable/add php_apc extension in php.ini as php doesnt have built-in method to monitor upload::
+enable the php_apc extension in php.ini as PHP does not support monitoring uploads by default::
 
   extension=apc.so
 
@@ -80,11 +81,11 @@ Enable/add php_apc extension in php.ini as php doesnt have built-in method to mo
 
   extension=php_apc.dll
 
-Next, APC feature which monitors file uploads has to be enable. To do so, the apc.rfc1867 setting must be switched to On in php.ini::
+Next, turn on the APC feature in php.ini, which tells the apc extension to monitor file uploads::
 
   apc.rfc1867 = On
 
-Dont forget to restart your webserver and make sure your changes have been successfully saved by checking with :
+Do not forget to restart your web server and you can use the following PHP script to check that the APC extension is active :
 
 	.. code-block:: php
 	
@@ -95,7 +96,7 @@ Dont forget to restart your webserver and make sure your changes have been succe
 Configure the client-side code
 -------------------------------------------------------------------------------
 
-You have nothing to configure except URLs ( Status and Upload ) 
+You have nothing to configure except URLs ( Upload and Status ) 
 
 	.. code-block:: javascript
 	

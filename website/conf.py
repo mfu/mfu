@@ -55,7 +55,8 @@ html_sidebars = {'index': 'indexsidebar.html'}
 # Additional templates that should be rendered to pages, maps page names to
 # templates.
 html_additional_pages = {'index': 'index.html',
-			 'download': 'customdownload.html'
+			 'download': 'customdownload.html',
+			 'screencast': 'screencast.html'
 			}
 
 # Generate an OpenSearch description with that URL as the base.

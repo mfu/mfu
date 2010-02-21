@@ -1,5 +1,5 @@
 MFU developers's guide
-==================
+==========================
 
 Welcome to MFU developer's guide! 
 
@@ -11,12 +11,16 @@ Welcome to MFU developer's guide!
 Client-Server RESTful protocol :
 ===============================================
 
-Here is a standard flow showing how does it works using progressBar indicator. If you are not using a determinated progress Bar, GET /Status wont be used
+Here is a flow diagram showing the interaction between the
+client-side (MFU) and the server-side (e.g. the PHP implementation
+provided as an example), when the 'progressBarMode' option is
+activated. In this mode, MFU will accurately report the download
+status by using a progress bar.
 
 .. image:: _static/upload.png
 
 
-Configuration when NOT using progress bar indicator
+Configuration when progress bar indicator is disabled
 ========================================================
 
  **Server side**
@@ -26,10 +30,27 @@ For this part, you dont need any server side configuration.You just need a folde
  **client side**
  
 * Download the zip and extract files into your webapp folder.
-* Switch progressBarMode parameter to false from MultipleFileUploader.js
-* Remove uploadStatusURL parameter when instanciate mfu
+* Switch the 'progressBarMode' parameter to false
+* Remove the 'uploadStatusURL' parameter
 
-	.. code-block:: javascript
+.. code-block:: javascript
+
+	/* upload setup */			
+			ajaxUploadUrl : "",
+			uploadParameterName : "upload",
+			uploadValuePrefix : "uploadedFile_",
+			uploadTimeout : "50000",
+
+	/* progressBar setup */	
+			progressBarMode : false,
+	
+	/* UI setup */
+			inputWidth : 40,
+			progressBarWidth : "15%",
+			progressBarHeight : "15px",
+
+
+.. code-block:: javascript
 	
 		var params = { 
 			ajaxUploadUrl: "php/upload.php"
@@ -39,42 +60,20 @@ For this part, you dont need any server side configuration.You just need a folde
 
 
 
-Configuration when using progress bar indicator
+Configuration when progress bar indicator is enabled
 ===========================================================
 
-**server side**
+This configuration is the one described in the :doc:`quickstart`
 
-A sample PHP implementation is provided at your convenience. Feel free to contribute patches and other server-side implementations.
 
-*for Linux* :
 
-Enable/add php_apc extension in php.ini as php doesnt have built-in method to monitor upload::
+Instantiating MFU
+===============================================
 
-  extension=apc.so
 
-*for Windows* ::
-
-  extension=php_apc.dll
-
-Next, APC feature which monitors file uploads has to be enable. To do so, the apc.rfc1867 setting must be switched to On in php.ini::
-
-  apc.rfc1867 = On
-
-Dont forget to restart your webserver and make sure your changes have been successfully saved by checking with :
-
-	.. code-block:: php
-	
-	 <?
-		phpinfo();
-	  ?> 
-
-**client side**
-
-In MultipleFileUploader.js::
- progressBarMode : true
- apc_php_enabled : true
-
-When you instanciate mfu widget, you have to send uploadAjaxURL as well as uploadStatusURL :
+As a standard `Dijit <http://www.dojotoolkit.org/reference-guide/dijit.html#dijit>`_ widget, MFU can be
+instantiated both programmatically and declaratively
+To instantiate MFU  programmatically,  the following code snippet can be used :
 
 	.. code-block:: javascript
 	
@@ -84,9 +83,41 @@ When you instanciate mfu widget, you have to send uploadAjaxURL as well as uploa
 		};
 		var upload = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer") ); 	
 
+To instantiate MFU declaratively, the following code snippet can be used :
 
-MultipleFileUploader.js parameters
+ 	.. code-block:: html
+ 	
+		<div dojoType="multiplefileuploader.widget.MultipleFileUploader"  
+				ajaxUploadUrl="php/upload.php"  
+				uploadStatusURL="php/status.php">		
+		</div>
+	
+Please note that when using the declarative instantiation, the
+following dojo code should also be executed :
+
+	.. code-block:: javascript
+	
+		dojo.require("dojo.parser");
+		dojo.addOnLoad(function() {
+		    dojo.parser.parse();
+		});		
+
+
+More information can be found in `dojo user manual. <http://www.dojotoolkit.org/reference-guide/>`_  
+
+ 
+.. _ref-protocol:
+
+Protocol
 ===============================================
+
+
+Widget Reference
+===============================================
+ 
+ 
+Widget Parameter Reference
+-------------------------------------------------------------------
 
 the following parameters are all overridable when instanciate MultipleFileUploader.
 
@@ -112,11 +143,23 @@ the following parameters are all overridable when instanciate MultipleFileUpload
 				progressBarWidth : "15%",
 				progressBarHeight : "15px",
 		
-		
-how to connect MFU events to your application
-===============================================
+For instance, we want to override progressBarWidth as well as uploadTimeout :
 
-You probably want to connect your application to the different upload steps. MFU has several events which can be connected
+	.. code-block:: javascript
+	
+		var params = { 
+			progressBarWidth: "20%", 
+			uploadTimeout : "3000" 
+		};
+		var upload = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer") ); 	
+
+		
+Widget Event Reference
+----------------------------------------------------------
+
+Your application can connect to MFU events using the standard dojo
+event mechanism.
+
 
 	.. code-block:: javascript
 	
@@ -133,50 +176,11 @@ You probably want to connect your application to the different upload steps. MFU
 		 onAfterUploadStart : function(uploadRequest) {
 		 }
 	 
-Example :
+For instance, it is possible to catch the onFinishedUpload event, by using the following code snippet
+
 	.. code-block:: javascript
 	
 		dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {
 			//Here your code when a file is uploaded
 		});
-
-
-
-Different way to instanciate MFU
-===============================================
-
-
-MultipleFileUploader can be instanciated in two differents way :
-The first one is the one above using javascript code
-
-	.. code-block:: javascript
-	
-		var params = { 
-			ajaxUploadUrl: "php/upload.php", 
-			uploadStatusURL : "php/status.php" 
-		};
-		var upload = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer") ); 	
-
-MultipleFileUploader can also be instanciated using html. When parsing DOM, dojo will automatically recognize the widget in dojoType declaration.
-
- 	.. code-block:: html
- 	
-		<div dojoType="multiplefileuploader.widget.MultipleFileUploader"  
-				ajaxUploadUrl="php/upload.php"  
-				uploadStatusURL="php/status.php">		
-		</div>
-	
-In that case, dont forget to add the following lines in a script tag, so that, dojo can parse DOM and instanciate MFU.
-
-	.. code-block:: javascript
-	
-		dojo.require("dojo.parser");
-		dojo.addOnLoad(function() {
-		    dojo.parser.parse();
-		});		
- 
- 
- 
-
- 
  

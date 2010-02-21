@@ -1,13 +1,13 @@
 
-Developer zone
+Developer Zone
 =====================================
 
-For more information about the way MFU works, take a look to :doc:`devguide` 
+For more information about the way MFU works, take a look at :doc:`devguide` 
 
 
 Source code
 =================================
  
- Source code is available on github  `here <http://github.com/samokk/multiplefileuploader>`_ 
+ Source code is available on `github <http://github.com/samokk/multiplefileuploader>`_ 
  
 

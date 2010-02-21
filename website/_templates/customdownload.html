@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% set title = 'Overview' %}
+{% block body %}
+  <h2><a href="../mfu-{{release}}.tar.gz">Download MFU {{ release }}</a></h2>
+ <p> 	
+	See <a href="{{ pathto("quickstart") }}">Quickstart</a> for more information about the content of the distribution.
+</p>
+
+  <p>
+ Take a look at <a href="{{ pathto("devzone") }}">Developer Zone</a> for information on how to retrieve the source code.
+  </p>
+  
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">MFU is liberally dual-licensed under the <a href="http://www.freebsd.org/copyright/freebsd-license.html">New BSD license</a> and the <a href="http://www.opensource-definition.org/licenses/afl-2.1.html">Academic Free License v2.1</a> ( same license terms as dojo).</p>
+</div>
+  
+
+
+
+  
+{% endblock %}

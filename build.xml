@@ -4,125 +4,132 @@
     </description>
  
   <!-- set site credential --> 
-  <property name="host"  value="${host}" />
-  <property name="scpUser"  value="${user}" />
-  <property name="scpPassword"  value="${password}" />
-  <property name="remoteMfuDir"  value="" />
+  <property name="site.host"  value="${host}" />
+  <property name="site.user"  value="${user}" />
+  <property name="site.password"  value="${password}" />
  
-   <!-- set mfu dir-->  
-  <property name="dojoVersion"  value="dojo-release-1.4.0-src" />
-  <property name="dojoDir"  location="./${dojoVersion}/" />
-  <property name="buildDir" location="${dojoDir}/util/buildscripts" /> 
-  <property name="version" value="${version}" />
-  
+  <!-- target folder for generated site as well as mfu release -->
+  <property name="target.dir" value="${basedir}/target" />
+ 
+   <!-- set dojo variable dir-->  
+  <property name="dojo.version"  value="dojo-release-1.4.0-src" />
+  <property name="dojo.dir"  location="./${dojo.version}/" />
+  <property name="dojo.buildscript.path" location="${dojo.dir}/util/buildscripts" /> 
+
+  <!-- mfu module aliases as well as mfu variable- -->
    <property name="mfuiddd" value="mfu-including-dijit-dojox-dependencies" />
    <property name="mfude" value="mfu-dojo-embedded" />
-  
-   <!-- set sphinx site local dir-->  
-   <property name="sphinxBinDir" location="/usr/bin" />
+   <property name="mfu.target.dir" value="${target.dir}/mfu" />
+   <property name="mfu.remote.dir" value="public_html/mfu" />
+   <property name="mfu.version" value="${mfu.version}" />
    
-   <property name="generateToDir" location="./target/website" />  
-
+   <!-- set sphinx site bin dir-->  
+   <property name="sphinx.bin.dir" location="/usr/bin" />
+   <property name="sphinx.target.dir" location="${target.dir}/sphinx" />
+   
    <!-- set sphinx site remote dir-->  
-   <property name="siteRemoteDir" value="public_html/sphinx" />
-    <!-- set mfu site remote dir--> 
-	<property name="mfuRemoteDir" value="public_html/mfu" />
-	
-	
-   <property name="target_dir" value="${basedir}/target" />
+   <property name="site.remote.dir" value="public_html/sphinx" />
+  	
 
-  <target name="init">
-    <mkdir dir="${target_dir}"/>
+ <!-- ### The Magic begins here ###  -->  
+   
+  <target name="global-init">
+    <mkdir dir="${target.dir}" />
   </target>
 
-  <target name="package" depends="init,build-mfu-dojo-embedded,build-mfu-including-dijit-dojox-dependencies, mfu-src-copy,mfu-dojo-embedded-copy,mfu-including-dijit-dojox-dependencies-copy,dojo-copy, pymager-conf-copy,replace-dojo-version,tar-release">
+  <target name="sphinx-init">
+	<mkdir dir="${sphinx.target.dir}" />
+  </target>
+
+  <target name="mfu-init">
+  		<delete dir="${mfu.target.dir}"/>
+		<mkdir dir="${mfu.target.dir}" />
+  </target>
+
+
+
+  <target name="package" depends="global-init,mfu-init,build-mfu-dojo-embedded,build-mfu-including-dijit-dojox-dependencies, mfu-src-copy,mfu-dojo-embedded-copy,mfu-including-dijit-dojox-dependencies-copy,dojo-copy, pymager-conf-copy,replace-dojo-version,tar-release">
     <tstamp/>
 
   </target>
 
-  <target name="replace-dojo-version">
-  		<replace file="./build/multiplefileploader/${mfude}/${mfude}.html" token="@DOJO_VERSION@" value="${dojoVersion}"/>
-  		<replace file="./build/multiplefileploader/${mfuiddd}/${mfuiddd}.html" token="@DOJO_VERSION@" value="${dojoVersion}"/>
-		<replace file="./build/multiplefileploader/mfu-src/multiplefileuploader/mfu-src.html" token="@DOJO_VERSION@" value="${dojoVersion}"/>	
+  <target name="replace-dojo-version" description="Replacing variable">
+		<replace file="${mfu.target.dir}/multiplefileploader/${mfude}/${mfude}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+  		<replace file="${mfu.target.dir}/multiplefileploader/${mfuiddd}/${mfuiddd}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+		<replace file="${mfu.target.dir}/multiplefileploader/mfu-src/multiplefileuploader/mfu-src.html" token="@DOJO_VERSION@" value="${dojo.version}"/>	
   </target>
   
   <target name="build-mfu-including-dijit-dojox-dependencies">
     <tstamp/>
-    <exec dir="${buildDir}"
-        executable="${buildDir}/build.sh">
+    <exec dir="${dojo.buildscript.path}"
+        executable="${dojo.buildscript.path}/build.sh">
           <arg value="profile=mfu-including-dijit-dojox-dependencies" />
           <arg value="action=clean,release" />
           <arg value="releaseName=mfu-including-dijit-dojox-dependencies" />
-          <arg value="version=${version}" />
+          <arg value="mfu.version=${mfu.version}" />
     </exec>
 
   </target>
 
   <target name="build-mfu-dojo-embedded">
-    <exec dir="${buildDir}"
-        executable="${buildDir}/build.sh">
+    <exec dir="${dojo.buildscript.path}"
+        executable="${dojo.buildscript.path}/build.sh">
           <arg value="profile=mfu-dojo-embedded" />
           <arg value="action=clean,release" />
           <arg value="releaseName=mfu-dojo-embedded" />
-     	  <arg value="version=${version}" />
+     	  <arg value="mfu.version=${mfu.version}" />
     </exec>
   </target>
 
-  <target name="prepare-folder">
-    <delete dir="./build"/>
-	<mkdir dir="./build"/>
-  </target>
-
-
-  <target name="mfu-dojo-embedded-copy" depends="prepare-folder">
-        <copy todir="./build/multiplefileploader/${mfude}/dojo/nls" overwrite="true">
-                <fileset dir="${dojoDir}/release/${mfude}/dojo/nls"></fileset>
+  <target name="mfu-dojo-embedded-copy">
+        <copy todir="${mfu.target.dir}/multiplefileploader/${mfude}/dojo/nls" overwrite="true">
+                <fileset dir="${dojo.dir}/release/${mfude}/dojo/nls"></fileset>
         </copy>
-         <copy file="${dojoDir}/release/${mfude}/dojo/dojo.js" todir="./build/multiplefileploader/${mfude}/dojo"/>
-         <copy file="${dojoDir}/release/${mfude}/dojo/dojo.js.uncompressed.js" todir="./build/multiplefileploader/${mfude}/dojo"/>
-        <copy todir="./build/multiplefileploader/${mfude}/php" overwrite="true">
+         <copy file="${dojo.dir}/release/${mfude}/dojo/dojo.js" todir="${mfu.target.dir}/multiplefileploader/${mfude}/dojo"/>
+         <copy file="${dojo.dir}/release/${mfude}/dojo/dojo.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileploader/${mfude}/dojo"/>
+        <copy todir="${mfu.target.dir}/multiplefileploader/${mfude}/php" overwrite="true">
                 <fileset dir="./multiplefileuploader/php"></fileset>
         </copy>
-	    <copy file="${dojoDir}/release/${mfude}/multiplefileuploader/samples/${mfude}.html" todir="./build/multiplefileploader/${mfude}"/>
+	    <copy file="${dojo.dir}/release/${mfude}/multiplefileuploader/samples/${mfude}.html" todir="${mfu.target.dir}/multiplefileploader/${mfude}"/>
   </target>
 
 
 
- <target name="mfu-including-dijit-dojox-dependencies-copy" depends="prepare-folder">
-	<copy todir="./build/multiplefileploader/${mfuiddd}/layers/nls" overwrite="true">
-                <fileset dir="${dojoDir}/release/${mfuiddd}/layers/nls"></fileset>
+ <target name="mfu-including-dijit-dojox-dependencies-copy">
+	<copy todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/layers/nls" overwrite="true">
+                <fileset dir="${dojo.dir}/release/${mfuiddd}/layers/nls"></fileset>
     </copy>
-     <copy file="${dojoDir}/release/${mfuiddd}/layers/mfu.js" todir="./build/multiplefileploader/${mfuiddd}/layers"/>
-     <copy file="${dojoDir}/release/${mfuiddd}/layers/mfu.js.uncompressed.js" todir="./build/multiplefileploader/${mfuiddd}/layers"/>
-     <copy file="${dojoDir}/release/${mfuiddd}/dojo/dojo.js" todir="./build/multiplefileploader/${mfuiddd}/dojo"/>
-     <copy file="${dojoDir}/release/${mfuiddd}/dojo/dojo.js.uncompressed.js" todir="./build/multiplefileploader/${mfuiddd}/dojo"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/layers/mfu.js" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/layers"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/layers/mfu.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/layers"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/dojo/dojo.js" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/dojo"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/dojo/dojo.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/dojo"/>
 
-    <copy todir="./build/multiplefileploader/${mfuiddd}/php" overwrite="true">
+    <copy todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/php" overwrite="true">
             <fileset dir="./multiplefileuploader/php"></fileset>
     </copy>
-    <copy file="${dojoDir}/release/${mfuiddd}/multiplefileuploader/samples/${mfuiddd}.html" todir="./build/multiplefileploader/${mfuiddd}"/>	
+    <copy file="${dojo.dir}/release/${mfuiddd}/multiplefileuploader/samples/${mfuiddd}.html" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}"/>	
 </target>
 
 
-  <target name="mfu-src-copy" depends="prepare-folder">
-        <copy todir="./build/multiplefileploader/mfu-src/multiplefileuploader" overwrite="true">
+  <target name="mfu-src-copy">
+        <copy todir="${mfu.target.dir}/multiplefileploader/mfu-src/multiplefileuploader" overwrite="true">
                 <fileset dir="./multiplefileuploader">
    				 <include name="**/*"/>  
 	    		 <exclude name="**/samples/**"/> 
                 </fileset>
         </copy>
-	    <copy file="./multiplefileuploader/samples/mfu-src.html" todir="./build/multiplefileploader/mfu-src/multiplefileuploader"/>
+	    <copy file="./multiplefileuploader/samples/mfu-src.html" todir="${mfu.target.dir}/multiplefileploader/mfu-src/multiplefileuploader"/>
   </target>
   
-   <target name="dojo-copy" depends="prepare-folder,delete-release">
-        <copy todir="./build/multiplefileploader/${dojoVersion}" overwrite="true">
-                <fileset dir="${dojoDir}">
+   <target name="dojo-copy" depends="delete-release">
+        <copy todir="${mfu.target.dir}/multiplefileploader/${dojo.version}" overwrite="true">
+                <fileset dir="${dojo.dir}">
                 </fileset>
         </copy>
   </target>
   
    <target name="pymager-conf-copy">
-        <copy todir="./build/mfudemo" overwrite="true">
+        <copy todir="${mfu.target.dir}/mfudemo" overwrite="true">
                 <fileset dir="./mfudemo">
                 </fileset>
         </copy>
@@ -130,59 +137,59 @@
   
   
     <target name="delete-release">
-	    <delete dir="${dojoDir}/release" />
+	    <delete dir="${dojo.dir}/release" />
   </target>
   
    
   <target name="tar-release">
-	<tar destfile="./mfu-${version}.tar" basedir="./build"/>
-	<gzip destfile="./mfu-${version}.tar.gz" src="./mfu-${version}.tar"/>
-	<delete file="./mfu-${version}.tar" />
+	<tar destfile="${target.dir}/mfu-${mfu.version}.tar" basedir="${mfu.target.dir}"/>
+	<gzip destfile="${target.dir}/mfu-${mfu.version}.tar.gz" src="${target.dir}/mfu-${mfu.version}.tar"/>
+	<delete file="${target.dir}/mfu-${mfu.version}.tar" />
   </target>
 
 
   <target name="deploy" depends="package">
-	   <sshexec host="${host}"
-			username="${scpUser}"
-			password="${scpPassword}"
-			command="mkdir -p ${mfuRemoteDir}"
+	   <sshexec host="${site.host}"
+			username="${site.user}"
+			password="${site.password}"
+			command="mkdir -p ${mfu.remote.dir}"
 	 /> 
 	 
-	  <scp file="./mfu-${version}.tar.gz" todir="${scpUser}:${scpPassword}@${host}:${mfuRemoteDir}" verbose="true">	  	
+	  <scp file="${target.dir}/mfu-${mfu.version}.tar.gz" todir="${site.user}:${site.password}@${site.host}:${mfu.remote.dir}" verbose="true">	  	
 	  </scp>	
 	  
-	   <sshexec host="${host}"
-			username="${scpUser}"
-			password="${scpPassword}"
-			command="cd ${mfuRemoteDir} ; tar -zvxf mfu-${version}.tar.gz"
+	   <sshexec host="${site.host}"
+			username="${site.user}"
+			password="${site.password}"
+			command="cd ${mfu.remote.dir} ; tar -zvxf mfu-${mfu.version}.tar.gz"
 	 /> 
 	  
   </target>
 
 
-  <target name="site" depends="init">
+  <target name="site" depends="sphinx-init">
     <exec dir="${basedir}/website"
 	    executable="python">
-	      <arg value="${sphinxBinDir}/sphinx-build" />
+	      <arg value="${sphinx.bin.dir}/sphinx-build" />
           <arg value="-D" />
-          <arg value="release=${version}" />
+          <arg value="release=${mfu.version}" />
 		  <arg value="-b" />
 		  <arg value="html" />
 		  <arg value="-d" />		  
 		  <arg value="_build/doctrees" />
 		  <arg value="." />		  
-		  <arg value="${target_dir}/_build/html" />	  
+		  <arg value="${sphinx.target.dir}" />	  
     </exec>
   </target>
 
   <target name="site:deploy" depends="site" >
-	   <sshexec host="${host}"
-			username="${scpUser}"
-			password="${scpPassword}"
-			command="mkdir -p ${siteRemoteDir}"
+	   <sshexec host="${site.host}"
+			username="${site.user}"
+			password="${site.password}"
+			command="mkdir -p ${site.remote.dir}"
 	 /> 
-	  <scp todir="${scpUser}:${scpPassword}@${host}:${siteRemoteDir}" verbose="true">
-		<fileset dir="${target_dir}/_build/html"/>
+	  <scp todir="${site.user}:${site.password}@${site.host}:${site.remote.dir}" verbose="true">
+		<fileset dir="${sphinx.target.dir}"/>
 	  </scp>
   </target>
 
