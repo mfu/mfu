@@ -3,6 +3,29 @@
         mfu build file
     </description>
  
+ <!-- 
+ ant deploy : create a package tar.gz ) including dojo + mfu  and upload everything on a remote server
+ Mandatory parameters (from ant command line) :
+ 	-Dmfu.version=A
+	-Dsite.host=B
+	-Dsite.user=C
+	-Dsite.password=D 
+ 
+ ant site : generate sphinx website
+ Mandatory parameters (from ant command line)  :
+ 	-Dmfu.version=A
+ 
+ ant site:deploy : generate sphinx website and deploy it remotly
+ Mandatory parameters (from ant command line) :
+ 	-Dmfu.version=A
+	-Dsite.host=B
+	-Dsite.user=C
+	-Dsite.password=D 
+ 
+ generate and deploy everything on the remote server :
+  => ant deploy site:deploy -Dmfu.version=A -Dsite.host=B -Dsite.user=C -Dsite.password=D
+-->
+ 
   <!-- set site credential --> 
   <property name="site.host"  value="${host}" />
   <property name="site.user"  value="${user}" />
