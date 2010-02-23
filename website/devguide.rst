@@ -8,24 +8,13 @@ Welcome to MFU developer's guide!
 
 
 
-Client-Server RESTful protocol :
-===============================================
-
-Here is a flow diagram showing the interaction between the
-client-side (MFU) and the server-side (e.g. the PHP implementation
-provided as an example), when the 'progressBarMode' option is
-activated. In this mode, MFU will accurately report the download
-status by using a progress bar.
-
-.. image:: _static/upload.png
-
-
 Configuration when progress bar indicator is disabled
 ========================================================
 
  **Server side**
  
-For this part, you dont need any server side configuration.You just need a folder with write right to indicate php or other where to upload files.
+For this part, you dont need any server side configuration.You
+just need an upload folder with write permissions  for PHP/apache.
 
  **client side**
  
@@ -106,17 +95,42 @@ following dojo code should also be executed :
 More information can be found in `dojo user manual. <http://www.dojotoolkit.org/reference-guide/>`_  
 
  
-.. _ref-protocol:
+
+
+
+
+.. _ref-internationalization:
+
+Internationalization
+===============================================
+
+MFU uses the internationalization support of  `dojotoolkit <http://docs.dojocampus.org/quickstart/internationalization/index>`_ 
+Please do not hesitate to contribute additional translations (:doc:`devzone` section). 
+Dojo handles the locale detection automatically. 
+For more information, please refer to `dojo manual <http://docs.dojocampus.org/quickstart/internationalization/index>`_
+
+
+MFU Reference
+===============================================
+ 
+ 
+ 
+ .. _ref-protocol:
 
 Protocol
-===============================================
+-------------------------------------------------------------------------
 
+Here is a flow diagram showing the interaction between the
+client-side (MFU) and the server-side (e.g. the PHP implementation
+provided as an example), when the 'progressBarMode' option is
+activated. In this mode, MFU will accurately report the download
+status by using a progress bar.
 
-Widget Reference
-===============================================
+.. image:: _static/upload.png
  
  
-Widget Parameter Reference
+ 
+Widget Parameter
 -------------------------------------------------------------------
 
 the following parameters are all overridable when instanciate MultipleFileUploader.
@@ -154,7 +168,7 @@ For instance, we want to override progressBarWidth as well as uploadTimeout :
 		var upload = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer") ); 	
 
 		
-Widget Event Reference
+Widget Event
 ----------------------------------------------------------
 
 Your application can connect to MFU events using the standard dojo
