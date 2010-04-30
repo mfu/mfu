@@ -49,7 +49,7 @@
    <property name="sphinx.target.dir" location="${target.dir}/sphinx" />
    
    <!-- set sphinx site remote dir-->  
-   <property name="site.remote.dir" value="/srv/http/developers.sirika.com/multiplefileuploader" />
+   <property name="site.remote.dir" value="/srv/http/developers.sirika.com/mfu" />
   	
 
  <!-- ### The Magic begins here ###  -->  
