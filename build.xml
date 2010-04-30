@@ -41,7 +41,7 @@
    <property name="mfuiddd" value="mfu-including-dijit-dojox-dependencies" />
    <property name="mfude" value="mfu-dojo-embedded" />
    <property name="mfu.target.dir" value="${target.dir}/mfu" />
-   <property name="mfu.remote.dir" value="public_html/mfu" />
+   <property name="mfu.remote.dir" value="/srv/http/developers.sirika.com/mfu-downloads" />
    <property name="mfu.version" value="${mfu.version}" />
    
    <!-- set sphinx site bin dir-->  
