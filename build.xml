@@ -75,9 +75,9 @@
   </target>
 
   <target name="replace-dojo-version" description="Replacing variable">
-		<replace file="${mfu.target.dir}/multiplefileploader/${mfude}/${mfude}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
-  		<replace file="${mfu.target.dir}/multiplefileploader/${mfuiddd}/${mfuiddd}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
-		<replace file="${mfu.target.dir}/multiplefileploader/mfu-src/multiplefileuploader/mfu-src.html" token="@DOJO_VERSION@" value="${dojo.version}"/>	
+		<replace file="${mfu.target.dir}/multiplefileuploader/${mfude}/${mfude}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+  		<replace file="${mfu.target.dir}/multiplefileuploader/${mfuiddd}/${mfuiddd}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+		<replace file="${mfu.target.dir}/multiplefileuploader/mfu-src/multiplefileuploader/mfu-src.html" token="@DOJO_VERSION@" value="${dojo.version}"/>	
   </target>
   
   <target name="build-mfu-including-dijit-dojox-dependencies">
@@ -103,47 +103,47 @@
   </target>
 
   <target name="mfu-dojo-embedded-copy">
-        <copy todir="${mfu.target.dir}/multiplefileploader/${mfude}/dojo/nls" overwrite="true">
+        <copy todir="${mfu.target.dir}/multiplefileuploader/${mfude}/dojo/nls" overwrite="true">
                 <fileset dir="${dojo.dir}/release/${mfude}/dojo/nls"></fileset>
         </copy>
-         <copy file="${dojo.dir}/release/${mfude}/dojo/dojo.js" todir="${mfu.target.dir}/multiplefileploader/${mfude}/dojo"/>
-         <copy file="${dojo.dir}/release/${mfude}/dojo/dojo.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileploader/${mfude}/dojo"/>
-        <copy todir="${mfu.target.dir}/multiplefileploader/${mfude}/php" overwrite="true">
+         <copy file="${dojo.dir}/release/${mfude}/dojo/dojo.js" todir="${mfu.target.dir}/multiplefileuploader/${mfude}/dojo"/>
+         <copy file="${dojo.dir}/release/${mfude}/dojo/dojo.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileuploader/${mfude}/dojo"/>
+        <copy todir="${mfu.target.dir}/multiplefileuploader/${mfude}/php" overwrite="true">
                 <fileset dir="./multiplefileuploader/php"></fileset>
         </copy>
-	    <copy file="${dojo.dir}/release/${mfude}/multiplefileuploader/samples/${mfude}.html" todir="${mfu.target.dir}/multiplefileploader/${mfude}"/>
+	    <copy file="${dojo.dir}/release/${mfude}/multiplefileuploader/samples/${mfude}.html" todir="${mfu.target.dir}/multiplefileuploader/${mfude}"/>
   </target>
 
 
 
  <target name="mfu-including-dijit-dojox-dependencies-copy">
-	<copy todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/layers/nls" overwrite="true">
+	<copy todir="${mfu.target.dir}/multiplefileuploader/${mfuiddd}/layers/nls" overwrite="true">
                 <fileset dir="${dojo.dir}/release/${mfuiddd}/layers/nls"></fileset>
     </copy>
-     <copy file="${dojo.dir}/release/${mfuiddd}/layers/mfu.js" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/layers"/>
-     <copy file="${dojo.dir}/release/${mfuiddd}/layers/mfu.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/layers"/>
-     <copy file="${dojo.dir}/release/${mfuiddd}/dojo/dojo.js" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/dojo"/>
-     <copy file="${dojo.dir}/release/${mfuiddd}/dojo/dojo.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/dojo"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/layers/mfu.js" todir="${mfu.target.dir}/multiplefileuploader/${mfuiddd}/layers"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/layers/mfu.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileuploader/${mfuiddd}/layers"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/dojo/dojo.js" todir="${mfu.target.dir}/multiplefileuploader/${mfuiddd}/dojo"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/dojo/dojo.js.uncompressed.js" todir="${mfu.target.dir}/multiplefileuploader/${mfuiddd}/dojo"/>
 
-    <copy todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}/php" overwrite="true">
+    <copy todir="${mfu.target.dir}/multiplefileuploader/${mfuiddd}/php" overwrite="true">
             <fileset dir="./multiplefileuploader/php"></fileset>
     </copy>
-    <copy file="${dojo.dir}/release/${mfuiddd}/multiplefileuploader/samples/${mfuiddd}.html" todir="${mfu.target.dir}/multiplefileploader/${mfuiddd}"/>	
+    <copy file="${dojo.dir}/release/${mfuiddd}/multiplefileuploader/samples/${mfuiddd}.html" todir="${mfu.target.dir}/multiplefileuploader/${mfuiddd}"/>	
 </target>
 
 
   <target name="mfu-src-copy">
-        <copy todir="${mfu.target.dir}/multiplefileploader/mfu-src/multiplefileuploader" overwrite="true">
+        <copy todir="${mfu.target.dir}/multiplefileuploader/mfu-src/multiplefileuploader" overwrite="true">
                 <fileset dir="./multiplefileuploader">
    				 <include name="**/*"/>  
 	    		 <exclude name="**/samples/**"/> 
                 </fileset>
         </copy>
-	    <copy file="./multiplefileuploader/samples/mfu-src.html" todir="${mfu.target.dir}/multiplefileploader/mfu-src/multiplefileuploader"/>
+	    <copy file="./multiplefileuploader/samples/mfu-src.html" todir="${mfu.target.dir}/multiplefileuploader/mfu-src/multiplefileuploader"/>
   </target>
   
    <target name="dojo-copy" depends="delete-release">
-        <copy todir="${mfu.target.dir}/multiplefileploader/${dojo.version}" overwrite="true">
+        <copy todir="${mfu.target.dir}/multiplefileuploader/${dojo.version}" overwrite="true">
                 <fileset dir="${dojo.dir}">
                 </fileset>
         </copy>
