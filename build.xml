@@ -178,12 +178,12 @@
 	 
 	  <scp file="${target.dir}/mfu-${mfu.version}.tar.gz" todir="${site.user}:${site.password}@${site.host}:${mfu.remote.dir}" verbose="true">	  	
 	  </scp>	
-	  
+	 <!-- 
 	   <sshexec host="${site.host}"
 			username="${site.user}"
 			password="${site.password}"
 			command="cd ${mfu.remote.dir} ; tar -zvxf mfu-${mfu.version}.tar.gz"
-	 /> 
+	 /> -->
 	  
   </target>
 
