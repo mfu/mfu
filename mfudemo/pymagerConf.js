@@ -3,19 +3,18 @@ dojo.provide("mfudemo.pymagerConf");
 	mfudemo.pymagerConf.generateLinks = function(uploadedFileInformation) {
 		
 		var supportedFormats = ["jpg", "bmp", "gif","png"];
-		var imageServerURL = "http://localhost:8000/pymager";
-		var derivedImagesPath = "/derived/"
+		var derivedImageURL = "http://localhost:8000/pymager/derived/";
 		var convertToSize = ["600x600", "80x80"];
 		var link ="";
 		
 		dojo.forEach(supportedFormats , function(format) {							
-				link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize[0]+"."+format+">Download "+uploadedFileInformation.getName()+"  converted to "+format+"<strong> ["+convertToSize[0]+"]</strong></a><br />";										
+				link = link + "<a href="+derivedImageURL+uploadedFileInformation.getID()+"-"+convertToSize[0]+"."+format+">Download "+uploadedFileInformation.getName()+"  converted to "+format+"<strong> ["+convertToSize[0]+"]</strong></a><br />";										
 		});
 		
 		link = link +"<br />";
 		
 		dojo.forEach(supportedFormats , function(format) {							
-				link = link + "<a href="+imageServerURL+derivedImagesPath+uploadedFileInformation.getID()+"-"+convertToSize[1]+"."+format+">Download "+uploadedFileInformation.getName()+"  converted to "+format+"<strong> ["+convertToSize[1]+"]</strong></a><br />";										
+				link = link + "<a href="+derivedImageURL+uploadedFileInformation.getID()+"-"+convertToSize[1]+"."+format+">Download "+uploadedFileInformation.getName()+"  converted to "+format+"<strong> ["+convertToSize[1]+"]</strong></a><br />";										
 		});
 		
 		dojo.byId("result").innerHTML = link;

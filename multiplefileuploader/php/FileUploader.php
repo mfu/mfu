@@ -7,6 +7,7 @@
         const SESSION_ERROR_KEY = '__upload_error';
 		const ID_KEY      = 'APC_UPLOAD_PROGRESS';
 		const PYMAGER_UPLOAD_PATH= '/original/';
+		const PYMAGER_PARAMETER_NAME = 'file';
  		private static $_instance = null;
 
  		
@@ -144,7 +145,7 @@
 			self::setFileErrorCode($file,$id);
    
 			if($conf['general']['upload_to'] == 'pymager') {
-				$files[] = 	array('name' => $r['pymager_upload_parameter_name'],
+				$files[] = 	array('name' => self::PYMAGER_PARAMETER_NAME,
 							'content-type' => 'text/plain',
 							'filename' => basename($file['name']),
 							'data' => file_get_contents($file['tmp_name'])
@@ -155,7 +156,7 @@
 				if(!empty($r['proxy_url'])) {
 					$http_client->use_proxy( $r['proxy_url'], $r['proxy_port'] );
 				}
-				$http_client->multipart_post( $r['path'].$id, $fields = array() , $files , false);
+				$http_client->multipart_post( $r['path'].self::PYMAGER_UPLOAD_PATH.$id, $fields = array() , $files , false);
 				self::setHTTPErrorCode($http_client,$id); 
 			 }
 			 else if($conf['general']['upload_to'] == 'local_directory') {
