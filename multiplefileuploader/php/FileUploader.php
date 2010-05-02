@@ -155,7 +155,7 @@
 				if(!empty($r['proxy_url'])) {
 					$http_client->use_proxy( $r['proxy_url'], $r['proxy_port'] );
 				}
-				$http_client->multipart_post( self::PYMAGER_UPLOAD_PATH.$id, $fields = array() , $files , false);
+				$http_client->multipart_post( $r['path'].$id, $fields = array() , $files , false);
 				self::setHTTPErrorCode($http_client,$id); 
 			 }
 			 else if($conf['general']['upload_to'] == 'local_directory') {
