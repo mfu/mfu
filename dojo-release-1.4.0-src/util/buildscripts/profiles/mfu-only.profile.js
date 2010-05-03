@@ -1,4 +1,3 @@
-
 dependencies = {
     layers: [{
         name: "../dijit/dijit.js",
@@ -17,5 +16,5 @@ dependencies = {
         layerDependencies: ['../dijit/dijit.js', '../dijit/dijit-all.js', '../dojox/dojox-all.js'],
     
     }],
-    prefixes: [["dijit", "../dijit"], ["dojox", "../dojox"], ["multiplefileuploader", "../../multiplefileuploader"]]
+    prefixes: [["dijit", "../dijit"], ["dojox", "../dojox"], ["multiplefileuploader", "../../src/multiplefileuploader"]]
 }

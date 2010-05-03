@@ -11,7 +11,7 @@ dependencies ={
     prefixes: [
 	  	[ "dijit", "../dijit" ],
 		[ "dojox", "../dojox" ],
-	    [ "multiplefileuploader", "../../multiplefileuploader" ],
+	    [ "multiplefileuploader", "../../src/multiplefileuploader" ],
 		[ "layers", "../layers"]
     ]
 };

@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
@@ -16,16 +15,16 @@
 	
 	
 <script type="text/javascript">
-	dojo.registerModulePath("multiplefileuploader","../../multiplefileuploader");
-	dojo.registerModulePath("mfudemo","../../mfudemo");
+	dojo.registerModulePath("multiplefileuploader","../../src/multiplefileuploader");
+	dojo.registerModulePath("mfudemo","../../src/mfudemo");
 	
 	dojo.addOnLoad( function(){
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
 			dojo.require("mfudemo.pymagerConf");
 			dojo.addOnLoad( function(){			 					
 				var params = { 
-							ajaxUploadUrl: "multiplefileuploader/php/upload.php", 
-							 uploadStatusURL : "multiplefileuploader/php/status.php" 
+							ajaxUploadUrl: "src/mfudemo/php/upload.php", 
+							 uploadStatusURL : "src/mfudemo/php/status.php" 
 				};
 				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
@@ -35,11 +34,6 @@
 			});
     });
 	
-	
-	
 </script>
 	
 </html>
-
-
-
