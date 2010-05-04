@@ -34,6 +34,6 @@ Have a look at this small screencast below which demonstrates some MFU functiona
 
 .. raw:: html
 
-	<video id="video" src="./_static/mfu-videos/mfu-sample-1.ogv" controls="controls" width="850">
+	<video id="video" src="../mfu-media/mfu-demo.ogv" controls="controls" width="850">
   	 	Your browser is not compliant with <code>video</code> tag. You should migrate to firefox > 3.5
 	</video>
