@@ -33,7 +33,7 @@
   <property name="target.dir" value="${basedir}/target" />
  
    <!-- set dojo variable dir-->  
-  <property name="dojo.version"  value="dojo-release-1.4.0-src" />
+  <property name="dojo.version"  value="dojo-release-1.4.2-src" />
   <property name="dojo.dir"  location="./${dojo.version}/" />
   <property name="dojo.buildscript.path" location="${dojo.dir}/util/buildscripts" /> 
 
@@ -86,7 +86,9 @@
     <exec dir="${dojo.buildscript.path}"
         executable="${dojo.buildscript.path}/build.sh">
           <arg value="profile=mfu-including-dijit-dojox-dependencies" />
-          <arg value="action=clean,release" />
+          <arg value="action=clean,release" />	  
+          <arg value="copyTests=true" />
+		  <arg value="mini=false" />
           <arg value="releaseName=mfu-including-dijit-dojox-dependencies" />
           <arg value="version=${mfu.version}" />
     </exec>
@@ -98,7 +100,9 @@
         executable="${dojo.buildscript.path}/build.sh">
           <arg value="profile=mfu-dojo-embedded" />
           <arg value="action=clean,release" />
-          <arg value="releaseName=mfu-dojo-embedded" />
+           <arg value="copyTests=true" />
+          <arg value="mini=false" />
+		  <arg value="releaseName=mfu-dojo-embedded" />
      	  <arg value="version=${mfu.version}" />
     </exec>
   </target>

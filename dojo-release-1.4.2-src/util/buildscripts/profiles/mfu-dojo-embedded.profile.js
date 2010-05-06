@@ -3,7 +3,7 @@ dependencies ={
 		{
        name: "dojo.js",
         dependencies: [
-		    "multiplefileuploader.widget.MultipleFileUploader"					
+		    "multiplefileuploader.widget.MultipleFileUploader"		
         ],
         }
     ],
