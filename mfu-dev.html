@@ -16,20 +16,20 @@
 	
 <script type="text/javascript">
 	dojo.registerModulePath("multiplefileuploader","../../src/multiplefileuploader");
-	dojo.registerModulePath("mfudemo","../../src/mfudemo");
+	dojo.registerModulePath("samples","../../src/samples");
 	
 	dojo.addOnLoad( function(){
        		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
-			dojo.require("mfudemo.pymagerConf");
+			dojo.require("samples.mfudemo.pymagerConf");
 			dojo.addOnLoad( function(){			 					
 				var params = { 
-							ajaxUploadUrl: "src/mfudemo/php/upload.php", 
-							 uploadStatusURL : "src/mfudemo/php/status.php" 
+							ajaxUploadUrl: "src/samples/php/upload.php", 
+							 uploadStatusURL : "src/samples/php/status.php" 
 				};
 				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
-						mfudemo.pymagerConf.addHeadMsg();
-						mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+						samples.mfudemo.pymagerConf.addHeadMsg();
+						samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
 				});
 			});
     });

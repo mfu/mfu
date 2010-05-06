@@ -4,7 +4,9 @@
 	<head>
 		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="../../@DOJO_VERSION@/dijit/themes/nihilo/nihilo.css"/>		
 		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="../../@DOJO_VERSION@/dojo/resources/dojo.css"/>
-		<script type="text/javascript" src="../../dojo-release-1.4.0-src/dojo/dojo.js" ></script> 
+		<script type="text/javascript" src="dojo/dojo.js" ></script> 
+		<script type="text/javascript" src="layers/mfu.js" ></script> 
+
 		<!-- djConfig="parseOnLoad: true, isDebug:true" -->
 	</head>
 	<body class="nihilo">
@@ -16,25 +18,22 @@
 	
 	
 <script type="text/javascript">
-	dojo.registerModulePath("multiplefileuploader","../../mfu-src/multiplefileuploader");
-	dojo.registerModulePath("mfudemo","../../mfudemo");
-	
+	dojo.registerModulePath("samples","../../../samples");
 	dojo.addOnLoad( function(){
-       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
-			dojo.require("mfudemo.pymagerConf");
+			dojo.require("samples.mfudemo.pymagerConf");
 			dojo.addOnLoad( function(){			 					
 				var params = { 
-							ajaxUploadUrl: "php/upload.php", 
-							 uploadStatusURL : "php/status.php" 
-				};			
+							ajaxUploadUrl: "../php/upload.php", 
+							 uploadStatusURL : "../php/status.php" 
+				};
 				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
 
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
-							mfudemo.pymagerConf.addHeadMsg();
-							mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+					    	samples.mfudemo.pymagerConf.addHeadMsg();
+							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
 				});
 			});
-    });
+			});
 	
 	
 	

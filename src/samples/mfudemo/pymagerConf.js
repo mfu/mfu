@@ -1,6 +1,6 @@
-dojo.provide("mfudemo.pymagerConf");
+dojo.provide("samples.mfudemo.pymagerConf");
 
-	mfudemo.pymagerConf.generateLinks = function(uploadedFileInformation) {
+	samples.mfudemo.pymagerConf.generateLinks = function(uploadedFileInformation) {
 		
 		var supportedFormats = ["jpg", "bmp", "gif","png"];
 		var derivedImageURL = "http://localhost:8000/pymager/derived/";
@@ -20,7 +20,7 @@ dojo.provide("mfudemo.pymagerConf");
 		dojo.byId("result").innerHTML = link;
 	}
 
-	mfudemo.pymagerConf.addHeadMsg = function() {
+	samples.mfudemo.pymagerConf.addHeadMsg = function() {
 		var  headerText = "<p>The demo uses <a href='http://github.com/samokk/pymager'>pymager</a> image server.<br />the following links are generated with pymager, which provides automatic image conversion and resize<p>"	;			
 		dojo.byId("headmsg").innerHTML = headerText;
 		
