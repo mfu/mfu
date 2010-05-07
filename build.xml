@@ -90,6 +90,7 @@
           <arg value="action=clean,release" />	  
           <arg value="copyTests=true" />
 		  <arg value="mini=false" />
+		  
           <arg value="releaseName=mfu-including-dijit-dojox-dependencies" />
           <arg value="version=${mfu.version}" />
     </exec>
@@ -103,12 +104,13 @@
           <arg value="action=clean,release" />
            <arg value="copyTests=true" />
           <arg value="mini=false" />
+		  
 		  <arg value="releaseName=mfu-dojo-embedded" />
      	  <arg value="version=${mfu.version}" />
     </exec>
   </target>
 
-  <target name="mfu-dojo-embedded-copy">
+  <target name="mfu-dojo-embedded-copy" depends="some-dijit-files-copy">
         <copy todir="${mfu.samples.dir}/${mfude}/dojo/nls" overwrite="true">
                 <fileset dir="${dojo.dir}/release/${mfude}/dojo/nls"></fileset>
         </copy>
@@ -123,8 +125,12 @@
         </copy>
   </target>
 
+ <target name="some-dijit-files-copy">
+   <copy file="${dojo.dir}/dijit/themes/a11y/indeterminate_progress.gif" todir="${mfu.samples.dir}/${mfuiddd}/dijit/themes/a11y"/> 
+   <copy file="${dojo.dir}/dijit/themes/a11y/indeterminate_progress.gif" todir="${mfu.samples.dir}/${mfude}/dijit/themes/a11y"/> 
+</target>
 
- <target name="mfu-including-dijit-dojox-dependencies-copy">
+ <target name="mfu-including-dijit-dojox-dependencies-copy" depends="some-dijit-files-copy">
 	<copy todir="${mfu.samples.dir}/${mfuiddd}/layers/nls" overwrite="true">
                 <fileset dir="${dojo.dir}/release/${mfuiddd}/layers/nls"></fileset>
     </copy>
