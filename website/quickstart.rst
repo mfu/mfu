@@ -85,6 +85,13 @@ Next, turn on the APC feature in php.ini, which tells the apc extension to monit
 
   apc.rfc1867 = On
 
+By default, apache restrict maximum file size to 2Mo.
+Change the following parameters according to your needs ::
+
+  upload_max_filesize = 50M
+  post_max_size = 50M
+
+
 Do not forget to restart your web server and you can use the following PHP script to check that the APC extension is active :
 
 	.. code-block:: php
