@@ -1,11 +1,10 @@
-MFU developers's guide
+MFU documentation
 ==========================
 
-Welcome to MFU developer's guide! 
+Welcome to MFU documentation! 
 
 
 .. contents:: 
-
 
 
 Configuration when progress bar indicator is disabled

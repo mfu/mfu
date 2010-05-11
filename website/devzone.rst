@@ -1,10 +1,4 @@
 
-Developer Zone
-=====================================
-
-For more information about the way MFU works, take a look at :doc:`devguide` 
-
-
 Source code
 =================================
  

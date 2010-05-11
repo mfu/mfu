@@ -29,7 +29,7 @@ This package includes the complete set of MFU source files and the unit tests th
 
 
 a PHP sample is included for server-side implementation.
-For more information, take a look at  :doc:`devguide` 
+For more information, take a look at  :doc:`documentation` 
 
 Install and Configure the PHP server-side code
 -------------------------------------------------------------------------------
