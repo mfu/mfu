@@ -19,7 +19,7 @@ master_doc = 'devzone'
 
 # General substitutions.
 project = 'MFU'
-copyright = '2009, Florent Valdelievre, Sami Dalouche'
+copyright = '2010, Florent Valdelievre, Sami Dalouche'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
