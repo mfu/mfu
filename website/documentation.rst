@@ -59,7 +59,7 @@ Instantiating MFU
 ===============================================
 
 
-As a standard `Dijit <http://www.dojotoolkit.org/reference-guide/dijit.html#dijit>`_ widget, MFU can be
+As a standard `Dijit <http://www.dojotoolkit.org/reference-guide/>`_ widget, MFU can be
 instantiated both programmatically and declaratively
 To instantiate MFU  programmatically,  the following code snippet can be used :
 
