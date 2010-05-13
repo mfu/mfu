@@ -81,7 +81,11 @@ enable the php_apc extension in php.ini as PHP does not support monitoring uploa
 
   extension=php_apc.dll
 
-Next, turn on the APC feature in php.ini, which tells the apc extension to monitor file uploads::
+Its not quite easy to find a ready to use php_apc.dll for your php version. You might take a look at `http://www.sitebuddy.com/PHP/Accelerators/Alternative/Cache/APC <http://www.sitebuddy.com/PHP/Accelerators/Alternative/Cache/APC>`_
+
+If you dont find the module for your php version, you should google it. 
+
+Once installed, turn on  APC feature in php.ini, which tells the apc extension to monitor file uploads::
 
   apc.rfc1867 = On
 
