@@ -80,6 +80,7 @@
 		<replace file="${mfu.samples.dir}/${mfude}/${mfude}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
   		<replace file="${mfu.samples.dir}/${mfuiddd}/${mfuiddd}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
 		<replace file="${mfu.samples.dir}/src/mfu-src.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+		<replace file="${mfu.target.dir}/src/multiplefileuploader/resources/FileInput.css" token="@DOJO_VERSION@" value="${dojo.version}"/>
   </target>
   
   <target name="build-mfu-including-dijit-dojox-dependencies">

@@ -1,5 +1,5 @@
 body {
-	background:#FFFFFF url("../../../dojo-release-1.4.2-src/dijit/tests/images/testsBodyBg.gif") repeat-x scroll left top;
+	background:#FFFFFF url("../../../@DOJO_VERSION@/dijit/tests/images/testsBodyBg.gif") repeat-x scroll left top;
 	padding:2em;
 }
 
@@ -8,81 +8,107 @@ a {
 }
 
 .tundra .dijitFileInput {
-height:1.8em;
+height:1.9em;
 position:relative;
 }
 
 .nihilo .dijitFileInput {
-height:2.3em;
+height:2.2em;
 position:relative;
 }
-
 .dijitFileInput {
-height:2em;
-position:relative;
+	position:relative;
+	height:2em;
 }
 
 .dijitFileInputReal {
-opacity:0;
-position:absolute;
-z-index:2;
+	position:absolute;
+	z-index:2;
+	opacity:0;
+	filter:alpha(opacity:0);
 }
 .dijitFileInputRealBlind {
-right:0;
+	right:0;
 }
-.dijitFileInputReal:hover {
-cursor:pointer;
+.dijitFileInputReal:hover { cursor:pointer; } 
+
+.dijitFileInputButton,
+.dijitFileInputText {
+	border:1px solid #333;
+	padding:1px 12px;
+	cursor:pointer;
 }
-.dijitFileInputButton, .dijitFileInputText {
-border:1px solid #333333;
-cursor:pointer;
-padding:1px 12px;
-}
+
 .dijitFileInputButton {
-visibility:hidden;
-z-index:3;
+	z-index:3;
+	visibility:hidden;
 }
-.dijitFakeInput {
-left:0;
-position:absolute;
-top:0;
-white-space:nowrap;
-z-index:1;
+.dijitFakeInput { position:absolute; top:0; left:0; z-index:1; white-space: nowrap; }
+
+.dijitProgressOverlay {
+	display:none;
+	width:250px;
+	height:1em;
+	position:absolute;
+	top:0; left:0;
+	border:1px solid #333;
+	background:#cad2de url('../../../@DOJO_VERSION@/dijit/themes/tundra/images/dijitProgressBarAnim.gif') repeat-x top left;
+	padding:2px;	
 }
 
-
+/* tundra */
+.tundra .dijitProgressOverlay {
+	border:1px solid #84a3d1;
+	background-color:#cad2de;
+}
 .tundra .dijitFakeInput input {
-background:url("../../../dojo-release-1.4.2-src/dijit/themes/tundra/images/validationInputBg.png") repeat-x scroll left top #FFFFFF;
-border:1px solid #9B9B9B;
-line-height:normal;
-padding:0.2em 0.3em;
+	/*font-size: inherit;*/
+	padding:0.2em 0.3em;
+	background:#fff url("../../../@DOJO_VERSION@/dijit/themes/tundra/images/validationInputBg.png") repeat-x top left;
+	border:1px solid #9b9b9b;
+	line-height: normal;
 }
-.tundra .dijitFileInputButton, .tundra .dijitFileInputText {
-background:url("../../../dojo-release-1.4.2-src/dijit/themes/tundra/images/buttonEnabled.png") repeat-x scroll center top #E9E9E9;
-border:1px solid #9B9B9B;
-padding:2px 12px;
+.tundra .dijitFileInputButton, 
+.tundra .dijitFileInputText {
+	border:1px solid #9b9b9b;
+	padding:2px 12px; 
+	background:#e9e9e9 url("../../../@DOJO_VERSION@/dijit/themes/tundra/images/buttonEnabled.png") repeat-x top;
 }
 
+/* Soria */
+.soria .dijitProgressOverlay {
+	border:1px solid #8BA0BD;
+	background-color:#cad2de; 
+}
 .soria .dijitFakeInput input {
-background:url("../../../../dojo-release-1.4.2-src/dijit/themes/soria/images/validationInputBg.png") repeat-x scroll 0 -30px #FFFFFF;
-border:1px solid #8BA0BD;
-line-height:normal;
-padding:0.2em 0.3em;
+	border:1px solid #8BA0BD;
+	background:#fff url("../../../@DOJO_VERSION@/dijit/themes/soria/images/validationInputBg.png") repeat-x top left;
+	line-height:normal;
+	background-position:0 -30px; 
+	padding:0.2em 0.3em;
 }
-.soria .dijitFileInputButton, .soria .dijitFileInputText {
-background:url("../../../dojo-release-1.4.2-src/dijit/themes/soria/images/buttonEnabled.png") repeat-x scroll 0 0 #B7CDEE;
-border:1px solid #8BA0BD;
-padding:2px 12px;
+.soria .dijitFileInputButton,
+.soria .dijitFileInputText {
+	border:1px solid #8BA0BD;
+	padding:2px 12px 2px 12px;
+	background:#b7cdee url('../../../@DOJO_VERSION@/dijit/themes/soria/images/buttonEnabled.png') repeat-x; 
 }
 
-.nihilo .dijitFakeInput input {
-background:url("../../../dojo-release-1.4.2-src/dijit/themes/nihilo/images/validationInputBg.png") repeat-x scroll 0 -30px #FFFFFF;
-border:1px solid #DEDEDE;
-line-height:normal;
-padding:0.2em 0.3em;
+/* Nihilo */
+.nihilo .dijitProgressOverlay {
+	border:1px solid #DEDEDE;
+	background-color:#cad2de; 
 }
-.nihilo .dijitFileInputButton, .nihilo .dijitFileInputText {
-background:url("../../../dojo-release-1.4.2-src/dijit/themes/nihilo/images/buttonEnabled.png") repeat-x scroll 0 0 #B7CDEE;
-border:1px solid #DEDEDE;
-padding:2px 12px;
+.nihilo .dijitFakeInput input {
+	border:1px solid #DEDEDE;
+	background:#fff url("../../../@DOJO_VERSION@/dijit/themes/nihilo/images/validationInputBg.png") repeat-x top left;
+	line-height:normal;
+	background-position:0 -30px; 
+	padding:0.2em 0.3em;
+}
+.nihilo .dijitFileInputButton,
+.nihilo .dijitFileInputText {
+	border:1px solid #DEDEDE;
+	padding:2px 12px 2px 12px;
+	background:#b7cdee url('../../../@DOJO_VERSION@/dijit/themes/nihilo/images/buttonEnabled.png') repeat-x; 
 }

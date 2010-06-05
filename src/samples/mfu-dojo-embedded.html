@@ -36,45 +36,45 @@
 	<div id="headmsg"></div>
 	<div id="result"></div>	
 	
-	</body>
+	
 	<br />
 	<p>
 	This sample application uses the <a href="http://github.com/samokk/pymager">pymager </a>) backend to store the uploaded images and provide you with thumbnails. This means you have to input image files (JPEG, ..)<br /><br/>
 	However, MFU does not itself depend on pymager. This means you can use it with any system, and choose to accept whatever file formats you want to.	
 </p>	
-<script type="text/javascript">
-	dojo.registerModulePath("samples","../../");
-	dojo.addOnLoad( function(){			 					
-				dojo.require("samples.mfudemo.pymagerConf");
-				var params = { 
-							ajaxUploadUrl: "../php/upload.php", 
-							 uploadStatusURL : "../php/status.php" 
-				};
-				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
-
-					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
-				    		samples.mfudemo.pymagerConf.addHeadMsg();
-							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+	<script type="text/javascript">
+		dojo.registerModulePath("samples","../../");
+		dojo.addOnLoad( function(){			 					
+					dojo.require("samples.mfudemo.pymagerConf");
+					var params = { 
+								ajaxUploadUrl: "../php/upload.php", 
+								 uploadStatusURL : "../php/status.php" 
+					};
+					var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
+	
+						dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
+					    		samples.mfudemo.pymagerConf.addHeadMsg();
+								samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+					});
+					var upload1 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer1") ); 	
+	
+						dojo.connect(upload1, 'onFinishedUpload', function(uploadedFileInformation) {  						
+					    		samples.mfudemo.pymagerConf.addHeadMsg();
+								samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+					});
+					var upload2 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer2") ); 	
+	
+						dojo.connect(upload2, 'onFinishedUpload', function(uploadedFileInformation) {  						
+					    		samples.mfudemo.pymagerConf.addHeadMsg();
+								samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+					});
+	
 				});
-				var upload1 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer1") ); 	
-
-					dojo.connect(upload1, 'onFinishedUpload', function(uploadedFileInformation) {  						
-				    		samples.mfudemo.pymagerConf.addHeadMsg();
-							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
-				});
-				var upload2 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer2") ); 	
-
-					dojo.connect(upload2, 'onFinishedUpload', function(uploadedFileInformation) {  						
-				    		samples.mfudemo.pymagerConf.addHeadMsg();
-							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
-				});
-
-			});
-	
-	
-	
-</script>
-	
+		
+		
+		
+	</script>
+ </body>
 </html>
 
 

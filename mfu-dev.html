@@ -37,44 +37,41 @@
 	<div id="headmsg"></div>
 	<div id="result"></div>	
 	
-	</body>
-	
 
+	
+		<script type="text/javascript">
+			dojo.registerModulePath("multiplefileuploader","../../src/multiplefileuploader");
+			dojo.registerModulePath("samples","../../src/samples");
 			
-	
-<script type="text/javascript">
-	dojo.registerModulePath("multiplefileuploader","../../src/multiplefileuploader");
-	dojo.registerModulePath("samples","../../src/samples");
-	
-	dojo.addOnLoad( function(){
-       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
-			dojo.require("samples.mfudemo.pymagerConf");
-			dojo.addOnLoad( function(){			 					
-				var params = { 
-							ajaxUploadUrl: "src/samples/php/upload.php", 
-							 uploadStatusURL : "src/samples/php/status.php" 
-				};
-				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
-					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
-						samples.mfudemo.pymagerConf.addHeadMsg();
-						samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
-				});
-
-				var upload1 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer1") ); 	
-					dojo.connect(upload1, 'onFinishedUpload', function(uploadedFileInformation) {  						
-						samples.mfudemo.pymagerConf.addHeadMsg();
-						samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
-				});
-				
-				var upload2 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer2") ); 	
-					dojo.connect(upload2, 'onFinishedUpload', function(uploadedFileInformation) {  						
-						samples.mfudemo.pymagerConf.addHeadMsg();
-						samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
-				});				
-
-			});
-    });
-	
-</script>
-	
+			dojo.addOnLoad( function(){
+		       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
+					dojo.require("samples.mfudemo.pymagerConf");
+					dojo.addOnLoad( function(){			 					
+						var params = { 
+									ajaxUploadUrl: "src/samples/php/upload.php", 
+									 uploadStatusURL : "src/samples/php/status.php" 
+						};
+						var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
+							dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
+								samples.mfudemo.pymagerConf.addHeadMsg();
+								samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+						});
+		
+						var upload1 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer1") ); 	
+							dojo.connect(upload1, 'onFinishedUpload', function(uploadedFileInformation) {  						
+								samples.mfudemo.pymagerConf.addHeadMsg();
+								samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+						});
+						
+						var upload2 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer2") ); 	
+							dojo.connect(upload2, 'onFinishedUpload', function(uploadedFileInformation) {  						
+								samples.mfudemo.pymagerConf.addHeadMsg();
+								samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+						});				
+		
+					});
+		    });
+			
+		</script>
+		</body>
 </html>
