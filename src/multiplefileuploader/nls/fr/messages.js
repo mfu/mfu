@@ -1,6 +1,7 @@
 {
 	attachAnotherFile: "Joindre un autre fichier",
 	deleteFile: "Supprimer",
+	browse: "Parcourir ...",
 	retryFailedUploads : "relancer les téléchargements échoués",
 	NETWORK_ERROR: "Le serveur distant ne réponds pas, réeesayez",
 	SIZE_EXCEEDED: "Le fichier est trop volumineux",

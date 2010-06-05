@@ -1,6 +1,7 @@
 {
 	attachAnotherFile: "Attach another file",
 	deleteFile: "Delete",
+	browse: "Browse ...",
 	retryFailedUploads: "Retry failed upload(s)",
 	NETWORK_ERROR: "The server cannot be reached. Please retry",
 	SIZE_EXCEEDED: "Size limit exceeded",

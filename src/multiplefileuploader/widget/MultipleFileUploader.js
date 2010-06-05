@@ -28,7 +28,7 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			apc_php_enabled : true,
 
 /* UI setup */
-		inputWidth : 40,
+		inputWidth : 25,
 		progressBarWidth : "15%",
 		progressBarHeight : "15px",
 		

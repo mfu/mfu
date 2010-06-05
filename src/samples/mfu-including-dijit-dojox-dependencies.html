@@ -2,26 +2,49 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="../../@DOJO_VERSION@/dijit/themes/nihilo/nihilo.css"/>		
-		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="../../@DOJO_VERSION@/dojo/resources/dojo.css"/>
 		<script type="text/javascript" src="dojo/dojo.js" ></script> 
 		<script type="text/javascript" src="layers/mfu.js" ></script> 
-
+		<style type="text/css">
+			@import "../../@DOJO_VERSION@/dojo/resources/dojo.css"; 
+			@import "../../@DOJO_VERSION@/dijit/themes/dijit.css"; 
+			@import "../../@DOJO_VERSION@/dijit/themes/nihilo/nihilo.css"; 
+			@import "../../@DOJO_VERSION@/dijit/themes/tundra/tundra.css"; 
+			@import "../../@DOJO_VERSION@/dijit/themes/soria/soria.css"; 
+			@import "../../src/multiplefileuploader/resources/FileInput.css"; 
+		</style>
 		<!-- djConfig="parseOnLoad: true, isDebug:true" -->
 	</head>
-	<body class="nihilo">
-		<div id="uploadContainer"></div>
-		<br />
-		<div id="headmsg"></div>
-		<div id="result"></div>
+	<body>
+		
+		<p>
+			Dijit comes bundled with three themes.
+			MFU is compliant with dijit/dojo's themes
+			
+		</p>
+		
+		<h1>Soria theme</h1>
+		<div class="soria">
+			<div id="uploadContainer"></div>
+		</div>
+		<h1>Tundra theme</h1>		
+		<div class="tundra">
+			<div id="uploadContainer1"></div>
+		</div>		
+		<h1>Nihilo theme</h1>		
+		<div class="nihilo">
+			<div id="uploadContainer2"></div>
+		</div>	
+				
+	<div id="headmsg"></div>
+	<div id="result"></div>	
+	
 	</body>
 	
 	
 <script type="text/javascript">
 	dojo.registerModulePath("samples","../../");
-	dojo.addOnLoad( function(){
-			dojo.require("samples.mfudemo.pymagerConf");
-			dojo.addOnLoad( function(){			 					
+	dojo.addOnLoad( function(){			 					
+				dojo.require("samples.mfudemo.pymagerConf");
 				var params = { 
 							ajaxUploadUrl: "../php/upload.php", 
 							 uploadStatusURL : "../php/status.php" 
@@ -29,10 +52,22 @@
 				var upload = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer") ); 	
 
 					dojo.connect(upload, 'onFinishedUpload', function(uploadedFileInformation) {  						
-					    	samples.mfudemo.pymagerConf.addHeadMsg();
+				    		samples.mfudemo.pymagerConf.addHeadMsg();
 							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
 				});
-			});
+				var upload1 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer1") ); 	
+
+					dojo.connect(upload1, 'onFinishedUpload', function(uploadedFileInformation) {  						
+				    		samples.mfudemo.pymagerConf.addHeadMsg();
+							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+				});
+				var upload2 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer2") ); 	
+
+					dojo.connect(upload2, 'onFinishedUpload', function(uploadedFileInformation) {  						
+				    		samples.mfudemo.pymagerConf.addHeadMsg();
+							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+				});
+
 			});
 	
 	

@@ -72,7 +72,7 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 		return this.inputFile;
 	},	
 	_setupUI : function() {
-		dojo.attr(this.inputFile, "size", this.config_UI.inputWidth);	
+		dojo.attr(this.fakeInputFile, "size", this.config_UI.inputWidth);	
 	},
 	destroy : function() {
 	    this._unregisterEvents();

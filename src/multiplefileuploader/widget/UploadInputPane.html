@@ -1,4 +1,10 @@
 <span dojoAttachPoint="unitInput">
-	  <input dojoAttachPoint="inputFile" type="file" name="fileData"></input>
-	  <a href="#" dojoAttachPoint="deleteLink">${i18n.deleteFile}</a>
+	<div class="dijitFileInput">
+	  <input dojoAttachPoint="inputFile" type="file" class="dijitFileInputReal" name="fileData"></input>
+	  <div class="dijitFakeInput">
+		  <input  dojoAttachPoint="fakeInputFile" class="dijitFileInputVisible"  type="text">
+		  <div class="dijitInline dijitFileInputText" dojoattachpoint="titleNode">${i18n.browse}</div>
+		  <a href="#" dojoAttachPoint="deleteLink">${i18n.deleteFile}</a>
+	 </div>
+	</div>
 </span>  
