@@ -1,0 +1,88 @@
+body {
+	background:#FFFFFF url("../../../dojo-release-1.4.2-src/dijit/tests/images/testsBodyBg.gif") repeat-x scroll left top;
+	padding:2em;
+}
+
+a {
+	color:#002BB8;
+}
+
+.tundra .dijitFileInput {
+height:1.8em;
+position:relative;
+}
+
+.nihilo .dijitFileInput {
+height:2.3em;
+position:relative;
+}
+
+.dijitFileInput {
+height:2em;
+position:relative;
+}
+
+.dijitFileInputReal {
+opacity:0;
+position:absolute;
+z-index:2;
+}
+.dijitFileInputRealBlind {
+right:0;
+}
+.dijitFileInputReal:hover {
+cursor:pointer;
+}
+.dijitFileInputButton, .dijitFileInputText {
+border:1px solid #333333;
+cursor:pointer;
+padding:1px 12px;
+}
+.dijitFileInputButton {
+visibility:hidden;
+z-index:3;
+}
+.dijitFakeInput {
+left:0;
+position:absolute;
+top:0;
+white-space:nowrap;
+z-index:1;
+}
+
+
+.tundra .dijitFakeInput input {
+background:url("../../../dojo-release-1.4.2-src/dijit/themes/tundra/images/validationInputBg.png") repeat-x scroll left top #FFFFFF;
+border:1px solid #9B9B9B;
+line-height:normal;
+padding:0.2em 0.3em;
+}
+.tundra .dijitFileInputButton, .tundra .dijitFileInputText {
+background:url("../../../dojo-release-1.4.2-src/dijit/themes/tundra/images/buttonEnabled.png") repeat-x scroll center top #E9E9E9;
+border:1px solid #9B9B9B;
+padding:2px 12px;
+}
+
+.soria .dijitFakeInput input {
+background:url("../../../../dojo-release-1.4.2-src/dijit/themes/soria/images/validationInputBg.png") repeat-x scroll 0 -30px #FFFFFF;
+border:1px solid #8BA0BD;
+line-height:normal;
+padding:0.2em 0.3em;
+}
+.soria .dijitFileInputButton, .soria .dijitFileInputText {
+background:url("../../../dojo-release-1.4.2-src/dijit/themes/soria/images/buttonEnabled.png") repeat-x scroll 0 0 #B7CDEE;
+border:1px solid #8BA0BD;
+padding:2px 12px;
+}
+
+.nihilo .dijitFakeInput input {
+background:url("../../../dojo-release-1.4.2-src/dijit/themes/nihilo/images/validationInputBg.png") repeat-x scroll 0 -30px #FFFFFF;
+border:1px solid #DEDEDE;
+line-height:normal;
+padding:0.2em 0.3em;
+}
+.nihilo .dijitFileInputButton, .nihilo .dijitFileInputText {
+background:url("../../../dojo-release-1.4.2-src/dijit/themes/nihilo/images/buttonEnabled.png") repeat-x scroll 0 0 #B7CDEE;
+border:1px solid #DEDEDE;
+padding:2px 12px;
+}
