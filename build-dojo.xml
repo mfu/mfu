@@ -1,0 +1,26 @@
+  <project name="build-dojo" basedir=".">
+  <!-- DOJO BUILD -->   
+  <target name="build-mfu-including-dijit-dojox-dependencies">
+    <tstamp/>
+    <exec dir="${dojo.buildscript.path}"
+        executable="${dojo.buildscript.path}/build.sh">
+          <arg value="profile=mfu-including-dijit-dojox-dependencies" />
+          <arg value="action=clean,release" />	  
+          <arg value="copyTests=true" />
+		  <arg value="mini=false" />
+          <arg value="releaseName=mfu-including-dijit-dojox-dependencies" />
+          <arg value="version=${mfu.version}" />
+    </exec>
+  </target>
+  <target name="build-mfu-dojo-embedded">
+    <exec dir="${dojo.buildscript.path}"
+        executable="${dojo.buildscript.path}/build.sh">
+          <arg value="profile=mfu-dojo-embedded" />
+          <arg value="action=clean,release" />
+           <arg value="copyTests=true" />
+          <arg value="mini=false" />  
+		  <arg value="releaseName=mfu-dojo-embedded" />
+     	  <arg value="version=${mfu.version}" />
+    </exec>
+  </target>
+  </project>

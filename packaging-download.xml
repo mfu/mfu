@@ -1,0 +1,94 @@
+  <project name="packaging-download" basedir=".">
+
+   <!-- START FOR PACKAGING COPY -->  
+  <target name="mfu-dojo-embedded-copy">
+        <copy todir="${mfu.samples.dir}/${mfude}/dojo/nls" overwrite="true">
+                <fileset dir="${dojo.dir}/release/${mfude}/dojo/nls"></fileset>
+        </copy>
+         <copy file="${dojo.dir}/release/${mfude}/dojo/dojo.js" todir="${mfu.samples.dir}/${mfude}/dojo"/>
+         <copy file="${dojo.dir}/release/${mfude}/dojo/dojo.js.uncompressed.js" todir="${mfu.samples.dir}/${mfude}/dojo"/>
+	    <copy file="./src/samples/${mfude}.html" todir="${mfu.samples.dir}/${mfude}/"/>
+  </target>
+
+  <target name="php-copy">
+        <copy todir="${mfu.samples.dir}/php" overwrite="true">
+                <fileset dir="./src/samples/php"></fileset>
+        </copy>
+  </target>
+
+ <target name="some-dijit-files-copy">
+   <copy file="${dojo.dir}/dijit/themes/a11y/indeterminate_progress.gif" todir="${mfu.samples.dir}/${mfuiddd}/dijit/themes/a11y"/> 
+   <copy file="${dojo.dir}/dijit/themes/a11y/indeterminate_progress.gif" todir="${mfu.samples.dir}/${mfude}/dijit/themes/a11y"/> 
+</target>
+
+ <target name="mfu-including-dijit-dojox-dependencies-copy">
+	<copy todir="${mfu.samples.dir}/${mfuiddd}/layers/nls" overwrite="true">
+          <fileset dir="${dojo.dir}/release/${mfuiddd}/layers/nls"></fileset>
+    </copy>
+     <copy file="${dojo.dir}/release/${mfuiddd}/layers/mfu.js" todir="${mfu.samples.dir}/${mfuiddd}/layers"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/layers/mfu.js.uncompressed.js" todir="${mfu.samples.dir}/${mfuiddd}/layers"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/dojo/dojo.js" todir="${mfu.samples.dir}/${mfuiddd}/dojo"/>
+     <copy file="${dojo.dir}/release/${mfuiddd}/dojo/dojo.js.uncompressed.js" todir="${mfu.samples.dir}/${mfuiddd}/dojo"/>
+    <copy file="./src/samples/${mfuiddd}.html" todir="${mfu.samples.dir}/${mfuiddd}/"/>	
+</target>
+
+  <target name="mfu-src-copy">
+        <copy todir="${mfu.target.dir}/src/multiplefileuploader" overwrite="true">
+                <fileset dir="./src/multiplefileuploader">
+   				 <include name="**/*"/>  
+                </fileset>
+        </copy>
+       <copy file="./src/samples/mfu-src.html" todir="${mfu.samples.dir}/src"/>
+  </target>
+  
+   <target name="dojo-copy">
+        <copy todir="${mfu.target.dir}/${dojo.version}" overwrite="true">
+                <fileset dir="${dojo.dir}" excludes="release/**"/>
+        </copy>
+  </target>
+  
+   <target name="pymager-conf-copy">	
+	<copy file="./src/samples/mfudemo/pymagerConf.js" todir="${mfu.samples.dir}/mfudemo/"/>			
+  </target>  
+  
+   <target name="replace-dojo-version-samples" description="Replacing variable">
+		<replace file="${mfu.samples.dir}/${mfude}/${mfude}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+  		<replace file="${mfu.samples.dir}/${mfuiddd}/${mfuiddd}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+		<replace file="${mfu.samples.dir}/src/mfu-src.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+		<replace file="${mfu.target.dir}/src/multiplefileuploader/resources/FileInput.css" token="@DOJO_VERSION@" value="${dojo.version}"/>
+  </target>
+   
+   <target name="replace-upload-conf" description="Replacing variable">
+		<replace file="${mfu.samples.dir}/php/upload.conf" token="@PYMAGER_HOST@" value="${sample.pymager.host}"/>
+		<replace file="${mfu.samples.dir}/php/upload.conf" token="@PYMAGER_PORT@" value="${sample.pymager.port}"/>
+		<replace file="${mfu.samples.dir}/php/upload.conf" token="@PYMAGER_PATH@" value="${sample.pymager.path}"/>
+		<replace file="${mfu.samples.dir}/php/upload.conf" token="@UPLOAD_TO@" value="${sample.pymager.uploadTo}"/>
+		<replace file="${mfu.samples.dir}/php/upload.conf" token="@PYMAGER_USERNAME@" value="${sample.pymager.username}"/>
+		<replace file="${mfu.samples.dir}/php/upload.conf" token="@PYMAGER_PASSWORD@" value="${sample.pymager.password}"/>
+ </target>   
+   
+  <target name="tar-release">
+	<tar destfile="${target.dir}/mfu-${mfu.version}.tar" basedir="${target.dir}"/>
+	<gzip destfile="${target.dir}/mfu-${mfu.version}.tar.gz" src="${target.dir}/mfu-${mfu.version}.tar"/>
+	<delete file="${target.dir}/mfu-${mfu.version}.tar" />
+  </target>
+
+  <target name="deploy" depends="package">
+	   <sshexec host="${site.host}"
+			username="${site.user}"
+			password="${site.password}"
+			command="mkdir -p ${mfu.remote.dir}"
+	 /> 
+	 
+	  <scp file="${target.dir}/mfu-${mfu.version}.tar.gz" todir="${site.user}:${site.password}@${site.host}:${mfu.remote.dir}" verbose="true">	  	
+	  </scp>	
+	 <!-- 
+	   <sshexec host="${site.host}"
+			username="${site.user}"
+			password="${site.password}"
+			command="cd ${mfu.remote.dir} ; tar -zvxf mfu-${mfu.version}.tar.gz"
+	 /> -->
+  </target>
+  
+   <!-- END OF PACKAGING COPY-->  
+  </project> 

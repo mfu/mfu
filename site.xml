@@ -1,0 +1,46 @@
+<project name="site" basedir="."> 
+  
+  <target name="site-copy-some-files">
+  	  <copy file="${basedir}/website/_templates/layout.html" tofile="${basedir}/website/_templates/layout.html2"/>
+	  <copy file="${basedir}/website/demo.rst" tofile="${basedir}/website/demo.rst2"/>
+  </target>
+ 
+   <target name="site-replace-some-var">
+	  	<replace file="${basedir}/website/_templates/layout.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
+		<replace file="${basedir}/website/_templates/layout.html" token="@MFUDEMO_NAME@" value="${mfu-demo.name}"/>
+		<replace file="${basedir}/website/demo.rst" token="@MFUDEMO_NAME@" value="${mfu-demo.name}"/>
+  </target>
+
+
+    
+ <target name="site" depends="site-copy-some-files, site-replace-some-var">
+	<exec dir="${basedir}/website"
+	    executable="python">
+	      <arg value="${sphinx.bin.dir}/sphinx-build" />
+          <arg value="-D" />
+          <arg value="release=${mfu.version}" />
+		  <arg value="-b" />
+		  <arg value="html" />
+		  <arg value="-d" />		  
+		  <arg value="_build/doctrees" />
+		  <arg value="." />		  
+		  <arg value="${sphinx.target.dir}" />	  
+    </exec>
+
+  	<move file="${basedir}/website/_templates/layout.html2" tofile="${basedir}/website/_templates/layout.html"/>
+	<move file="${basedir}/website/demo.rst2" tofile="${basedir}/website/demo.rst"/>
+  </target>
+
+
+  <target name="site:deploy" depends="site" >
+	   <sshexec host="${site.host}"
+			username="${site.user}"
+			password="${site.password}"
+			command="mkdir -p ${site.remote.dir}"
+	 /> 
+	  <scp todir="${site.user}:${site.password}@${site.host}:${site.remote.dir}" verbose="true">
+		<fileset dir="${sphinx.target.dir}"/>
+	  </scp>
+  </target>
+  
+  </project>

@@ -4,11 +4,10 @@
 	<head>
 		<script type="text/javascript" src="../../@DOJO_VERSION@/dojo/dojo.js" ></script> 
 		<style type="text/css">
-			@import "../../@DOJO_VERSION@/dojo/resources/dojo.css"; 
-			@import "../../@DOJO_VERSION@/dijit/themes/dijit.css"; 
 			@import "../../@DOJO_VERSION@/dijit/themes/nihilo/nihilo.css"; 
 			@import "../../@DOJO_VERSION@/dijit/themes/tundra/tundra.css"; 
 			@import "../../@DOJO_VERSION@/dijit/themes/soria/soria.css"; 
+			@import "../../@DOJO_VERSION@/dijit/themes/claro/claro.css"; 
 			@import "../../src/multiplefileuploader/resources/FileInput.css"; 
 		</style>
 	</head>
@@ -24,13 +23,17 @@
 		<div class="soria">
 			<div id="uploadContainer"></div>
 		</div>
+		<h1>Claro theme</h1>		
+		<div class="claro">
+			<div id="uploadContainer1"></div>
+		</div>	
 		<h1>Tundra theme</h1>		
 		<div class="tundra">
-			<div id="uploadContainer1"></div>
+			<div id="uploadContainer2"></div>
 		</div>		
 		<h1>Nihilo theme</h1>		
 		<div class="nihilo">
-			<div id="uploadContainer2"></div>
+			<div id="uploadContainer3"></div>
 		</div>	
 				
 	<div id="headmsg"></div>
@@ -64,7 +67,11 @@
 							samples.mfudemo.pymagerConf.addHeadMsg();
 							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
 					});
-	
+					var upload3 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer3") ); 	
+						dojo.connect(upload3, 'onFinishedUpload', function(uploadedFileInformation) {  						
+							samples.mfudemo.pymagerConf.addHeadMsg();
+							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+					});	
 				});
 	    });
 		

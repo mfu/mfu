@@ -1,0 +1,24 @@
+<div class="imageUploadContainer" dojoAttachPoint="imageUploadContainer">
+	<div>
+	  <span dojoAttachPoint="unitInputTemplate" style="display:none">
+		  <input type="file" name="fileData" size="${inputSize}" class="file-input"></input>
+		  <a href="#" class="delete-link">${deleteLink}</a>
+	  </span>  
+	  <div dojoAttachPoint="progressBarContainerTemplate" style="display:none">
+		<div class="progress-bar-tmp"></div>
+		<span class="checkbox-tmp"></span>
+		<span class="filename-tmp"></span>
+	    <div style="clear:both"></div>
+	  </div>		  
+	  <div dojoAttachPoint="uploadedImageInformationTemplate" style="display:none">
+		<span class="cancel-upload-checkbox"></span>
+		<strong><span class="uploadedFilename"></span></strong>
+		<i>(<span class="mimetype"></span>)</i>
+		(<span class="size"></span>)
+		<input class="uploadedFileID" type="hidden"></input>
+	  </div>	  
+	  <div dojoAttachPoint="attachAnotherFileLinkTemplate" class="attachAnotherFileLink" style="display:none">	
+	  	<a href="#">${attachAnotherImageLink}</a> 
+	  </div>
+	</div>
+</div>

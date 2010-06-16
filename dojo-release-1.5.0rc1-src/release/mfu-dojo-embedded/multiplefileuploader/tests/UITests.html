@@ -1,0 +1,140 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="../../../dojo-release-1.4.0-src/dijit/themes/nihilo/nihilo.css"/>		
+		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="../../../dojo-release-1.4.0-src/dojo/resources/dojo.css"/>
+		<script type="text/javascript" src="../../../dojo-release-1.4.0-src/dojo/dojo.js" ></script> 
+		<!-- djConfig="parseOnLoad: true, isDebug:true" -->
+	</head>
+	<body class="nihilo">
+		<div id="uploadContainer"></div>
+		<hr />
+		<div id="uploadContainer1"></div>
+		<hr />
+		<div id="uploadContainer2"></div>
+		<hr />
+		<div id="uploadContainer3"></div>
+		<hr />
+		<div id="uploadContainer4"></div>
+		<hr />
+		<div id="uploadContainer5"></div>
+		<hr />
+		<div id="uploadContainer6"></div>
+		<hr />
+		<div id="uploadContainer7"></div>
+		<hr />
+		<div id="uploadContainer8"></div>		
+
+		<div id="result"></div>
+	</body>
+	
+	
+<script type="text/javascript">
+			dojo.registerModulePath("multiplefileuploader","../../mfu-src/multiplefileuploader");
+       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
+			dojo.require("multiplefileuploader.tests.FakeUploadStrategy");
+			dojo.require("multiplefileuploader.tests.FakeUploadRequestWithFakeFileName");
+
+			/************* Upload Success******************/	 					
+				var params = {
+					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-1.png",  "status" : "OK", "mimetype" : "image/png", "size" : "168562" , "errorcode" : ""}',
+					 fakeMode : true,
+					 ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php",
+					 progressBarMode : false
+				};
+			
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer") ); 	
+				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
+				mfu.notifyLastFileInputChanged(fakeUploadRequest);
+	
+			/****************Malformed JSON response***************/
+				var params = {
+					 fakeResponse :'{ "id" :, "45562"}',
+					 fakeMode : true,
+					 ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php",
+					 progressBarMode : false
+				};
+			
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer1") ); 	
+				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
+				mfu.notifyLastFileInputChanged(fakeUploadRequest);
+				
+			/**************** Server Error *****************/
+			
+				var params = {
+					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "SERVER_ERROR"}',
+					 fakeMode : true,
+					 ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php",
+					 progressBarMode : false
+				};
+			
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer2") ); 	
+				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
+				mfu.notifyLastFileInputChanged(fakeUploadRequest);			
+			
+			/**************JSON IS NULL ****************/
+				var params = {
+					 fakeResponse :null,
+					 fakeMode : true,
+					 ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php",
+					 progressBarMode : false
+				};
+			
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer3") ); 	
+				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
+				mfu.notifyLastFileInputChanged(fakeUploadRequest);				
+		
+			/**************Size limit exceeded*****************/
+				var params = {
+					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "SIZE_EXCEEDED"}',
+					 fakeMode : true,
+					 ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php",
+					 progressBarMode : false
+				};
+			
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer4") ); 	
+				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
+				mfu.notifyLastFileInputChanged(fakeUploadRequest);						
+		
+			/***************Null size exception****************/
+				var params = {
+					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "SIZE_UPLOAD_ERR_NO_FILE"}',
+					 fakeMode : true,
+					 ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php",
+					 progressBarMode : false
+				};
+			
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer5") ); 	
+				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
+				mfu.notifyLastFileInputChanged(fakeUploadRequest);							
+			
+			/**************Unsupported format exception*****************/
+				var params = {
+					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "UNSUPPORTED_FORMAT"}',
+					 fakeMode : true,
+					 ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php",
+					 progressBarMode : false
+				};
+			
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer6") ); 	
+				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
+				mfu.notifyLastFileInputChanged(fakeUploadRequest);			
+		
+			/**************The server cannot be reached. Please retry*****************/
+				var params = {
+					 fakeResponse :'{ "id" : "45562", "name" : "Screenshot-2.png",  "status" : "KO", "mimetype" : "image/png", "size" : "168562" , "errorcode" : "NETWORK_ERROR"}',
+					 fakeMode : true,
+					 ajaxUploadUrl: "http://localhost/multiplefileuploader/php/uploadToImageServer.php",
+					 progressBarMode : false					 
+				};
+			
+				var mfu = new multiplefileuploader.widget.MultipleFileUploader( params , dojo.byId("uploadContainer7") ); 	
+				var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequestWithFakeFileName({currentFilename: "f1"})
+				mfu.notifyLastFileInputChanged(fakeUploadRequest);						
+</script>
+	
+</html>
+
+
+
