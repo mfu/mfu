@@ -65,6 +65,11 @@
 		<replace file="${mfu.samples.dir}/php/upload.conf" token="@UPLOAD_TO@" value="${sample.pymager.uploadTo}"/>
 		<replace file="${mfu.samples.dir}/php/upload.conf" token="@PYMAGER_USERNAME@" value="${sample.pymager.username}"/>
 		<replace file="${mfu.samples.dir}/php/upload.conf" token="@PYMAGER_PASSWORD@" value="${sample.pymager.password}"/>
+ 
+ 		<replace file="${mfu.samples.dir}/mfudemo/pymagerConf.js" token="@PYMAGER_HOST@" value="${sample.pymager.host}"/>
+		<replace file="${mfu.samples.dir}/mfudemo/pymagerConf.js" token="@PYMAGER_PORT@" value="${sample.pymager.port}"/>
+		<replace file="${mfu.samples.dir}/mfudemo/pymagerConf.js" token="@PYMAGER_PATH@" value="${sample.pymager.path}"/>		
+ 
  </target>   
    
   <target name="tar-release">

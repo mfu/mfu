@@ -3,7 +3,7 @@ dojo.provide("samples.mfudemo.pymagerConf");
 	samples.mfudemo.pymagerConf.generateLinks = function(uploadedFileInformation) {
 		
 		var supportedFormats = ["jpg", "bmp", "gif","png"];
-		var derivedImageURL = "http://localhost:8000/pymager/derived/";
+		var derivedImageURL = "http://@PYMAGER_HOST@:@PYMAGER_PORT@@PYMAGER_PATH@/derived/";
 		var convertToSize = ["600x600", "80x80"];
 		var link ="";
 		

@@ -1,7 +1,7 @@
 
 .dijitFileInput {
 	position:relative;
-	height:2em;
+	height:1.9em;
 }
 
 .dijitFileInputReal {
@@ -97,6 +97,12 @@
 }
 
 /* Claro */
+.claro {
+	color:black;
+	font-family:'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
+	font-size:14px;
+	line-height:150%;
+}
 
 .claro .dijitProgressOverlay {
 	border:1px solid #769dc0;

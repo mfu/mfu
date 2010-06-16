@@ -4,11 +4,29 @@
 	<head>
 		<script type="text/javascript" src="dojo/dojo.js"></script> 
 		<style type="text/css">
+			@import "../../@DOJO_VERSION@/dojo/resources/dojo.css"; 
+			@import "../../@DOJO_VERSION@/dijit/themes/dijit.css"; 
 			@import "../../@DOJO_VERSION@/dijit/themes/nihilo/nihilo.css"; 
 			@import "../../@DOJO_VERSION@/dijit/themes/tundra/tundra.css"; 
 			@import "../../@DOJO_VERSION@/dijit/themes/soria/soria.css"; 
+			@import "../../@DOJO_VERSION@/dijit/themes/claro/claro.css"; 
 			@import "../../src/multiplefileuploader/resources/FileInput.css"; 
 		</style>
+	<style type="text/css"> 		
+			body {
+			background:#FFFFFF url(../../@DOJO_VERSION@/dijit/tests/images/testsBodyBg.gif) repeat-x scroll left top;
+			padding:2em;
+			}
+	 .claro { 
+	 			font-family:Myriad,Helvetica,Tahoma,Arial,clean,sans-serif;
+				font-size:12px;
+				font-size-adjust:none;
+				font-style:normal;
+				font-variant:normal;
+				font-weight:normal;
+				line-height:normal;		
+				}			
+	</style>					
 	</head>
 	<body>
 		
@@ -22,24 +40,24 @@
 		<div class="soria">
 			<div id="uploadContainer"></div>
 		</div>
+		<h1>Claro theme</h1>		
+		<div class="claro">
+			<div id="uploadContainer1"></div>
+		</div>	
 		<h1>Tundra theme</h1>		
 		<div class="tundra">
-			<div id="uploadContainer1"></div>
+			<div id="uploadContainer2"></div>
 		</div>		
 		<h1>Nihilo theme</h1>		
 		<div class="nihilo">
-			<div id="uploadContainer2"></div>
+			<div id="uploadContainer3"></div>
 		</div>	
 				
 	<div id="headmsg"></div>
 	<div id="result"></div>	
 	
-	
 	<br />
-	<p>
-	This sample application uses the <a href="http://github.com/samokk/pymager">pymager </a>) backend to store the uploaded images and provide you with thumbnails. This means you have to input image files (JPEG, ..)<br /><br/>
-	However, MFU does not itself depend on pymager. This means you can use it with any system, and choose to accept whatever file formats you want to.	
-</p>	
+
 	<script type="text/javascript">
 		dojo.registerModulePath("samples","../../");
 		dojo.addOnLoad( function(){			 					
@@ -66,7 +84,11 @@
 					    		samples.mfudemo.pymagerConf.addHeadMsg();
 								samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
 					});
-	
+					var upload3 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer3") ); 	
+						dojo.connect(upload3, 'onFinishedUpload', function(uploadedFileInformation) {  						
+							samples.mfudemo.pymagerConf.addHeadMsg();
+							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
+					});		
 				});
 		
 		
