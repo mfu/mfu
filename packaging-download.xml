@@ -73,7 +73,7 @@
  </target>   
    
   <target name="tar-release">
-	<tar destfile="${target.dir}/mfu-${mfu.version}.tar" basedir="${target.dir}"/>
+	<tar destfile="${target.dir}/mfu-${mfu.version}.tar" basedir="${mfu.target.dir}"/>
 	<gzip destfile="${target.dir}/mfu-${mfu.version}.tar.gz" src="${target.dir}/mfu-${mfu.version}.tar"/>
 	<delete file="${target.dir}/mfu-${mfu.version}.tar" />
   </target>

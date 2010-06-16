@@ -75,7 +75,7 @@
 	<property name="sample.pymager.password" value="test" />		
 	
    <!-- PRODUCTION variable -->
-	<property name="production.pymager.host" value="localhost" />	
+	<property name="production.pymager.host" value="developers.sirika.com" />	
 	<property name="production.pymager.port" value="80" />	
 	<property name="production.pymager.path" value="/pymager" />	
 	<property name="production.pymager.uploadTo" value="pymager" />	

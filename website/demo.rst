@@ -12,15 +12,15 @@ Live demo
 		<div class="soria">
 			<div id="uploadContainer"></div>
 		</div>
-		<h2>Claro theme</h1>
+		<h2>Claro theme</h2>
 		<div class="claro">
 			<div id="uploadContainer1"></div>
 		</div>
-		<h2>Tundra theme</h1>		
+		<h2>Tundra theme</h2>		
 		<div class="tundra">
 			<div id="uploadContainer2"></div>
 		</div>		
-		<h2>Nihilo theme</h1>		
+		<h2>Nihilo theme</h2>		
 		<div class="nihilo">
 			<div id="uploadContainer3"></div>
 		</div>	
@@ -35,8 +35,9 @@ Live demo
 	</p>
 
 	<script type="text/javascript">
-		dojo.registerModulePath("multiplefileuploader","../../src/multiplefileuploader");
-		dojo.registerModulePath("samples","../../samples");
+
+
+        dojo.registerModulePath("samples","../../");
 		
 		dojo.addOnLoad( function(){
 	       		dojo.require("multiplefileuploader.widget.MultipleFileUploader");
