@@ -171,7 +171,7 @@
 		
 		function deserialize_headers( $flat_headers ) {
 			$flat_headers = preg_replace( "/^" . HTTP_CRLF . "/", '', $flat_headers );
-			$tmp_headers = split( HTTP_CRLF, $flat_headers );
+			$tmp_headers = explode( HTTP_CRLF, $flat_headers );
 			if (preg_match("'HTTP/(\d\.\d)\s+(\d+).*'i", $tmp_headers[0], $matches )) {
 				$this->set_header( 'Protocol-Version', $matches[1] );
 				$this->set_header( 'Status', $matches[2] );
@@ -309,7 +309,7 @@
 		
 		function parse( $cookie_str, $host ) {
 			$cookie_str = str_replace( '; ', ';', $cookie_str ) . ';';
-			$data = split( ';', $cookie_str );
+			$data = explode( ';', $cookie_str );
 			$value_str = $data[0];
 
 			$cookie_param = 'domain=';
@@ -810,7 +810,7 @@
 		} // End of function _merge_form_data()
 
 		function _current_directory( $uri ) {
-			$tmp = split( '/', $uri );
+			$tmp = explode( '/', $uri );
 			array_pop($tmp);
 			$current_dir = implode( '/', $tmp ) . '/';
 			return ($current_dir!=''?$current_dir:'/');

@@ -5,9 +5,8 @@ Live demo
 		
 		<p>
 			Dijit comes bundled with three themes.
-			MFU is compliant with dijit/dojo's themes
+			MFU is compliant with them.
 		</p>
-		
 		<h2>Soria theme</h2>
 		<div class="soria">
 			<div id="uploadContainer"></div>

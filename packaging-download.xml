@@ -56,6 +56,8 @@
   		<replace file="${mfu.samples.dir}/${mfuiddd}/${mfuiddd}.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
 		<replace file="${mfu.samples.dir}/src/mfu-src.html" token="@DOJO_VERSION@" value="${dojo.version}"/>
 		<replace file="${mfu.target.dir}/src/multiplefileuploader/resources/FileInput.css" token="@DOJO_VERSION@" value="${dojo.version}"/>
+		<replace file="${mfu.target.dir}/src/multiplefileuploader/tests/UITests.html" token="@DOJO_VERSION@" value="${dojo.version}"/>  
+		<replace file="${mfu.target.dir}/src/multiplefileuploader/tests/runTests.html" token="@DOJO_VERSION@" value="${dojo.version}"/>  
   </target>
    
    <target name="replace-upload-conf" description="Replacing variable">

@@ -71,9 +71,10 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 	getFileInput : function() {
 		return this.inputFile;
 	},	
+	
 	_setupUI : function() {
-		dojo.attr(this.fakeInputFile, "size", this.config_UI.inputWidth);	
-		dojo.attr(this.inputFile, "size", this.config_UI.inputWidth);	
+		dojo.attr(this.inputFile, "style", {width:  this.config_UI.inputWidth+this.config_UI.inputAdditionalWidth + this.config_UI.inputWidthUnit });	
+		dojo.attr(this.fakeInputFile, "style", {width: this.config_UI.inputWidth + this.config_UI.inputWidthUnit });
 	},
 	destroy : function() {
 	    this._unregisterEvents();
@@ -81,4 +82,3 @@ dojo.declare("multiplefileuploader.widget.UploadInputPane", [dijit._Widget,dijit
 	}	 
   
 });
-

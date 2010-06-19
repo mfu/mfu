@@ -28,11 +28,20 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			apc_php_enabled : true,
 
 /* UI setup */
-		inputWidth : 25,
-		progressBarWidth : "15%",
-		progressBarHeight : "15px",
 		
-			
+		progressBarWidth : "15%",
+		progressBarHeight : "18px",
+	
+/* 
+The goal of the next variables is to place the 'real' button over the 'fake' one, in order to have a clickable fake button 
+Depending of your CSS attributes( width, 'browse...' button text length ) , you might adjust the following values
+To know where the real browse button is, disable ( by removing the line ) .dijitFileInputReal { opacity:0; } from FileInput.css
+we use this trick : http://www.quirksmode.org/dom/inputfile.html 
+*/
+		 inputWidth : 200, 
+		 inputAdditionalWidth : 120,
+		 inputWidthUnit : "px",
+		 
 /* tests setup */			
 		fakeMode: false,
 		fakeResponse: "",
@@ -87,6 +96,8 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 			};
 			var config_UI = {
 				inputWidth : this.inputWidth,
+				inputAdditionalWidth: this.inputAdditionalWidth,
+				inputWidthUnit : this.inputWidthUnit,
 				progressBarWidth : this.progressBarWidth,
 				progressBarHeight : this.progressBarHeight			
 			};
@@ -145,4 +156,3 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 	 }
 
 });
-
