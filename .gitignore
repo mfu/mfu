@@ -1,3 +1,4 @@
 target
 build
 website/_build/
+.tmp*

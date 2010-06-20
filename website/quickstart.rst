@@ -59,12 +59,12 @@ Check out upload.conf in php folder::
 
   [remote]
   host = "127.0.0.1"
-  port =  "8000"
-  pymager_upload_parameter_name = "file"
-  user = "test"
-  password = "test"
-  proxy_url = ""
-  proxy_port = ""
+ port =  "8000"
+ path = "/pymager"
+ user = "test"
+ password = "test"
+ proxy_url = ""
+ proxy_port = ""
 
 When the ‘upload_to’ item contains ‘pymager’, the PHP code will contact a `Pymager <http://github.com/samokk/pymager>`_  instance whose address and credentials are described in the ‘remote’ section
 
