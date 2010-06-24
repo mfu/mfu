@@ -4,8 +4,7 @@ Live demo
 .. raw:: html
 		
 		<p>
-			Dijit comes bundled with three themes.
-			MFU is compliant with them.
+			Dijit comes bundled with some themes.
 		</p>
 		<p>
 			Choose your theme : <select id="themeSelector" onChange="dojo.removeClass(dojo.body());dojo.addClass(dojo.body(), this.options[this.selectedIndex].value);">
