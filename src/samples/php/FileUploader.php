@@ -1,31 +1,33 @@
 <?php
     require_once('lib/http.inc');
-	
-	class FileUploader
+   
+    class FileUploader
     {
         const SESSION_STATUS_KEY = '__upload_status';
         const SESSION_ERROR_KEY = '__upload_error';
-		const ID_KEY      = 'APC_UPLOAD_PROGRESS';
-		const PYMAGER_UPLOAD_PATH= '/original/';
-		const PYMAGER_PARAMETER_NAME = 'file';
- 		private static $_instance = null;
+        const ID_KEY      = 'APC_UPLOAD_PROGRESS';
+        const PYMAGER_ORIGINAL_UPLOAD_PATH= '/original/';
+        const PYMAGER_DERIVED_UPLOAD_PATH= '/derived/';
+		const PYMAGER_WANTED_FORMAT = 'png';
+        const PYMAGER_PARAMETER_NAME = 'file';
+         private static $_instance = null;
 
- 		
+        
         public function __construct()
         {
-            session_start();	
+            session_start();   
             if (!array_key_exists(self::SESSION_STATUS_KEY, $_SESSION)) {
                 $_SESSION[self::SESSION_STATUS_KEY] = array();
             }
         }
-      
- 	   	public static function getInstance() {
-		     if (!self::$_instance instanceof self) {
-	           self::$_instance = new FileUploader();
-	        }
-	        return self::$_instance;
-    	}
-    
+     
+            public static function getInstance() {
+             if (!self::$_instance instanceof self) {
+               self::$_instance = new FileUploader();
+            }
+            return self::$_instance;
+        }
+   
         public static function isAPCEnabled()
         {
             if (!extension_loaded('apc'))
@@ -37,50 +39,66 @@
             return ini_get('apc.enabled') && ini_get('apc.rfc1867');
         }
 
-		
-		public static function setDefaultStatus($id)
+       
+        public static function setDefaultStatus($id)
         {
-		      $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "", 'status' => 'OK' );	
-        }			
-		
+              $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "", 'status' => 'OK' );   
+        }           
+       
         public static function setFileErrorCode($file, $id)
         {
-		      $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "", 'status' => 'OK' );	
-			  if ($file['error']) {
-				switch ($file['error']){
-						 case 1:
-							// UPLOAD_ERR_INI_SIZE
-							$_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "SIZE_EXCEEDED", 'status' => 'KO' );									 
-						 break;
-						 case 4: 
-							//UPLOAD_ERR_NO_FILE
-							$_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "UPLOAD_ERR_NO_FILE", 'status' => 'KO' );
-						 break;
-				}	  	 
-		      } else if(empty($_FILES)) {
-		 	 		//POST_MAX_SIZE
-					$_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "SIZE_EXCEEDED", 'status' => 'KO' );
-		  	}	
-        }		
-				
-		
-		//return array( $status , $errorCode );
+              self::setDefaultStatus($id);   
+              if ($file['error']) {
+                switch ($file['error']){
+                         case 1:
+                            // UPLOAD_ERR_INI_SIZE
+                            $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "SIZE_EXCEEDED", 'status' => 'KO' );                                     
+                         break;
+                         case 4:
+                            //UPLOAD_ERR_NO_FILE
+                            $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "UPLOAD_ERR_NO_FILE", 'status' => 'KO' );
+                         break;
+                }           
+              } else if(empty($_FILES)) {
+                      //POST_MAX_SIZE
+                    $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "SIZE_EXCEEDED", 'status' => 'KO' );
+              }   
+        }       
+               
+       
+        //return array( $status , $errorCode );
         public static function setHTTPErrorCode($http_client, $id)
         {
-			switch($http_client->_response->get_status()) {				
-				case "400" :  
-				$_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "UNSUPPORTED_FORMAT", 'status' => 'KO' );
-				break;					
-			}
-			
-			if( !empty($http_client->errstr) ) {
-				$_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "NETWORK_ERROR", 'status' => 'KO' );
-			}
-			if($http_client->_response->get_status() > 400) {
-				$_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "SERVER_ERROR", 'status' => 'KO' );
-			}
-        }		
-		
+            switch($http_client->_response->get_status()) {               
+                case "400" : 
+                $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "UNSUPPORTED_FORMAT", 'status' => 'KO' );
+                break;                   
+            }
+           
+            if( !empty($http_client->errstr) ) {
+                $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "NETWORK_ERROR", 'status' => 'KO' );
+            }
+            if($http_client->_response->get_status() > 400) {
+                $_SESSION[self::SESSION_ERROR_KEY][$id] = array( 'errorcode' => "SERVER_ERROR", 'status' => 'KO' );
+            }
+        }       
+       
+        public function getThumbUrl($conf, $id) {
+
+            if($conf['general']['upload_to'] == 'pymager') {
+				if($conf['remote']['secured'] == "true")
+					$protocol = "https://";
+				else
+					$protocol = "http://";			   
+				return $protocol.$conf['remote']['host'].":".$conf['remote']['port'].$conf['remote']['path'].self::PYMAGER_DERIVED_UPLOAD_PATH.$id."-".$_POST['thumbWidth']."x".$_POST['thumbHeight'].".".self::PYMAGER_WANTED_FORMAT;
+            }
+            else
+           
+            {
+            // put your code here if you want to integrate thumbs with GD or whatever.
+            // you need to return a full URL
+            }
+        }
         public function getUploadStatus($id)
         {
             // sanitize the ID value
@@ -127,11 +145,11 @@
         }
 
         public function upload($conf = array() )
-        {		
+        {       
 
-			$r = $conf['remote'];
-			$l = $conf['local'];
-			$file = $_FILES[$l['upload_parameter_name']];
+            $r = $conf['remote'];
+            $l = $conf['local'];
+            $file = $_FILES[$l['upload_parameter_name']];
             $id   = $_POST[self::ID_KEY];
             // ensure the given file has been uploaded
            if (!isset($file) || !is_array($file))
@@ -141,33 +159,33 @@
             if ($file['error'] != UPLOAD_ERR_OK)
                 return false;
 
-			self::setDefaultStatus($id);
-			self::setFileErrorCode($file,$id);
-   
-			if($conf['general']['upload_to'] == 'pymager') {
-				$files[] = 	array('name' => self::PYMAGER_PARAMETER_NAME,
-							'content-type' => 'text/plain',
-							'filename' => basename($file['name']),
-							'data' => file_get_contents($file['tmp_name'])
-				);					
-				$http_client = new http( HTTP_V11, false , Array($r['user'],$r['password']));
-				$http_client->host =  $r['host'];
-				$http_client->port =  $r['port'];
-				if(!empty($r['proxy_url'])) {
-					$http_client->use_proxy( $r['proxy_url'], $r['proxy_port'] );
-				}
-				$http_client->multipart_post( $r['path'].self::PYMAGER_UPLOAD_PATH.$id, $fields = array() , $files , false);
-				self::setHTTPErrorCode($http_client,$id); 
-			 }
-			 else if($conf['general']['upload_to'] == 'local_directory') {
-				$fullpath = sprintf('%s/%s', $l['upload_folder_name'], basename($file['name']));
-				if (!move_uploaded_file($file['tmp_name'], $fullpath))
-	                return false;					
-			 }
-			 else
-			 {
-				throw ('upload_to in upload.conf should be pymager or local_directory');
-			 }
+            self::setDefaultStatus($id);
+            self::setFileErrorCode($file,$id);
+  
+            if($conf['general']['upload_to'] == 'pymager') {
+                $files[] =     array('name' => self::PYMAGER_PARAMETER_NAME,
+                            'content-type' => 'text/plain',
+                            'filename' => basename($file['name']),
+                            'data' => file_get_contents($file['tmp_name'])
+                );                   
+                $http_client = new http( HTTP_V11, false , Array($r['user'],$r['password']));
+                $http_client->host =  $r['host'];
+                $http_client->port =  $r['port'];
+                if(!empty($r['proxy_url'])) {
+                    $http_client->use_proxy( $r['proxy_url'], $r['proxy_port'] );
+                }
+                $http_client->multipart_post( $r['path'].self::PYMAGER_ORIGINAL_UPLOAD_PATH.$id, $fields = array() , $files , false);
+                self::setHTTPErrorCode($http_client,$id);
+             }
+             else if($conf['general']['upload_to'] == 'local_directory') {
+                $fullpath = sprintf('%s/%s', $l['upload_folder_name'], basename($file['name']));
+                if (!move_uploaded_file($file['tmp_name'], $fullpath))
+                    return false;                   
+             }
+             else
+             {
+                throw ('upload_to in upload.conf should be pymager or local_directory');
+             }
 
             $_SESSION[self::SESSION_STATUS_KEY][$id] = array(
                 'id'       => $id,
@@ -176,15 +194,16 @@
                 'total'    => $file['size'],
                 'complete' => $file['size']
             );
-             
-			 $fileInfo =   array(
-	            'id' => $id,
-	            'name' => basename($file['name']),
-	            'mimetype' => $file['type'],
-	            'size' => $file['size'],
-	            );
-			        
-      	 	echo "<textarea>".json_encode(array_merge($_SESSION[self::SESSION_ERROR_KEY][$id],$fileInfo))."</textarea>";    
+            
+             $fileInfo =   array(
+                'id' => $id,
+                'name' => basename($file['name']),
+                'mimetype' => $file['type'],
+                'size' => $file['size'],
+                'thumb' => self::getThumbURL($conf, $id),
+                );
+                   
+               echo "<textarea>".json_encode(array_merge($_SESSION[self::SESSION_ERROR_KEY][$id],$fileInfo))."</textarea>";   
 
         }
     }

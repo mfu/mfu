@@ -7,22 +7,19 @@ Live demo
 			Dijit comes bundled with three themes.
 			MFU is compliant with them.
 		</p>
-		<h2>Soria theme</h2>
-		<div class="soria">
+		<p>
+			Choose your theme : <select id="themeSelector" onChange="dojo.removeClass(dojo.body());dojo.addClass(dojo.body(), this.options[this.selectedIndex].value);">
+												<option value="tundra" selected="selected">tundra</option>
+												<option value="claro">claro</option>
+												<option value="nihilo">nihilo</option>
+												<option value="soria">soria</option>
+											</select>
+		</p> 
+
+
 			<div id="uploadContainer"></div>
-		</div>
-		<h2>Claro theme</h2>
-		<div class="claro">
-			<div id="uploadContainer1"></div>
-		</div>
-		<h2>Tundra theme</h2>		
-		<div class="tundra">
-			<div id="uploadContainer2"></div>
-		</div>		
-		<h2>Nihilo theme</h2>		
-		<div class="nihilo">
-			<div id="uploadContainer3"></div>
-		</div>	
+
+
 				
 		<div id="headmsg"></div>
 		<div id="result"></div>	
@@ -35,7 +32,7 @@ Live demo
 
 	<script type="text/javascript">
 
-
+		dojo.addClass(dojo.body(), "tundra");
         dojo.registerModulePath("samples","../../");
 		
 		dojo.addOnLoad( function(){
@@ -51,23 +48,7 @@ Live demo
 							samples.mfudemo.pymagerConf.addHeadMsg();
 							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
 					});
-					var upload1 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer1") ); 	
-						dojo.connect(upload1, 'onFinishedUpload', function(uploadedFileInformation) {  						
-							samples.mfudemo.pymagerConf.addHeadMsg();
-							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
-					});
-					var upload2 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer2") ); 	
-						dojo.connect(upload2, 'onFinishedUpload', function(uploadedFileInformation) {  						
-							samples.mfudemo.pymagerConf.addHeadMsg();
-							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
-					});
-					var upload3 = new multiplefileuploader.widget.MultipleFileUploader( params, dojo.byId("uploadContainer3") ); 	
-						dojo.connect(upload3, 'onFinishedUpload', function(uploadedFileInformation) {  						
-							samples.mfudemo.pymagerConf.addHeadMsg();
-							samples.mfudemo.pymagerConf.generateLinks(uploadedFileInformation);
-					});
-
-					
+				
 				});
 	    });
 		

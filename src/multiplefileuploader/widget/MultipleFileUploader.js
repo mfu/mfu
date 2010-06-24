@@ -1,4 +1,5 @@
 dojo.provide("multiplefileuploader.widget.MultipleFileUploader");
+dojo.require('dojo.parser')
 dojo.require("multiplefileuploader.widget.UploadManager");
 dojo.require("multiplefileuploader.widget.UploadUnit");
 dojo.require("multiplefileuploader.widget.UploadUnitContainer");
@@ -32,8 +33,14 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 		progressBarWidth : "15%",
 		progressBarHeight : "18px",
 	
+/* You've got the possibility to have thumb onmouseover the filename when the file is uploaded*/
+	
+		enableThumbs : true,
+			thumbsHeight : 80,
+			thumbsWidth : 80,
+			showDelay : 50,
 /* 
-The goal of the next variables is to place the 'real' button over the 'fake' one, in order to have a clickable fake button 
+The goal of the input* variables is to place the 'real' button over the 'fake' one, in order to have a clickable fake button 
 Depending of your CSS attributes( width, 'browse...' button text length ) , you might adjust the following values
 To know where the real browse button is, disable ( by removing the line ) .dijitFileInputReal { opacity:0; } from FileInput.css
 we use this trick : http://www.quirksmode.org/dom/inputfile.html 
@@ -95,15 +102,21 @@ we use this trick : http://www.quirksmode.org/dom/inputfile.html
 				statusParameterName : this.statusParameterName		
 			};
 			var config_UI = {
+				enableThumbs : this.enableThumbs,
+				thumbsHeight : this.thumbsHeight,
+				thumbsWidth : this.thumbsWidth,
+				showDelay : this.showDelay,
 				inputWidth : this.inputWidth,
 				inputAdditionalWidth: this.inputAdditionalWidth,
 				inputWidthUnit : this.inputWidthUnit,
 				progressBarWidth : this.progressBarWidth,
 				progressBarHeight : this.progressBarHeight			
 			};
+			
+			
 
 			
-			this._uploadManager = new multiplefileuploader.widget.UploadManager( params, config_server, config_status);
+			this._uploadManager = new multiplefileuploader.widget.UploadManager( params, config_server, config_status, config_UI);
 			
 			var params = {
 				config_status : config_status,

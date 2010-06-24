@@ -3,12 +3,14 @@ dojo.require("dojo.io.iframe");
 		
 dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 	
-	constructor: function(config_server, config_status){
+	constructor: function(config_server, config_status,config_UI){
 
 	this._config_server = config_server;
 	this._config_status = config_status;
+	this._config_UI = config_UI;
 	this._temporaryUploadForm = null;
 	this._createTemporaryForm();
+	this._createAdditionalFields();
 	}, 
 		
 	upload : function (callbacks, uploadRequest) {					
@@ -37,6 +39,7 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 			 }
 			this._createFileInput(uploadRequest);
 			this._createStatusIDInput(uploadRequest);
+			this._createAdditionalFields();
 
 
 	},
@@ -63,7 +66,25 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 			dojo.place(input, this._temporaryUploadForm);	
 	},
 
+	_createAdditionalFields : function() {
 
+			if(this._config_UI.enableThumbs) {
+
+				var input = document.createElement('input');
+				dojo.attr(input, "type", "hidden");
+				dojo.attr(input, "name", "thumbHeight");
+				dojo.attr(input, "value", this._config_UI.thumbsHeight);
+				dojo.place(input, this._temporaryUploadForm);	
+
+				var input = document.createElement('input');
+				dojo.attr(input, "type", "hidden");
+				dojo.attr(input, "name", "thumbWidth");
+				dojo.attr(input, "value", this._config_UI.thumbsWidth);
+				dojo.place(input, this._temporaryUploadForm);					
+				
+			}
+	
+	},
 	 	
 	_createTemporaryForm : function () {
 

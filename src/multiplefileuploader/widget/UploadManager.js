@@ -7,7 +7,7 @@ dojo.require("dojox.collections.ArrayList");
 
 
 dojo.declare("multiplefileuploader.widget.UploadManager", null, {
-	constructor: function(params, config_server, config_status){
+	constructor: function(params, config_server, config_status, config_UI){
 		this._offline = false;
 		this._statusLifeCycle = null;
 		this._getStatusInterval = config_status.getStatusInterval;		
@@ -16,7 +16,7 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 		this._uploadQueue = new multiplefileuploader.widget._UploadQueue(this);	
 		this._statusLifeCycleFactory = new multiplefileuploader.widget._StatusLifeCycleFactory();
 		this._lifeCycleFactory = new multiplefileuploader.widget._LifeCycleFactory();
-		this._uploadStrategy = new multiplefileuploader.widget.IframeUploadStrategy(config_server, config_status );		
+		this._uploadStrategy = new multiplefileuploader.widget.IframeUploadStrategy(config_server, config_status, config_UI);		
 		this._errorCategorizer = new multiplefileuploader.widget.ErrorCategorizer();
 		dojo.mixin(this,params);
 
@@ -356,6 +356,9 @@ dojo.declare("multiplefileuploader.widget._UploadedFileInformation", null, {
 	getName : function() {
 		return this._data.name;
 	},
+	getThumbURL : function() {
+		return this._data.thumb;
+	},		
 	getMimeType : function() {
 		return this._data.mimetype;
 	},		

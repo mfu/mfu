@@ -1,4 +1,6 @@
 dojo.provide("multiplefileuploader.widget.UploadResultPane");
+dojo.require('dijit.Tooltip');
+
 dojo.require("dijit._Templated");
 multiplefileuploader.widget.REMOVE_UNIT_DURATION = 5000;
 multiplefileuploader.widget.FADE_OUT_DURATION = 500;  
@@ -13,10 +15,22 @@ dojo.declare("multiplefileuploader.widget.UploadResultPane", [dijit._Widget,diji
 		this._displayMimetype();
 		this._displaySize();
 		this._displayUploadedFileID();	
-	}, 	
+        if(this.config_UI.enableThumbs) {
+			this._displayThumb();
+		}
+    },    
   hide: function() {
-		dojo.style(this.uploadedImageInformationContainer, { display: "none"});			
+        dojo.style(this.uploadedImageInformationContainer, { display: "none"});           
   },
+   
+    _displayThumb : function() {
+		 new dijit.Tooltip({
+			label:"<img src="+this.uploadedImageInformation.getThumbURL()+"><img>", 
+			connectId:[this.uploadedFilename],
+			showDelay: this.config_UI.showDelay,
+			position:["below"]
+		});
+	},
 	_displayCancelCheckbox : function() {		
 		var cb = new dijit.form.CheckBox({
 				checked: true, 
