@@ -1,5 +1,6 @@
 dojo.provide("multiplefileuploader.widget.UploadStatusStrategy");
 dojo.require("dojo.io.iframe");		
+dojo.require("dojox.io.xhrPlugins");
 		
 dojo.declare("multiplefileuploader.widget.UploadStatusStrategy", null , {
 
@@ -10,10 +11,11 @@ dojo.declare("multiplefileuploader.widget.UploadStatusStrategy", null , {
 	},
 	getStatus : function (callbacks, uploadRequest) {					
 
+			dojox.io.xhrPlugins.addCrossSiteXhr(this._config_status.uploadStatusURL);
 			dojo.xhrGet( {
-			    	//is dojoAddParam exist ?
-					url: this._config_status.uploadStatusURL+"?"+this._config_status.statusParameterName+"="+uploadRequest.getAssociatedID(),
-			 		timeout: this._config_status.statusTimeout,
+					url: this._config_status.uploadStatusURL,
+			 		content : { statusID : uploadRequest.getAssociatedID() },
+					timeout: this._config_status.statusTimeout,
 					handleAs: "text",
 					handle:  dojo.hitch(this, function(response){ 
 						dojox.data.dom.removeChildren(this._temporaryUploadForm); 
@@ -24,6 +26,7 @@ dojo.declare("multiplefileuploader.widget.UploadStatusStrategy", null , {
 						callbacks.onStatusError(response);
 					})
 				});					
+				
 	},
 	 
 		

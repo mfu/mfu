@@ -16,7 +16,6 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 	upload : function (callbacks, uploadRequest) {					
 			this._prepareForm(uploadRequest);
 			dojo.io.iframe.send( {
-					//find a strategy to add params only when progressBar enabled
 					url: this._config_server.ajaxUploadUrl,
 					method: "POST",	
 					timeout: this._config_server.uploadTimeout,
@@ -52,7 +51,7 @@ dojo.declare("multiplefileuploader.widget.IframeUploadStrategy", null , {
 	 _createStatusIDInput : function(uploadRequest) {
 			var input = document.createElement('input');
 			dojo.attr(input, "type", "hidden");
-			dojo.attr(input, "name", this._config_status.statusParameterName);
+			dojo.attr(input, "name", "statusID");
 			dojo.attr(input, "value", uploadRequest.getAssociatedID());
 			dojo.place(input, this._temporaryUploadForm);
 

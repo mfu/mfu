@@ -50,6 +50,12 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 			}
 	},
 	
+	_cacheThumbnail : function(uploadedFileInformation) {
+		if (uploadedFileInformation.getThumbURL() != null) {
+			dojo.create("img", { src: uploadedFileInformation.getThumbURL() , style:"display:none"}, dojo.body());
+		}
+		
+	},
 	_getNewID : function( uploadRequest) {
 			    this._statusLifeCycle =  this._statusLifeCycleFactory.createStatusLifeCycle(uploadRequest);		
 				var callbacks = {
@@ -141,7 +147,9 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 });
 
 
-
+/*
+ * TO DO, we should have a RequestEventDispatcher strategy here  which delegate events to all on*
+ */
 dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 	 constructor: function(params, uploadManager, statusLifeCycle, uploadRequest) {	
 		this._uploadManager = uploadManager;
@@ -171,8 +179,10 @@ dojo.declare("multiplefileuploader.widget._LifeCycle", null, {
 	 		this._dispatchError(response, uploadedFileInformation);
 			}
 			else {
+
 				this._uploadRequest.onUploadSuccess(uploadedFileInformation, uploadValuePrefix);
 				this._uploadManager.onFinishedUpload(uploadedFileInformation);
+				this._uploadManager._cacheThumbnail(uploadedFileInformation);
 				this._uploadManager._continueProcessingUploads();			
 			}
 	},

@@ -23,7 +23,6 @@ dojo.declare("multiplefileuploader.widget.MultipleFileUploader", [dijit._Widget,
 /* progressBar setup */	
 		progressBarMode : true,
 			uploadStatusURL : "",
-			statusParameterName : "statusID",
 			statusTimeout : "",
 			getStatusInterval : "2000", 
 			apc_php_enabled : true,
@@ -98,8 +97,7 @@ we use this trick : http://www.quirksmode.org/dom/inputfile.html
 				uploadStatusURL : this.uploadStatusURL,
 				progressBarMode : this.progressBarMode,
 				getStatusInterval : this.getStatusInterval,
-				checkInterval : this.checkInterval, 
-				statusParameterName : this.statusParameterName		
+				checkInterval : this.checkInterval
 			};
 			var config_UI = {
 				enableThumbs : this.enableThumbs,

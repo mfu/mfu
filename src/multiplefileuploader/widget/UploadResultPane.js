@@ -15,7 +15,7 @@ dojo.declare("multiplefileuploader.widget.UploadResultPane", [dijit._Widget,diji
 		this._displayMimetype();
 		this._displaySize();
 		this._displayUploadedFileID();	
-        if(this.config_UI.enableThumbs) {
+	    if(this.uploadedImageInformation.getThumbURL() != null) {
 			this._displayThumb();
 		}
     },    
