@@ -40,7 +40,7 @@
   <property name="target.dir" value="${basedir}/target" />
  
    <!-- set dojo variable dir-->  
-  <property name="dojo.version"  value="dojo-release-1.5.0rc1-src" />
+  <property name="dojo.version"  value="dojo-release-1.5.0-src" />
   <property name="dojo.dir"  location="./${dojo.version}/" />
   <property name="dojo.buildscript.path" location="${dojo.dir}/util/buildscripts" /> 
 

@@ -23,7 +23,7 @@ dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 				}	
 		});
 
-			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue}, "config_server", "config_status");	
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue}, "config_server", "config_status","config_UI");	
 			dojo.mixin(uploadManager, {
 				_processNextUpload : function() {}
 			});
@@ -48,7 +48,7 @@ dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 					}	
 			});
 
-			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue}, "config_server", "config_status");	
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue}, "config_server", "config_status","config_UI");	
 			dojo.mixin(uploadManager, {
 				_processNextUpload : function() {}
 			});
@@ -74,7 +74,7 @@ dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 					}	
 			});
 
-			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue}, "config_server", "config_status");		
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue}, "config_server", "config_status","config_UI");		
 			dojo.mixin(uploadManager, {
 					_upload : function(uploadRequest) {
 						 t.assertTrue(uploadRequest == fakeUploadRequest);						
@@ -93,7 +93,7 @@ dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 		function processNextUploadShouldCallOnFinishedUploadsWhenQueueIsEmpty(t) {
 			
 
-		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 		
 		dojo.mixin(uploadManager, {
 				onFinishedUploads : function() {
@@ -130,7 +130,7 @@ dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 					}	
 			});			
 		
-			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue}, "config_server", "config_status");			
+			var uploadManager = new multiplefileuploader.widget.UploadManager({_uploadQueue  : fakeQueue}, "config_server", "config_status","config_UI");			
 			dojo.mixin(uploadManager, {
 					_upload : function(uploadRequest) {
 						 t.assertTrue(uploadRequest == fakeUploadRequest);						
@@ -197,7 +197,7 @@ dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory,
 					_uploadStrategy : fakeUploadStrategy
-					}, "config_server", "config_status");	
+					}, "config_server", "config_status","config_UI");	
 					
 				uploadManager._processNextUpload();
 				fakeUploadRequest.verify();
@@ -238,7 +238,7 @@ dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 					_uploadStrategy : fakeUploadStrategy,
 					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory
-					}, "config_server", "config_status");	
+					}, "config_server", "config_status","config_UI");	
 				
 				dojo.mixin(uploadManager, {		
 					fireProgress : function() {					
@@ -296,7 +296,7 @@ dojo.require("multiplefileuploader.tests.FakeUploadStatusStrategy");
 					onAfterUploadStart : mockOnAfterUploadStart,
 					_uploadStrategy : fakeUploadStrategy,					
 					_lifeCycleFactory : fakeLifeCycleFactory
-					}, "config_server", "config_status");	
+					}, "config_server", "config_status","config_UI");	
 				
 				dojo.mixin(uploadManager, {		
 					upload :  function(uploadRequest) {					

@@ -13,7 +13,7 @@ function malFormedJSONShouldCallNonRecoverableError(t) {
 	
 	var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
 	
-	var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+	var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 	var statusLifeCycle = new multiplefileuploader.widget._StatusLifeCycle({}, fakeUploadRequest);
 	var lifeCycle = new multiplefileuploader.widget._LifeCycle({},uploadManager,statusLifeCycle, fakeUploadRequest );
 	
@@ -37,7 +37,7 @@ function nullJsonResponseShouldCallNonRecoverableError(t) {
 	var nullJsonResponse = null;
 	
 	var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
-	var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+	var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 	var statusLifeCycle = new multiplefileuploader.widget._StatusLifeCycle({}, fakeUploadRequest);
 	var lifeCycle = new multiplefileuploader.widget._LifeCycle({},uploadManager, statusLifeCycle, fakeUploadRequest );
 	
@@ -61,7 +61,7 @@ function unrecoverableErrorsShouldContinueProcessingUploads(t) {
 
 		var JsonResponse = '{ "id" : "34787", "name" : ".xsession-errors", "status" : "KO", "mimetype" : "application/octet-stream", "size" : "0" , "errorcode" : "SIZE_UPLOAD_ERR_NO_FILE"}';
 		var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
-		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 	    var fakeErrorCategorizer =  new multiplefileuploader.tests.FakeErrorCategorizer("ERROR_TYPE_NON_RECOVERABLE");	
 	    var statusLifeCycle = new multiplefileuploader.widget._StatusLifeCycle({}, fakeUploadRequest);		
 		var lifeCycle = new multiplefileuploader.widget._LifeCycle({_errorCategorizer : fakeErrorCategorizer}, uploadManager,statusLifeCycle,  fakeUploadRequest );
@@ -100,7 +100,7 @@ function recoverableErrorsShouldstopProcessingUploads(t) {
 
 		var JsonResponse = '{ "id" : "34787", "name" : ".xsession-errors", "status" : "KO", "mimetype" : "application/octet-stream", "size" : "0" , "errorcode" : "NETWORK_ERROR"}';
 		var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
-		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 	    var fakeErrorCategorizer =  new multiplefileuploader.tests.FakeErrorCategorizer("ERROR_TYPE_RECOVERABLE");	
 		var statusLifeCycle = new multiplefileuploader.widget._StatusLifeCycle({}, fakeUploadRequest);
 		var lifeCycle = new multiplefileuploader.widget._LifeCycle({_errorCategorizer : fakeErrorCategorizer}, uploadManager, statusLifeCycle, fakeUploadRequest );
@@ -138,7 +138,7 @@ function recoverableErrorsShouldstopProcessingUploads(t) {
 function statusOKShouldCallOnUploadSuccess(t) {
 		var JsonResponse = '{ "id" : "34787", "name" : ".xsession-errors", "status" : "OK", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : ""}';
 		var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
-		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 
 		var onUploadSuccessMock = dojo.mixin(fakeUploadRequest, {
 			  onUploadSuccess: function(uploadedFileInformation, uploadValuePrefix){
@@ -170,7 +170,7 @@ function statusOKShouldCallOnUploadSuccess(t) {
 function statusOKShouldCallOnFinishedUpload(t) {
 		var JsonResponse = '{ "id" : "34787", "name" : ".xsession-errors", "status" : "OK", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : ""}';
 		var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
-		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 
 		var onFinishedUploadMock = dojo.mixin(uploadManager, {
 			  onFinishedUpload: function(uploadedFileInformation){
@@ -203,7 +203,7 @@ function statusOKShouldCallOnFinishedUpload(t) {
 function statusOKShouldCallContinueProcessingUploads(t) {
 		var JsonResponse = '{ "id" : "34787", "name" : ".xsession-errors", "status" : "OK", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : ""}';
 		var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
-		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+		var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 
 		var continueProcessingUploadsMock = dojo.mixin(uploadManager, {
 			  _continueProcessingUploads: function(){
@@ -235,7 +235,7 @@ function onUploadFailureShouldBeCalledWhenOnRecoverableErrorIsTriggered(t) {
 	
 	var JsonResponse = '{ "id" : "34787", "name" : ".xsession-errors", "status" : "KO", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : "NETWORK_ERROR"}';
 	var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
-	var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+	var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 	
 		var onUploadFailureMock = dojo.mixin(fakeUploadRequest, {
 			  onUploadFailure: function(response, errorCode){
@@ -264,7 +264,7 @@ function stopProcessingUploadsShouldBeCalledWhenOnRecoverableErrorIsTriggered(t)
 	
 	var JsonResponse = '{ "id" : "34787", "name" : ".xsession-errors", "status" : "KO", "mimetype" : "application/octet-stream", "size" : "7627" , "errorcode" : "NETWORK_ERROR"}';
 	var fakeUploadRequest = new multiplefileuploader.tests.FakeUploadRequest( {currentFilename: "f1"} );
-	var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status");	
+	var uploadManager = new multiplefileuploader.widget.UploadManager({},  "config_server", "config_status","config_UI");	
 	
 		var stopProcessingUploadsMock = dojo.mixin(uploadManager, {
 			  _stopProcessingUploads: function(uploadRequest, errorType){
@@ -341,7 +341,7 @@ function onAfterUploadStartShouldBeCalledWhenProcessNextUploadIsFired(t) {
 					onAfterUploadStart : mockOnAfterUploadStart,
 					_lifeCycleFactory : fakeLifeCycleFactory,
 					_uploadStrategy : fakeUploadStrategy
-					},  "config_server", "config_status");	
+					},  "config_server", "config_status","config_UI");	
 					
 				uploadManager._processNextUpload();
 				fakeLifeCycle.verify();

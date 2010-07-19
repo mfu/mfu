@@ -1,5 +1,0 @@
-({
-hueLabel: "n",
-saturationLabel: "m"
-})
-
