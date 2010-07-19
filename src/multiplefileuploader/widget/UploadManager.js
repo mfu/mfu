@@ -52,8 +52,11 @@ dojo.declare("multiplefileuploader.widget.UploadManager", null, {
 	
 	_cacheThumbnail : function(uploadedFileInformation) {
 		if (uploadedFileInformation.getThumbURL() != null) {
-			dojo.create("img", { src: uploadedFileInformation.getThumbURL() , style:"display:none"}, dojo.body());
-		}
+			dojo.create("img",  { 
+				"src": uploadedFileInformation.getThumbURL(), 
+				 style: { display: "none" }
+			}, 
+			dojo.body());}
 		
 	},
 	_getNewID : function( uploadRequest) {

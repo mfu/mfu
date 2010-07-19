@@ -25,7 +25,7 @@ dojo.declare("multiplefileuploader.widget.UploadResultPane", [dijit._Widget,diji
    
     _displayThumb : function() {
 		 new dijit.Tooltip({
-			label:"<img src="+this.uploadedImageInformation.getThumbURL()+"><img>", 
+			label:"<img src="+this.uploadedImageInformation.getThumbURL()+"/>", 
 			connectId:[this.uploadedFilename],
 			showDelay: this.config_UI.showDelay,
 			position:["below"]
