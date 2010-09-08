@@ -1,4 +1,5 @@
 TODO :
 
+- Provide an option to disable displaying errors, and use a user-provided handler instead
 - We should expose an onProgress event to get queue status whenever the user want-
 - When a network error occurs, the file should be automcatically restartdd after X sec
