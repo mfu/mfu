@@ -2,6 +2,6 @@
 Source code
 =================================
  
- Source code is available on `github <http://github.com/samokk/multiplefileuploader>`_ 
+ Source code is available on `github <https://github.com/mfu/mfu>`_ 
  
 
